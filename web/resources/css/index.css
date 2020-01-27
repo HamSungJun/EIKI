@@ -1,0 +1,136 @@
+
+
+.Index-Wrapper {
+    background-color: hsl(256, 100%, 65%);
+    height: 100vh;
+    width: 100vw;
+    text-align: center;
+}
+
+.Index-Wrapper__Form {
+    background-color: white;
+    display: inline-block;
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    box-shadow: 0 4px 4px hsl(0, 0%, 38%);
+    margin-top: 25vh;
+    padding: 20px;
+    border-radius: 2px;
+}
+
+.Index-Wrapper__Form__Header-Section {
+    margin: 20px 0 40px 0;
+}
+
+.Index-Wrapper__Form__Header-Section__Text {
+    letter-spacing: 2px;
+    font-weight: 900;
+    -webkit-text-stroke: 2px hsl(217, 14%, 18%);
+    color: white;
+    font-size: 45px;
+    text-align: center;
+}
+
+.Index-Wrapper__Form__Input-Section {
+    padding-bottom: 0px;
+}
+
+.Index-Wrapper__Form__Input-Section__Grid-Row {
+    height: 50px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    margin-bottom: 5px;
+    overflow: hidden;
+    transition: border 0.3s ease;
+}
+
+.Index-Wrapper__Form__Input-Section__Grid-Row__Icon-Column {
+    width: 100%;
+    height: 100%;
+    color: #bdbdbd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+}
+
+.Index-Wrapper__Form__Input-Section__Grid-Row__Input-Column {
+    width: 100%;
+    height: 100%;
+}
+
+.Index-Wrapper__Form__Input-Section__Grid-Row__Input-Column input {
+    outline: none;
+    border: none;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: hsl(200, 19%, 18%);
+    padding-right: 50px;
+}
+
+.Index-Wrapper__Form__Input-Section__Grid-Row__Input-Column input::placeholder {
+    color: #e0e0e0;
+}
+
+.Index-Wrapper__Form__Func-Section__Grid-Row {
+    display: grid;
+    grid-template-columns: 4fr 6fr;
+    height: 40px;
+}
+
+.Index-Wrapper__Form__Func-Section__Grid-Row__Column {
+    display: flex;
+    align-items: center;
+}
+
+.Nav-Link {
+    text-decoration: none;
+    color: #272c34;
+    margin-left: 8px;
+    font-size: 14px;
+}
+
+.Nav-Link:hover {
+    text-decoration: underline;
+}
+
+.Remember-Outer-Circle {
+    display: inline-block;
+    border: 1px solid #bdbdbd;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-top: 4px;
+    margin-right: 6px;
+    padding-top: 2px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.Remember-Inner-Circle {
+    display: inline-block;
+    background-color: white;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.Remember-Text {
+    color: #272c34;
+}
+
+.Index-Wrapper__Form__Input-Section__Submit-Btn {
+    height: 48px;
+    width: 43%;
+    background: white;
+    border: 1px solid #272c34;
+    outline: none;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    margin-top: 27px;
+}

@@ -1,0 +1,154 @@
+@font-face {
+    font-family: 'NotoSansKR';
+    font-style: normal;
+    font-weight: 100;
+    src: url("/resources/fonts/NotoSansKR-Thin.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: 'NotoSansKR';
+    font-style: normal;
+    font-weight: 300;
+    src: url("/resources/fonts/NotoSansKR-Light.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: 'NotoSansKR';
+    font-style: normal;
+    font-weight: 400;
+    src: url("/resources/fonts/NotoSansKR-Regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: 'NotoSansKR';
+    font-style: normal;
+    font-weight: 500;
+    src: url("/resources/fonts/NotoSansKR-Medium.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: 'NotoSansKR';
+    font-style: normal;
+    font-weight: 700;
+    src: url("/resources/fonts/NotoSansKR-Bold.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: 'NotoSansKR';
+    font-style: normal;
+    font-weight: 900;
+    src: url("/resources/fonts/NotoSansKR-Black.woff2") format("woff2");
+}
+
+* {
+    font-family: 'NotoSansKR', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+}
+
+html {
+    height: 100%;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: hsl(256, 100%, 65%);
+}
+
+.--Logo-Text-Style {
+    letter-spacing: 2px;
+    font-weight: 900;
+    -webkit-text-stroke: 2px hsl(217, 14%, 18%);
+    color: white;
+}
+
+.--Color-Red {
+    color: orangered;
+}
+
+.--Border-Dark {
+    border-color: #272c34 !important;
+}
+
+.--Background-Dark {
+    background-color: #272c34 !important;
+}
+
+.--Color-Dark {
+    color: #272c34 !important;
+}
+
+.--Color-Success {
+    color: palegreen !important;
+}
+
+.--Color-Error {
+    color: hsl(0, 100%, 66%) !important;
+}
+
+.--Color-Violet {
+    color: hsl(265, 100%, 46%) !important;
+}
+
+.--Submit-Active {
+    color: white !important;
+    background-color: hsl(265, 100%, 46%) !important;
+}
+
+.--Justify-Flex-End {
+    justify-content: flex-end;
+}
+
+.--Visibility-Hidden {
+    visibility: hidden;
+}
+
+.--Display-None {
+    display: none;
+}
+
+.--mx-4 {
+    margin: 0 4px;
+}
+
+.--ml-8 {
+    margin-left: 8px;
+}
+
+.--Join-Form-Guide-Message {
+    font-size: 13px;
+    color: gray;
+}
+
+.--Spin {
+    -webkit-animation: spin 1000ms infinite linear;
+    -moz-animation: spin 1000ms infinite linear;
+    -ms-animation: spin 1000ms infinite linear;
+    animation: spin 1000ms infinite linear;
+}
+
+@-webkit-keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes spin {
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-ms-keyframes spin {
+    100% {
+        -ms-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
