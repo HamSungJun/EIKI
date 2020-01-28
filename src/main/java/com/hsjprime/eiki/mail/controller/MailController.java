@@ -16,7 +16,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
 import java.util.Map;
 
-@RequestMapping(value = "/mail")
+@RequestMapping("/mail")
 @Controller
 public class MailController {
 

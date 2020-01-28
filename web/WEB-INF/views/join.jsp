@@ -54,7 +54,7 @@
                 $AuthMail.textContent = "인증번호 발송";
                 $AuthMail.disabled = false;
 
-                if(!$AuthRow.classList.contains("--Auth-Closed")){
+                if (!$AuthRow.classList.contains("--Auth-Closed")) {
                     $AuthRow.classList.add("--Auth-Closed");
                     $InputAuthNum.value = "";
                     $CheckAuth.InnerHTML = "";
@@ -102,7 +102,7 @@
             let $CheckDupNickNameButton = document.getElementById("CHECK-DUP-NICKNAME");
             $InputNickName.addEventListener("input", (event) => {
                 formValidState.isNickNameOK = handleValidGuide(event, NICKNAME_REGEX, $InputNickNameMessage, "최대 16글자의 닉네임을 설정 할 수 있습니다.");
-                if(!!$CheckDupNickNameButton.firstElementChild && $CheckDupNickNameButton.firstElementChild.tagName === "svg"){
+                if (!!$CheckDupNickNameButton.firstElementChild && $CheckDupNickNameButton.firstElementChild.tagName === "svg") {
                     $CheckDupNickNameButton.innerHTML = "";
                     $CheckDupNickNameButton.textContent = "중복확인";
                     formValidState.isNickNameDupChecked = false;
@@ -150,7 +150,7 @@
             let $SubmitButton = document.getElementById("JOIN-BTN");
             $SubmitButton.addEventListener("click", (event) => {
                 event.preventDefault();
-                if(validateAll()){
+                if (validateAll()) {
                     $JoinForm.submit();
                 }
             });
@@ -217,11 +217,12 @@
 
         const handleDupNickNameCheck = (event, $InputNickName) => {
 
-            appendStatusIcon(event.target, "FETCHING");
-            event.target.disabled = true;
-
             const nickName = $InputNickName.value;
+
             if (nickName.length > 0) {
+                appendStatusIcon(event.target, "FETCHING");
+                event.target.disabled = true;
+
                 fetch("/member/checkDup", {
                     method: 'POST',
                     headers: {
@@ -344,9 +345,9 @@
 
         const validateAll = () => {
 
-            for(const key in formValidState){
-                if(!formValidState[key]){
-                    switch(key){
+            for (const key in formValidState) {
+                if (!formValidState[key]) {
+                    switch (key) {
                         case "isMailSent" :
                             alert("인증번호 발송을 위해 발송 버튼을 눌러주세요.");
                             return false;
@@ -408,7 +409,7 @@
                     <label for="AUTH-NUM"><span><span class="--Color-Red">*</span>인증번호 확인</span></label>
                 </div>
                 <div class="Join-Form-Content">
-                    <input maxlength="4" placeholder="인증번호 4자리" id="AUTH-NUM" name="AUTH-NUM" type="text">
+                    <input maxlength="4" placeholder="인증번호 4자리" id="AUTH-NUM" name="AUTH_NUM" type="text">
                     <button class="--ml-8 Function-Btn" type="button" id="CHECK-AUTH-NUM">확인</button>
                 </div>
             </div>
@@ -442,7 +443,7 @@
             </div>
             <div class="Join-Form-Row">
                 <div class="Join-Form-Field">
-                    <label for="MEMBER_BIRTHDAY"><span>생일</span></label>
+                    <label for="MEMBER_BIRTHDAY"><span><span class="--Color-Red">*</span>생일</span></label>
                 </div>
                 <div class="Join-Form-Content">
                     <input maxlength="10" id="MEMBER_BIRTHDAY" name="MEMBER_BIRTHDAY" placeholder="YYYY-MM-DD"
@@ -461,10 +462,11 @@
             </div>
             <div class="Join-Form-Row">
                 <div class="Join-Form-Field">
-                    <span>프로필 이미지</span>
+                    <span><span class="--Color-Red">*</span>프로필 이미지</span>
                 </div>
                 <div class="Join-Form-Content">
-                    <input id="MEMBER_PROFILE_IMAGE" class="--Display-None" accept=".jpg, .jpeg, .png" type="file">
+                    <input name="MEMBER_PROFILE_IMAGE" id="MEMBER_PROFILE_IMAGE" class="--Display-None"
+                           accept=".jpg, .jpeg, .png" type="file">
                     <button id="FILE_DISPATCHER" type="button" class="Function-Btn">파일 선택</button>
                     <span id="FILE_NAME"></span>
                     <span class="--Join-Form-Guide-Message --ml-8" id="MEMBER_PROFILE_IMAGE_MESSAGE"></span>

@@ -7,11 +7,12 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
-    <mvc:resources mapping="/resources/**" location="/resources/"/> <!-- 정적 자원 경로 매핑 -->
-    <mvc:annotation-driven> <!-- Annotation 활성화 -->
+    <!-- Component 패키지 스캔 -->
+    <context:component-scan base-package="com.hsjprime.eiki"/>
 
+    <!-- Annotation 활성화 -->
+    <mvc:annotation-driven>
         <mvc:message-converters>
-
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="supportedMediaTypes">
                     <list>
@@ -19,17 +20,46 @@
                     </list>
                 </property>
             </bean>
-
         </mvc:message-converters>
-
     </mvc:annotation-driven>
 
-
-
+    <!-- View Resolver 설정 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/views/"></property>
-        <property name="suffix" value=".jsp"></property>
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
-    <!-- Component 패키지 스캔 -->
-    <context:component-scan base-package="com.hsjprime.eiki"></context:component-scan>
+
+    <!-- MySQL dataSource -->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/EIKI"/>
+        <property name="username" value="root"/>
+        <property name="password" value="yes"/>
+    </bean>
+
+    <!-- Mail Configuration -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="eikistudents@gmail.com"/>
+        <property name="password" value="lqqhqlnxiypfubsv"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- Multipart Resolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 최대업로드 가능한 바이트크기 -->
+        <property name="maxUploadSize" value="20000000"/>
+        <!-- 디스크에 임시 파일을 생성하기 전에 메모리에 보관할수있는 최대 바이트 크기 -->
+        <property name="maxInMemorySize" value="20000000"/>
+        <property name="defaultEncoding" value="utf-8"/>
+    </bean>
+
+    <mvc:resources mapping="/resources/**" location="/resources/"/> <!-- 정적 자원 경로 매핑 -->
+
 </beans>
