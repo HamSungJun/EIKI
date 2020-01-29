@@ -5,18 +5,22 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 
-@Repository("AuthDAOImpl")
+@Repository
 public class AuthDAOImpl implements AuthDAO {
 
     @Autowired
     DataSource dataSource;
 
-    public AuthDAOImpl() {
-    }
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
-    public boolean selectAuthData(String MEMBER_ID, String AUTH_NUM){
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+    @Override
+    public boolean selectAuthData(String MEMBER_ID, String AUTH_NUM) {
+
         String SQL = "SELECT (CASE\n" +
                 "\tWHEN T.TOUCHED >= 1 THEN 1\n" +
                 "    ELSE 0\n" +
@@ -24,8 +28,26 @@ public class AuthDAOImpl implements AuthDAO {
                 ") AS AUTH_RESULT FROM (\n" +
                 "\tSELECT COUNT(*) AS TOUCHED FROM EIKI_MAIL_AUTH\n WHERE MEMBER_ID = ? AND AUTH_NUM = ?" +
                 ") AS T;";
-        return jdbcTemplate.queryForObject(SQL,new Object[]{MEMBER_ID, AUTH_NUM},boolean.class);
+        return jdbcTemplate.queryForObject(SQL, new Object[]{MEMBER_ID, AUTH_NUM}, boolean.class);
+
     }
 
+    @Override
+    public Map<String, String> selectUser(String MEMBER_ID, String MEMBER_PW) {
+
+        String SQL = "SELECT MEMBER_ID, MEMBER_NICKNAME, MEMBER_PHONE, MEMBER_BIRTHDAY, MEMBER_PROFILE_IMAGE FROM EIKI_MEMBER WHERE MEMBER_ID = ? AND MEMBER_PW = ?;";
+        return jdbcTemplate.query(SQL, new Object[]{MEMBER_ID, MEMBER_PW}, (ResultSet rs) -> {
+            Map<String, String> result = new HashMap<>();
+            while(rs.next()){
+                result.put("MEMBER_ID",rs.getString("MEMBER_ID"));
+                result.put("MEMBER_NICKNAME",rs.getString("MEMBER_NICKNAME"));
+                result.put("MEMBER_PHONE",rs.getString("MEMBER_PHONE"));
+                result.put("MEMBER_BIRTHDAY",rs.getString("MEMBER_BIRTHDAY"));
+                result.put("MEMBER_PROFILE_IMAGE",rs.getString("MEMBER_PROFILE_IMAGE"));
+            }
+            return result;
+        });
+
+    }
 
 }

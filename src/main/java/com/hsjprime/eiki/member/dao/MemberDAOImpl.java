@@ -12,7 +12,9 @@ import java.sql.Date;
 public class MemberDAOImpl implements MemberDAO {
 
     @Autowired
-    private DataSource dataSource;
+    DataSource dataSource;
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     public MemberDAOImpl() {
     }
@@ -21,7 +23,6 @@ public class MemberDAOImpl implements MemberDAO {
     public int countMemberNickName(String MEMBER_NICKNAME) {
 
         String SQL = "SELECT COUNT(*) FROM EIKI_MEMBER WHERE MEMBER_NICKNAME = ?;";
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         return jdbcTemplate.queryForObject(SQL, new Object[]{MEMBER_NICKNAME}, Integer.class);
 
     }
@@ -33,7 +34,6 @@ public class MemberDAOImpl implements MemberDAO {
 
         String SQL = "INSERT INTO EIKI_MEMBER (MEMBER_ID, MEMBER_PW, MEMBER_NICKNAME, MEMBER_BIRTHDAY, MEMBER_PHONE, MEMBER_PROFILE_IMAGE)" +
                 "VALUES (?, ?, ?, ?, ?, ?)";
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         return jdbcTemplate.update(SQL,
                 memberFormDTO.getMEMBER_ID(),
                 memberFormDTO.getMEMBER_PW(),

@@ -21,9 +21,9 @@ import java.util.Map;
 public class MailController {
 
     @Autowired
-    private JavaMailSenderImpl mailSender;
+    JavaMailSenderImpl mailSender;
     @Autowired
-    private MailServiceImpl mailService;
+    MailServiceImpl mailService;
 
     @ResponseBody
     @RequestMapping(value = "/auth", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)

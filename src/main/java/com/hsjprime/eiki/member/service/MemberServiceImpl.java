@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -26,10 +28,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public int saveMemberForm(MemberFormDTO memberFormDTO) {
+    public Map<String, Object> saveMemberForm(MemberFormDTO memberFormDTO) {
 
-        UUID F_UID = UUID.randomUUID();
+        Map<String, Object> serviceResult = new HashMap<>();
+        MultipartFile uploadedImage = memberFormDTO.getMEMBER_PROFILE_IMAGE();
+        String imgExtension = uploadedImage.getContentType().split("/")[1];
         File uploadDirectory = new File(PROFILE_IMAGE_UPLOAD_PATH);
+
+        serviceResult.put("F_UID", UUID.randomUUID().toString().concat("." + imgExtension));
 
         if (!uploadDirectory.isDirectory()) {
             if (uploadDirectory.mkdir()) {
@@ -37,22 +43,18 @@ public class MemberServiceImpl implements MemberService {
                 uploadDirectory.setExecutable(true);
                 uploadDirectory.setReadable(true);
                 uploadDirectory.setWritable(true);
-            } else {
-                return 0;
             }
         }
 
-        MultipartFile uploadedImage = memberFormDTO.getMEMBER_PROFILE_IMAGE();
-        String imgExtension = uploadedImage.getContentType().split("/")[1];
-
         try {
-            uploadedImage.transferTo(new File(PROFILE_IMAGE_UPLOAD_PATH + F_UID + "." + imgExtension));
+            uploadedImage.transferTo(new File(PROFILE_IMAGE_UPLOAD_PATH + serviceResult.get("F_UID")));
         } catch (IOException e) {
             e.printStackTrace();
-            return 0;
         }
 
-        return memberDAO.insertMember(memberFormDTO, F_UID.toString().concat("." + imgExtension));
+        serviceResult.put("update", memberDAO.insertMember(memberFormDTO, (String)serviceResult.get("F_UID")));
+
+        return serviceResult;
 
     }
 }

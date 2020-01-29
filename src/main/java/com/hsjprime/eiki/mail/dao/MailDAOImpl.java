@@ -10,7 +10,10 @@ import javax.sql.DataSource;
 public class MailDAOImpl implements MailDAO {
 
     @Autowired
-    private DataSource dataSource;
+    DataSource dataSource;
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     public MailDAOImpl() {
     }
@@ -19,7 +22,6 @@ public class MailDAOImpl implements MailDAO {
     public void insertAuth(String MEMBER_ID, String authNum) {
 
         String SQL = "INSERT EIKI_MAIL_AUTH(MEMBER_ID, AUTH_NUM) VALUES (?, ?);";
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.update(SQL, MEMBER_ID, authNum);
 
     }

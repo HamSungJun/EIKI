@@ -10,6 +10,7 @@ public class MailServiceImpl implements MailService {
     @Autowired
     MailDAOImpl mailDAO;
 
+    @Override
     public String getFourDigitRandNum(){
 
         StringBuilder sBuf = new StringBuilder();
