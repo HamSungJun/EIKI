@@ -8,6 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,20 +20,28 @@ import java.util.Map;
 public class AuthController {
 
     @Autowired
-    AuthServiceImpl authServcice;
+    AuthServiceImpl authService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(LoginInfoDTO loginInfoDTO, Model model) {
+    @ResponseBody
+    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Map<String, Object> login(@RequestBody Map<String, String> loginInput, Model model) {
 
-        Map<String, String> userData = authServcice.findUser(loginInfoDTO.getMEMBER_ID(),loginInfoDTO.getMEMBER_PW());
-        MemberSessionVO memberSessionVO = new MemberSessionVO();
-        memberSessionVO.setMEMBER_ID(userData.get("MEMBER_ID"));
-        memberSessionVO.setMEMBER_NICKNAME(userData.get("MEMBER_NICKNAME"));
-        memberSessionVO.setMEMBER_PHONE(userData.get("MEMBER_PHONE"));
-        memberSessionVO.setMEMBER_BIRTHDAY(userData.get("MEMBER_BIRTHDAY"));
-        memberSessionVO.setMEMBER_PROFILE_IMAGE(userData.get("MEMBER_PROFILE_IMAGE"));
-        model.addAttribute("User",memberSessionVO);
-        return "redirect:/eiki/home";
+        Map<String, Object> loginResult = new HashMap<>();
+        loginResult.put("success",1);
+        Map<String, String> userData = authService.findUser(loginInput.get("MEMBER_ID"),loginInput.get("MEMBER_PW"));
+        if(userData.get("MEMBER_ID") != null){
+            MemberSessionVO memberSessionVO = new MemberSessionVO();
+            memberSessionVO.setMEMBER_ID(userData.get("MEMBER_ID"));
+            memberSessionVO.setMEMBER_NICKNAME(userData.get("MEMBER_NICKNAME"));
+            memberSessionVO.setMEMBER_PHONE(userData.get("MEMBER_PHONE"));
+            memberSessionVO.setMEMBER_BIRTHDAY(userData.get("MEMBER_BIRTHDAY"));
+            memberSessionVO.setMEMBER_PROFILE_IMAGE(userData.get("MEMBER_PROFILE_IMAGE"));
+            model.addAttribute("User",memberSessionVO);
+            loginResult.put("isMemberExist",true);
+        } else {
+            loginResult.put("isMemberExist",false);
+        }
+        return loginResult;
 
     }
 
@@ -41,7 +51,7 @@ public class AuthController {
 
         Map<String, Object> authResult = new HashMap<>();
         authResult.put("success", 1);
-        if (authServcice.isValidAuthNum(authData.get("MEMBER_ID"), authData.get("AUTH_NUM"))) {
+        if (authService.isValidAuthNum(authData.get("MEMBER_ID"), authData.get("AUTH_NUM"))) {
             authResult.put("isValid", true);
         } else {
             authResult.put("isValid", false);
@@ -49,6 +59,12 @@ public class AuthController {
 
         return authResult;
 
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(SessionStatus sessionStatus){
+        sessionStatus.setComplete();
+        return "redirect:/";
     }
 
 }

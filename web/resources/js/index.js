@@ -63,9 +63,29 @@ const initInputEvents = () => {
     $SubmitButton.addEventListener("click", (event) => {
         event.preventDefault();
         if (event.target.classList.contains("--Submit-Active")) {
-            return $SubmitButton.closest('form').submit();
+            fetch("/auth/login",{
+                method : "POST",
+                headers : {
+                    "Content-type" : "application/json; charset=utf-8"
+                },
+                body : JSON.stringify({
+                    "MEMBER_ID" : document.getElementById("MEMBER_ID").value,
+                    "MEMBER_PW" : document.getElementById("MEMBER_PW").value
+                })
+            }).then(async response => {
+                const loginResult = await response.json();
+                console.log(loginResult);
+                if(loginResult.success === 1 && loginResult.isMemberExist === true){
+                    window.location.href = "/eiki/home";
+                } else {
+                    alert("가입되지 않은 계정이거나 잘못된 비밀번호 입니다.");
+                }
+            }).catch(error => {
+                console.log(error);
+            })
+        } else {
+            return alert("아이디와 비밀번호를 입력해주세요.");
         }
-        return alert("아이디와 비밀번호를 입력해주세요.");
     })
 
 };

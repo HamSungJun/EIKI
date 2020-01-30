@@ -121,7 +121,32 @@ html, body {
     color: gray;
 }
 
+.--No-Link-Style{
+    text-decoration: none;
+    color: #272c34;
+}
+
+.--Half-Spin-Once-Forward {
+
+    -webkit-animation: half-spin 500ms ease forwards;
+    -moz-animation: half-spin 500ms ease forwards;
+    -ms-animation: half-spin 500ms ease forwards;
+    animation: half-spin 500ms ease forwards;
+
+}
+
+
+.--Half-Spin-Once-Reverse {
+
+    -webkit-animation: half-spin 500ms ease reverse;
+    -moz-animation: half-spin 500ms ease reverse;
+    -ms-animation: half-spin 500ms ease reverse;
+    animation: half-spin 500ms ease reverse;
+
+}
+
 .--Spin {
+
     -webkit-animation: spin 1000ms infinite linear;
     -moz-animation: spin 1000ms infinite linear;
     -ms-animation: spin 1000ms infinite linear;
@@ -152,3 +177,26 @@ html, body {
     }
 }
 
+@-webkit-keyframes half-spin {
+    100% {
+        -webkit-transform: rotate(180deg);
+    }
+}
+
+@-moz-keyframes half-spin {
+    100% {
+        -moz-transform: rotate(180deg);
+    }
+}
+
+@-ms-keyframes half-spin {
+    100% {
+        -ms-transform: rotate(180deg);
+    }
+}
+
+@keyframes half-spin {
+    100% {
+        transform: rotate(180deg);
+    }
+}
