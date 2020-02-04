@@ -12,42 +12,94 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/global.css" />">
     <link rel="stylesheet" href="<c:url value="/resources/css/home.css" />">
     <script defer src="<c:url value="/resources/js/all.min.js" />"></script>
-<%--    <script src="<c:url value="/resources/js/index.js" />"></script>--%>
+    <script src="<c:url value="/resources/js/common/topbar.js" />"></script>
     <script>
+
         window.onload = () => {
 
             initTopbarEvents();
+            initBodyEvents();
 
         };
 
-        const initTopbarEvents = () => {
+        const initBodyEvents = () => {
 
-            let $NavIcon = document.querySelector(".Topbar-Nav-Tool");
-            let $NavBox = document.querySelector(".Nav-Box");
+            let $OrderPref = document.getElementById("ORDER-PREF");
+            let $OrderComment = document.getElementById("ORDER-COMMENT");
+            let $OrderName = document.getElementById("ORDER-NAME");
+            let $SearchInput = document.getElementById("SEARCH-INPUT");
 
-            $NavIcon.addEventListener("click", (event) => {
-                event.stopPropagation();
-                if(!$NavIcon.firstElementChild.classList.contains("--Half-Spin-Once-Forward")){
-                    $NavIcon.firstElementChild.classList.remove("--Half-Spin-Once-Reverse");
-                    $NavIcon.firstElementChild.classList.add("--Half-Spin-Once-Forward")
-                } else {
-                    $NavIcon.firstElementChild.classList.remove("--Half-Spin-Once-Forward");
-                    $NavIcon.firstElementChild.classList.add("--Half-Spin-Once-Reverse");
+            if (!QUERY_OBJ.order) {
+                $OrderPref.classList.add("--Sort-Btn-Active");
+            } else {
+
+                switch (QUERY_OBJ.order) {
+                    case "pref" :
+                        $OrderPref.classList.add("--Sort-Btn-Active");
+                        break;
+                    case "comment" :
+                        $OrderComment.classList.add("--Sort-Btn-Active");
+                        break;
+                    case "name" :
+                        $OrderName.classList.add("--Sort-Btn-Active");
+                        break;
+                    default :
+                        $OrderPref.classList.add("--Sort-Btn-Active");
+                        break;
                 }
+            }
 
-                $NavBox.classList.toggle("--Nav-Fold");
-            })
+            $OrderPref.addEventListener("click", () => {
+                requestWithQuery($SearchInput.value, "pref");
+            });
+
+            $OrderComment.addEventListener("click", () => {
+                requestWithQuery($SearchInput.value, "comment");
+            });
+
+            $OrderName.addEventListener("click", () => {
+                requestWithQuery($SearchInput.value, "name");
+            });
 
         };
+
     </script>
 </head>
 <body>
 
-    <c:import url="component/topbar.jsp" charEncoding="UTF-8" >
-        <c:param name="MEMBER_ID" value="${User.MEMBER_ID}" />
-        <c:param name="MEMBER_NICKNAME" value="${User.MEMBER_NICKNAME}" />
-        <c:param name="MEMBER_PROFILE_IMAGE" value="${User.MEMBER_PROFILE_IMAGE}" />
-    </c:import>
+<c:import url="component/topbar.jsp" charEncoding="UTF-8">
+    <c:param name="MEMBER_ID" value="${User.MEMBER_ID}"/>
+    <c:param name="MEMBER_NICKNAME" value="${User.MEMBER_NICKNAME}"/>
+    <c:param name="MEMBER_PROFILE_IMAGE" value="${User.MEMBER_PROFILE_IMAGE}"/>
+</c:import>
+
+<div class="Store-List-Box">
+    <div class="Sort-Box">
+        <button id="ORDER-PREF" class="Sort-Btn">선호도</button>
+        <button id="ORDER-COMMENT" class="Sort-Btn">댓글</button>
+        <button id="ORDER-NAME" class="Sort-Btn">이름</button>
+    </div>
+
+    <div class="Card-Box">
+        <a class="--No-Link-Style" href="">
+            <div class="Store-Card">
+                <div class="Store-Card-Body">
+                    <div class="Store-Type">
+                        <i class="fas fa-utensils fa-1x"></i>
+                    </div>
+                    <img src="<c:url value="/resources/images/bongus.jpeg" />" alt="">
+                </div>
+                <div class="Store-Card-Title">
+                    <span class="Store-Name-Text">봉구스 밥버거</span>
+                </div>
+                <div class="Store-Card-Bottom">
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+</div>
 
 </body>
 </html>

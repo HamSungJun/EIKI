@@ -10,7 +10,7 @@
     <div class="Topbar-Column">
         <div class="Topbar-Search-Box">
             <div class="Search-Input-Box">
-                <input placeholder="식당, 카페, PC방 ..." type="text">
+                <input id="SEARCH-INPUT" placeholder="식당, 카페, PC방 ..." type="text">
             </div>
             <div class="Search-Icon-Box">
                 <i class="fas fa-search"></i>
@@ -31,16 +31,13 @@
     </div>
     <div class="Nav-Box --Nav-Fold">
         <div class="Nav-Row">
-            <a href="<c:url value="/auth/logout" />">logout</a>
+            <a href="<c:url value="/auth/logout" />"><span class="Nav-Text">Logout</span></a>
         </div>
         <div class="Nav-Row">
-            <a href="">etc</a>
+            <a href=""><span class="Nav-Text">Community</span></a>
+        </div>
+        <div class="Nav-Row">
+            <a href=""><span class="Nav-Text">Contact</span></a>
         </div>
     </div>
 </div>
-<%--<h1>탑바</h1>--%>
-<%--<h1>${User.MEMBER_ID}</h1>--%>
-<%--<h1>${User.MEMBER_NICKNAME}</h1>--%>
-<%--<h1>${User.MEMBER_PHONE}</h1>--%>
-<%--<h1>${User.MEMBER_BIRTHDAY}</h1>--%>
-<%--<h1>${User.MEMBER_PROFILE_IMAGE}</h1>--%>

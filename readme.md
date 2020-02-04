@@ -17,13 +17,17 @@
 
 | LOGIN | LOGIN2 |
 |:--------:|:--------:|
-|![EIKI_LOGIN](./devImages/login.png)|![EIKI_LOGIN2](./devImages/login2.png)|
+|![EIKI_LOGIN](./devImages/EIKI_LOGIN.png)|![EIKI_LOGIN2](./devImages/EIKI_LOGIN2.png)|
 
 <hr />
 
 | JOIN | JOIN2 |
 |:--------:|:--------:|
-|![EIKI_JOIN](./devImages/join.png)|![EIKI_JOIN2](./devImages/join2.png)|
+|![EIKI_JOIN](./devImages/EIKI_JOIN.png)|![EIKI_JOIN2](./devImages/EIKI_JOIN2.png)|
+
+| INFO | REVIEW |
+|:--------:|:--------:|
+|![EIKI_STORE_INFO](./devImages/EIKI_STORE_INFO.png)|![EIKI_REVIEW](./devImages/EIKI_STORE_REVIEW.png)|
 
 ## Dev History
 
@@ -64,5 +68,25 @@
     - 데이터베이스 모델 설계
     
     - `/eiki/home` 뷰 레이아웃 설계
+    
+### 2020.02.05
+
+- 개발 내용
+
+    - `/eiki/store/{store_idx}` 뷰 작성
+    
+    - 샘플 데이터 수집
+    
+    - 데이터베이스 DDL 작성 ([미완성](https://github.com/HamSungJun/EIKI/blob/master/sql/EIKI_DDL.sql))
+    
+- 개발 예정
+
+    - 데이터 생성 페이지가 필요할 것 같다 ... (어드민 페이지)
+    
+        1. 데이터 생성 페이지 작성
+        
+        2. 데이터 삽입
+        
+        3. 데이터 기반으로 뷰 작성 및 렌더링
     
     
