@@ -30,14 +30,19 @@
         <span class="Topbar-Nav-Tool --Color-Violet"><i class="fas fa-bars fa-2x"></i></span>
     </div>
     <div class="Nav-Box --Nav-Fold">
-        <div class="Nav-Row">
-            <a href="<c:url value="/auth/logout" />"><span class="Nav-Text">Logout</span></a>
-        </div>
+        <c:if test="${param.IS_ADMIN == 1}">
+            <div class="Nav-Row">
+                <a href="<c:url value="/eiki/admin" />"><span class="Nav-Text">Admin</span></a>
+            </div>
+        </c:if>
         <div class="Nav-Row">
             <a href=""><span class="Nav-Text">Community</span></a>
         </div>
         <div class="Nav-Row">
             <a href=""><span class="Nav-Text">Contact</span></a>
+        </div>
+        <div class="Nav-Row">
+            <a href="<c:url value="/auth/logout" />"><span class="Nav-Text">Logout</span></a>
         </div>
     </div>
 </div>

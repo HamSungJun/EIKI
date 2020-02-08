@@ -19,8 +19,6 @@
 |:--------:|:--------:|
 |![EIKI_LOGIN](./devImages/EIKI_LOGIN.png)|![EIKI_LOGIN2](./devImages/EIKI_LOGIN2.png)|
 
-<hr />
-
 | JOIN | JOIN2 |
 |:--------:|:--------:|
 |![EIKI_JOIN](./devImages/EIKI_JOIN.png)|![EIKI_JOIN2](./devImages/EIKI_JOIN2.png)|
@@ -28,6 +26,10 @@
 | INFO | REVIEW |
 |:--------:|:--------:|
 |![EIKI_STORE_INFO](./devImages/EIKI_STORE_INFO.png)|![EIKI_REVIEW](./devImages/EIKI_STORE_REVIEW.png)|
+
+| POST | POST2 |
+|:--------:|:--------:|
+|![EIKI_POST](./devImages/EIKI_POST.png)|![EIKI_POST2](./devImages/EIKI_POST2.png)|
 
 ## Dev History
 
@@ -88,5 +90,23 @@
         2. 데이터 삽입
         
         3. 데이터 기반으로 뷰 작성 및 렌더링
+        
+### 2020.02.09
+
+- 개발 내용
+
+    - 어드민 페이지 작성 (`/eiki/admin/*`)
+    
+    - 유저 테이블의 `IS_ADMIN`값을 세션값으로 부터 읽어 조건부 렌더링
+    
+    - 스토어 등록 페이지 작성 (`/eiki/admin/post`)
+    
+- 개발 예정
+
+    - 스토어 등록 폼 데이터 스토리지(파일) 및 데이터베이스(텍스트)에 저장.
+    
+    - 스토어 등록 데이터 쿼리 후 `/eiki/home` 에 리스팅.
+    
+    - 리스트 아이템 클릭시 `/eiki/store/{store_idx}`로 라우팅.
     
     

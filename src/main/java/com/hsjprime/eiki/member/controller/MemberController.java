@@ -30,18 +30,19 @@ public class MemberController {
     }
 
     @RequestMapping(value = "/join", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String memberJoin(MemberFormDTO memberFromDTO, Model model) {
-        memberFromDTO.setMEMBER_ID(memberFromDTO.getMEMBER_ID().concat("@hmail.hanyang.ac.kr"));
-        Map<String, Object> serviceResult = memberService.saveMemberForm(memberFromDTO);
+    public String memberJoin(MemberFormDTO memberFormDTO, Model model) {
+        memberFormDTO.setMEMBER_ID(memberFormDTO.getMEMBER_ID().concat("@hmail.hanyang.ac.kr"));
+        Map<String, Object> serviceResult = memberService.saveMemberForm(memberFormDTO);
 
         if ((int)serviceResult.get("update") == 1) {
 
             MemberSessionVO memberSessionVO = new MemberSessionVO();
-            memberSessionVO.setMEMBER_ID(memberFromDTO.getMEMBER_ID());
-            memberSessionVO.setMEMBER_NICKNAME(memberFromDTO.getMEMBER_NICKNAME());
-            memberSessionVO.setMEMBER_PHONE(memberFromDTO.getMEMBER_PHONE());
-            memberSessionVO.setMEMBER_BIRTHDAY(memberFromDTO.getMEMBER_BIRTHDAY());
+            memberSessionVO.setMEMBER_ID(memberFormDTO.getMEMBER_ID());
+            memberSessionVO.setMEMBER_NICKNAME(memberFormDTO.getMEMBER_NICKNAME());
+            memberSessionVO.setMEMBER_PHONE(memberFormDTO.getMEMBER_PHONE());
+            memberSessionVO.setMEMBER_BIRTHDAY(memberFormDTO.getMEMBER_BIRTHDAY());
             memberSessionVO.setMEMBER_PROFILE_IMAGE((String)serviceResult.get("F_UID"));
+            memberSessionVO.setIS_ADMIN((int)serviceResult.get("IS_ADMIN"));
 
             model.addAttribute("User",memberSessionVO);
             return "redirect:/eiki/home";

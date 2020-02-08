@@ -1,10 +1,7 @@
-const QUERY_OBJ = Object.fromEntries(new URLSearchParams(window.location.search.substring(1)));
-
-const initTopbarEvents = () => {
+const initTopBarAdminEvents = () => {
 
     let $NavIcon = document.querySelector(".Topbar-Nav-Tool");
     let $NavBox = document.querySelector(".Nav-Box");
-    let $SearchInput = document.getElementById("SEARCH-INPUT");
     let $LogoText = document.querySelector(".Topbar-Logo-Text");
 
     $NavIcon.addEventListener("click", (event) => {
@@ -21,22 +18,8 @@ const initTopbarEvents = () => {
     });
 
     $LogoText.addEventListener("click", () => {
-        window.location.href = "/eiki/home";
-    });
-
-    $SearchInput.value = QUERY_OBJ.search ? QUERY_OBJ.search : "";
-    $SearchInput.addEventListener("keypress", (event) => {
-        const keyCode = event.which || event.keyCode;
-        if (keyCode === 13) {
-            requestWithQuery(event.target.value, (QUERY_OBJ.order ? QUERY_OBJ.order : "pref"));
-        }
-
+        window.location.href = "/eiki/admin";
     })
 
-};
+}
 
-const requestWithQuery = (search, order) => {
-
-    return window.location.href = "/eiki/home?search=" + search + "&order=" + order;
-
-};

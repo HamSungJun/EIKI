@@ -16,6 +16,7 @@ import java.util.UUID;
 public class MemberServiceImpl implements MemberService {
 
     private static final String PROFILE_IMAGE_UPLOAD_PATH = "/Users/hsjprime/Desktop/EIKI/web/resources/userImages/";
+    private static final String[] ADMIN_IDS = {"god1857@hmail.hanyang.ac.kr"};
 
     @Autowired
     MemberDAOImpl memberDAO;
@@ -52,9 +53,24 @@ public class MemberServiceImpl implements MemberService {
             e.printStackTrace();
         }
 
-        serviceResult.put("update", memberDAO.insertMember(memberFormDTO, (String)serviceResult.get("F_UID")));
-
+        int isAdmin = isAdmin(memberFormDTO.getMEMBER_ID());
+        serviceResult.put("update", memberDAO.insertMember(memberFormDTO, (String)serviceResult.get("F_UID"), isAdmin));
+        serviceResult.put("IS_ADMIN", isAdmin);
         return serviceResult;
 
     }
+
+    @Override
+    public int isAdmin(String MEMBER_ID){
+
+        int isAdmin = 0;
+        for (int i = 0; i < ADMIN_IDS.length; i++) {
+            if(ADMIN_IDS[i].equals(MEMBER_ID)){
+                isAdmin = 1;
+            }
+        }
+        return isAdmin;
+
+    }
+
 }

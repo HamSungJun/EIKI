@@ -1,6 +1,5 @@
 package com.hsjprime.eiki.auth.controller;
 
-import com.hsjprime.eiki.auth.dto.LoginInfoDTO;
 import com.hsjprime.eiki.auth.service.AuthServiceImpl;
 import com.hsjprime.eiki.member.vo.MemberSessionVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +34,7 @@ public class AuthController {
             memberSessionVO.setMEMBER_PHONE(userData.get("MEMBER_PHONE"));
             memberSessionVO.setMEMBER_BIRTHDAY(userData.get("MEMBER_BIRTHDAY"));
             memberSessionVO.setMEMBER_PROFILE_IMAGE(userData.get("MEMBER_PROFILE_IMAGE"));
+            memberSessionVO.setIS_ADMIN(Integer.parseInt(userData.get("IS_ADMIN")));
             model.addAttribute("User",memberSessionVO);
             loginResult.put("isMemberExist",true);
         } else {

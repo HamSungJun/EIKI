@@ -10,24 +10,15 @@
     <!-- Component 패키지 스캔 -->
     <context:component-scan base-package="com.hsjprime.eiki"/>
 
-    <!-- Annotation 활성화 -->
-    <mvc:annotation-driven>
-        <mvc:message-converters>
-            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                <property name="supportedMediaTypes">
-                    <list>
-                        <value>application/json; charset=UTF-8</value>
-                    </list>
-                </property>
-            </bean>
-        </mvc:message-converters>
-    </mvc:annotation-driven>
-
     <!-- Interceptors -->
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/eiki/**"/>
             <bean class="com.hsjprime.eiki.util.interceptor.SessionCheckInterceptor" />
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/eiki/admin/**"/>
+            <bean class="com.hsjprime.eiki.util.interceptor.AdminCheckInterceptor" />
         </mvc:interceptor>
     </mvc:interceptors>
 
@@ -67,12 +58,26 @@
     <!-- Multipart Resolver -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!-- 최대업로드 가능한 바이트크기 -->
-        <property name="maxUploadSize" value="20000000"/>
+        <property name="maxUploadSize" value="400000000"/>
         <!-- 디스크에 임시 파일을 생성하기 전에 메모리에 보관할수있는 최대 바이트 크기 -->
-        <property name="maxInMemorySize" value="20000000"/>
+        <property name="maxInMemorySize" value="400000000"/>
         <property name="defaultEncoding" value="utf-8"/>
     </bean>
 
-    <mvc:resources mapping="/resources/**" location="/resources/"/> <!-- 정적 자원 경로 매핑 -->
+    <!-- 정적 자원 경로 매핑 -->
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+
+    <!-- Annotation 활성화 -->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json; charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
 </beans>

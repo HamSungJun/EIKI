@@ -9,4 +9,5 @@ import java.util.Map;
 public interface MemberService {
     boolean isUniqNickName(String MEMBER_NICKNAME);
     Map<String, Object> saveMemberForm(MemberFormDTO memberFormDTO);
+    int isAdmin(String MEMBER_ID);
 }

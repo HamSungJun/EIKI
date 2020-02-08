@@ -6,5 +6,5 @@ import java.sql.SQLException;
 
 public interface MemberDAO{
     int countMemberNickName(String MEMBER_NICKNAME) throws SQLException;
-    int insertMember(MemberFormDTO memberFormDTO, String F_UID);
+    int insertMember(MemberFormDTO memberFormDTO, String F_UID, int isAdmin);
 }

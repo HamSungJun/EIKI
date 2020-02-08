@@ -28,19 +28,20 @@ public class MemberDAOImpl implements MemberDAO {
     }
 
     @Override
-    public int insertMember(MemberFormDTO memberFormDTO, String F_UID) {
+    public int insertMember(MemberFormDTO memberFormDTO, String F_UID, int isAdmin) {
 
         System.out.println(memberFormDTO.toString());
 
-        String SQL = "INSERT INTO EIKI_MEMBER (MEMBER_ID, MEMBER_PW, MEMBER_NICKNAME, MEMBER_BIRTHDAY, MEMBER_PHONE, MEMBER_PROFILE_IMAGE)" +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String SQL = "INSERT INTO EIKI_MEMBER (MEMBER_ID, MEMBER_PW, MEMBER_NICKNAME, MEMBER_BIRTHDAY, MEMBER_PHONE, MEMBER_PROFILE_IMAGE, IS_ADMIN)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
         return jdbcTemplate.update(SQL,
                 memberFormDTO.getMEMBER_ID(),
                 memberFormDTO.getMEMBER_PW(),
                 memberFormDTO.getMEMBER_NICKNAME(),
                 Date.valueOf(memberFormDTO.getMEMBER_BIRTHDAY()),
                 memberFormDTO.getMEMBER_PHONE(),
-                F_UID);
+                F_UID,
+                isAdmin);
 
     }
 

@@ -6,6 +6,7 @@ public class MemberSessionVO {
     private String MEMBER_PHONE;
     private String MEMBER_BIRTHDAY;
     private String MEMBER_PROFILE_IMAGE;
+    private int IS_ADMIN;
 
     public String getMEMBER_ID() {
         return MEMBER_ID;
@@ -27,6 +28,10 @@ public class MemberSessionVO {
         return MEMBER_PROFILE_IMAGE;
     }
 
+    public int getIS_ADMIN() {
+        return IS_ADMIN;
+    }
+
     public void setMEMBER_ID(String MEMBER_ID) {
         this.MEMBER_ID = MEMBER_ID;
     }
@@ -46,4 +51,9 @@ public class MemberSessionVO {
     public void setMEMBER_PROFILE_IMAGE(String MEMBER_PROFILE_IMAGE) {
         this.MEMBER_PROFILE_IMAGE = MEMBER_PROFILE_IMAGE;
     }
+
+    public void setIS_ADMIN(int IS_ADMIN){
+        this.IS_ADMIN = IS_ADMIN;
+    }
+
 }

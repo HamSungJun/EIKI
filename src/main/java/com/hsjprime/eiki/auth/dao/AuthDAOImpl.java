@@ -35,7 +35,7 @@ public class AuthDAOImpl implements AuthDAO {
     @Override
     public Map<String, String> selectUser(String MEMBER_ID, String MEMBER_PW) {
 
-        String SQL = "SELECT MEMBER_ID, MEMBER_NICKNAME, MEMBER_PHONE, MEMBER_BIRTHDAY, MEMBER_PROFILE_IMAGE FROM EIKI_MEMBER WHERE MEMBER_ID = ? AND MEMBER_PW = ?;";
+        String SQL = "SELECT MEMBER_ID, MEMBER_NICKNAME, MEMBER_PHONE, MEMBER_BIRTHDAY, MEMBER_PROFILE_IMAGE, IS_ADMIN FROM EIKI_MEMBER WHERE MEMBER_ID = ? AND MEMBER_PW = ?;";
         return jdbcTemplate.query(SQL, new Object[]{MEMBER_ID, MEMBER_PW}, (ResultSet rs) -> {
             Map<String, String> result = new HashMap<>();
             while(rs.next()){
@@ -44,6 +44,7 @@ public class AuthDAOImpl implements AuthDAO {
                 result.put("MEMBER_PHONE",rs.getString("MEMBER_PHONE"));
                 result.put("MEMBER_BIRTHDAY",rs.getString("MEMBER_BIRTHDAY"));
                 result.put("MEMBER_PROFILE_IMAGE",rs.getString("MEMBER_PROFILE_IMAGE"));
+                result.put("IS_ADMIN", String.valueOf(rs.getInt("IS_ADMIN")));
             }
             return result;
         });

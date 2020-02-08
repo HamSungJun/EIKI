@@ -281,6 +281,7 @@
     <c:param name="MEMBER_ID" value="${User.MEMBER_ID}"/>
     <c:param name="MEMBER_NICKNAME" value="${User.MEMBER_NICKNAME}"/>
     <c:param name="MEMBER_PROFILE_IMAGE" value="${User.MEMBER_PROFILE_IMAGE}"/>
+    <c:param name="IS_ADMIN" value="${User.IS_ADMIN}"/>
 </c:import>
 
 <div class="Store-Box">
