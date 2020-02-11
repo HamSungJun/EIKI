@@ -15,6 +15,8 @@
     <script src="<c:url value="/resources/js/common/topbar_admin.js" />"></script>
     <script>
 
+        let isFetching = false;
+
         window.onload = () => {
 
             initTopBarAdminEvents();
@@ -38,6 +40,44 @@
 
             let $PostBtn = document.getElementById("POST-BTN");
             $PostBtn.addEventListener("click", requestStorePost);
+
+            let $MenuAdd = document.getElementById("MENU-ADD");
+            $MenuAdd.addEventListener("click", handleAddMenu);
+        };
+
+        const handleAddMenu = () => {
+
+            let $MenuList = document.getElementById("MENU-LIST");
+
+            let $MenuItem = document.createElement("div");
+            $MenuItem.classList.add("Menu-Item");
+
+            let $MenuTitleBox = document.createElement("div");
+            let $MenuTitleInput = document.createElement("input");
+            $MenuTitleInput.setAttribute("placeholder", "메뉴 이름");
+
+            let $MenuPriceBox = document.createElement("div");
+            let $MenuPriceInput = document.createElement("input");
+            $MenuPriceInput.setAttribute("placeholder", "메뉴 가격");
+
+            let $MenuRemoveBox = document.createElement("div");
+            $MenuRemoveBox.classList.add("Menu-Remove");
+            $MenuRemoveBox.addEventListener("click", () => {
+                $MenuItem.remove();
+            });
+
+            let $MenuRemoveIcon = document.createElement("i");
+            $MenuRemoveIcon.classList.add("far", "fa-trash-alt");
+
+            $MenuTitleBox.appendChild($MenuTitleInput);
+            $MenuPriceBox.appendChild($MenuPriceInput);
+            $MenuRemoveBox.appendChild($MenuRemoveIcon);
+
+            $MenuItem.appendChild($MenuTitleBox);
+            $MenuItem.appendChild($MenuPriceBox);
+            $MenuItem.appendChild($MenuRemoveBox);
+
+            $MenuList.appendChild($MenuItem);
 
         };
 
@@ -176,6 +216,10 @@
                 return alert("최소 한글자의 스토어 이름을 입력해주세요.");
             }
 
+            if (!(new RegExp(/[0-9]{3}-[0-9]{3,4}-[0-9]{4}/).test(document.getElementById("STORE_CALL").value))) {
+                return alert("올바른 연락처 양식이 아닙니다.");
+            }
+
             if (!document.getElementById("THUMBNAIL-INPUT").files[0]) {
                 return alert("썸네일 대표 이미지를 등록해 주세요.");
             }
@@ -192,6 +236,25 @@
                 return alert("스토어 짧은 소개를 입력해 주세요.");
             }
 
+            let menus = [];
+            let $MenuItems = document.getElementById("MENU-LIST").querySelectorAll(".Menu-Item");
+            for (let index = 0; index < $MenuItems.length; index++) {
+
+                let $MenuInputs = $MenuItems.item(index).querySelectorAll("input");
+                const nameValue = $MenuInputs.item(0).value;
+                const priceValue = $MenuInputs.item(1).value;
+
+                if (nameValue.length > 0 && Number.isInteger(parseInt(priceValue))) {
+                    menus.push({
+                        MENU_NAME: nameValue,
+                        MENU_PRICE: parseInt(priceValue)
+                    })
+                } else {
+                    return alert("유효한 메뉴 이름과 가격을 입력해 주십시오.");
+                }
+
+            }
+
             let files = [];
             let $FileInputs = document.getElementById("STORE-IMAGES").querySelectorAll(".Post-File-Btn input");
             for (let index = 0; index < $FileInputs.length; index++) {
@@ -202,10 +265,12 @@
 
             return {
                 STORE_NAME: document.getElementById("STORE_NAME").value,
+                STORE_CALL: document.getElementById("STORE_CALL").value,
                 STORE_TYPE: document.querySelector("input[name='STORE_TYPE']:checked").value,
                 IS_DELIVERY: document.querySelector("input[name='IS_DELIVERY']:checked").value === "O",
                 STORE_THUMBNAIL: document.getElementById("THUMBNAIL-INPUT").files[0],
                 STORE_IMAGES: files,
+                STORE_MENUS: JSON.stringify(menus),
                 STORE_LATITUDE: parseFloat(document.getElementById("STORE_LATITUDE").value),
                 STORE_LONGITUDE: parseFloat(document.getElementById("STORE_LONGITUDE").value),
                 STORE_DESCRIPTION: document.getElementById("STORE_DESCRIPTION").value
@@ -218,10 +283,10 @@
             let reqBody = validateAll();
 
             if (reqBody) {
-
+                console.log(reqBody);
                 let formData = new FormData();
                 for (let key in reqBody) {
-                    if (key !== "STORE_IMAGES") {
+                    if (!["STORE_IMAGES"].includes(key)) {
                         formData.append(key, reqBody[key]);
                     } else {
                         for (let index = 0; index < reqBody[key].length; index++) {
@@ -231,10 +296,19 @@
 
                 }
 
-                fetch("/eiki/admin/post", {
-                    method: "POST",
-                    body: formData
-                })
+                if (!isFetching) {
+                    fetch("/eiki/admin/post", {
+                        method : "POST",
+                        body: formData
+                    }).then(async response => {
+                        if ((await response.json()).success === 1) {
+                            alert("스토어가 성공적으로 등록되었습니다.");
+                            window.location.href = "/eiki/home";
+                        }
+                    }).catch(error => {
+                        console.log(error);
+                    })
+                }
 
             }
 
@@ -257,6 +331,20 @@
             </div>
             <div class="Store-Post-Content">
                 <input class="Post-Text-Input" id="STORE_NAME" name="STORE_NAME" placeholder="스토어 이름..." type="text">
+            </div>
+        </div>
+    </div>
+
+    <div class="Post-Input-Group">
+        <div>
+            <div class="Store-Post-Category">
+                <div>
+                    <span><label for="STORE_NAME">스토어 연락처</label></span>
+                </div>
+            </div>
+            <div class="Store-Post-Content">
+                <input maxlength="13" class="Post-Text-Input" id="STORE_CALL" name="STORE_CALL"
+                       placeholder="000-0000-0000" type="text">
             </div>
         </div>
     </div>
@@ -340,6 +428,19 @@
         </div>
         <div id="IMAGE-LIST" class="Image-Preview-List"></div>
         <div id="STORE-IMAGES" class="Store-Post-Content"></div>
+    </div>
+
+    <div class="Post-Input-Group">
+        <div class="Store-Post-Category">
+            <div>
+                <span>메뉴 리스트</span>
+            </div>
+            <div>
+                <span id="MENU-ADD" class="File-Add-Text">메뉴 추가</span>
+            </div>
+        </div>
+        <div id="MENU-LIST" class="Store-Post-Content">
+        </div>
     </div>
 
     <div class="Post-Input-Group">

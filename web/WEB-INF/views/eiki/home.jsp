@@ -33,24 +33,55 @@
     </div>
 
     <div class="Card-Box">
-        <a class="--No-Link-Style" href="">
-            <div class="Store-Card">
-                <div class="Store-Card-Body">
-                    <div class="Store-Type">
-                        <i class="fas fa-utensils fa-1x"></i>
+<%--        <a class="--No-Link-Style" href="">--%>
+<%--            <div class="Store-Card">--%>
+<%--                <div class="Store-Card-Body">--%>
+<%--                    <div class="Store-Type">--%>
+<%--                        <i class="fas fa-utensils fa-1x"></i>--%>
+<%--                    </div>--%>
+<%--                    <img src="<c:url value="/resources/images/bongus.jpeg" />" alt="">--%>
+<%--                </div>--%>
+<%--                <div class="Store-Card-Title">--%>
+<%--                    <span class="Store-Name-Text">봉구스 밥버거</span>--%>
+<%--                </div>--%>
+<%--                <div class="Store-Card-Bottom">--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </a>--%>
+        <c:forEach items="${StoreList}" var="StoreItem">
+            <a class="--No-Link-Style" href=<c:url value="/eiki/store/${StoreItem['STORE_DEC_IDX']}" />>
+                <div class="Store-Card">
+                    <div class="Store-Card-Body">
+                        <div class="Store-Type">
+                            <c:choose>
+                                <c:when test="${StoreItem['STORE_TYPE'] == 'RESTAURANT'}">
+                                    <i class="fas fa-utensils fa-1x"></i>
+                                </c:when>
+                                <c:when test="${StoreItem['STORE_TYPE'] == 'PC'}">
+                                    <i class="fas fa-gamepad fa-1x"></i>
+                                </c:when>
+                                <c:when test="${StoreItem['STORE_TYPE'] == 'CAFE'}">
+                                    <i class="fas fa-coffee fa-1x"></i>
+                                </c:when>
+                            </c:choose>
+
+                        </div>
+                        <img src="<c:url value="/resources/storeImages/${StoreItem['STORE_IMAGE']}" />" alt="">
                     </div>
-                    <img src="<c:url value="/resources/images/bongus.jpeg" />" alt="">
+                    <div class="Store-Card-Title">
+                        <span class="Store-Name-Text">${StoreItem['STORE_NAME']}</span>
+                    </div>
+                    <div class="Store-Card-Bottom">
+                    </div>
                 </div>
-                <div class="Store-Card-Title">
-                    <span class="Store-Name-Text">봉구스 밥버거</span>
-                </div>
-                <div class="Store-Card-Bottom">
-                </div>
-            </div>
-        </a>
+            </a>
+        </c:forEach>
     </div>
 
 </div>
 
+<div>
+
+</div>
 </body>
 </html>

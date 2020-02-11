@@ -2,6 +2,7 @@ package com.hsjprime.eiki.member.service;
 
 import com.hsjprime.eiki.member.dao.MemberDAOImpl;
 import com.hsjprime.eiki.member.dto.MemberFormDTO;
+import com.hsjprime.eiki.util.method.UtilMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -36,7 +36,7 @@ public class MemberServiceImpl implements MemberService {
         String imgExtension = uploadedImage.getContentType().split("/")[1];
         File uploadDirectory = new File(PROFILE_IMAGE_UPLOAD_PATH);
 
-        serviceResult.put("F_UID", UUID.randomUUID().toString().concat("." + imgExtension));
+        serviceResult.put("F_UID", UtilMethod.createUUID().concat("." + imgExtension));
 
         if (!uploadDirectory.isDirectory()) {
             if (uploadDirectory.mkdir()) {

@@ -176,6 +176,10 @@
             margin: 20px 0;
         }
 
+        .Menu-Box {
+            padding: 20px 0;
+        }
+
         .Review-Write-Text {
             font-weight: 300;
             font-size: 16px;
@@ -415,7 +419,16 @@
             </div>
         </div>
     </div>
-
+    <div class="Menu-Box">
+        <div class="Content-Category">
+            <div class="Category-Title">
+                <span>메뉴 리스트</span>
+            </div>
+            <div class="--D-Flex-Center">
+                <span id="MENU-SHOW" class="Review-Write-Text">메뉴 보기</span>
+            </div>
+        </div>
+    </div>
     <div class="Community-Box">
         <div class="Content-Category">
             <div class="Category-Title">
