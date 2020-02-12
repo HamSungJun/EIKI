@@ -25,11 +25,10 @@ public class AdminDAO {
 
     public int insertStore(StorePostDTO storePostDTO) {
 
-        String SQL = "INSERT INTO EIKI_STORE(STORE_NAME, STORE_CALL, STORE_LATITUDE, STORE_LONGITUDE, STORE_TYPE, STORE_DESCRIPTION, IS_DELIVERY)" +
-                "VALUES(?, ?, ?, ?, ?, ?, ?)";
+        String SQL = "INSERT INTO EIKI_STORE(STORE_NAME, STORE_CALL, STORE_LATITUDE, STORE_LONGITUDE, STORE_TYPE, STORE_DESCRIPTION, STORE_COMMENT_COUNT, IS_DELIVERY)" +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        System.out.println("돌린당");
         jdbcTemplate.update(new PreparedStatementCreator() {
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 
@@ -40,7 +39,8 @@ public class AdminDAO {
                 ps.setFloat(4, storePostDTO.getSTORE_LONGITUDE());
                 ps.setString(5, storePostDTO.getSTORE_TYPE());
                 ps.setString(6, storePostDTO.getSTORE_DESCRIPTION());
-                ps.setBoolean(7, storePostDTO.getIS_DELIVERY());
+                ps.setInt(7, 0);
+                ps.setBoolean(8, storePostDTO.getIS_DELIVERY());
                 return ps;
 
             }

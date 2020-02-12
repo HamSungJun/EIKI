@@ -54,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
         }
 
         int isAdmin = isAdmin(memberFormDTO.getMEMBER_ID());
-        serviceResult.put("update", memberDAO.insertMember(memberFormDTO, (String)serviceResult.get("F_UID"), isAdmin));
+        serviceResult.put("MEMBER_DEC_IDX", memberDAO.insertMember(memberFormDTO, (String)serviceResult.get("F_UID"), isAdmin));
         serviceResult.put("IS_ADMIN", isAdmin);
         return serviceResult;
 

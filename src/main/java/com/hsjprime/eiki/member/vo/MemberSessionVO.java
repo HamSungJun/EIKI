@@ -1,12 +1,17 @@
 package com.hsjprime.eiki.member.vo;
 
 public class MemberSessionVO {
+    private int MEMBER_DEC_IDX;
     private String MEMBER_ID;
     private String MEMBER_NICKNAME;
     private String MEMBER_PHONE;
     private String MEMBER_BIRTHDAY;
     private String MEMBER_PROFILE_IMAGE;
     private int IS_ADMIN;
+
+    public int getMEMBER_DEC_IDX() {
+        return MEMBER_DEC_IDX;
+    }
 
     public String getMEMBER_ID() {
         return MEMBER_ID;
@@ -32,6 +37,10 @@ public class MemberSessionVO {
         return IS_ADMIN;
     }
 
+    public void setMEMBER_DEC_IDX(int MEMBER_DEC_IDX) {
+        this.MEMBER_DEC_IDX = MEMBER_DEC_IDX;
+    }
+
     public void setMEMBER_ID(String MEMBER_ID) {
         this.MEMBER_ID = MEMBER_ID;
     }
@@ -52,7 +61,7 @@ public class MemberSessionVO {
         this.MEMBER_PROFILE_IMAGE = MEMBER_PROFILE_IMAGE;
     }
 
-    public void setIS_ADMIN(int IS_ADMIN){
+    public void setIS_ADMIN(int IS_ADMIN) {
         this.IS_ADMIN = IS_ADMIN;
     }
 

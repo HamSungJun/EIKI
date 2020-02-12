@@ -34,17 +34,18 @@ public class MemberController {
         memberFormDTO.setMEMBER_ID(memberFormDTO.getMEMBER_ID().concat("@hmail.hanyang.ac.kr"));
         Map<String, Object> serviceResult = memberService.saveMemberForm(memberFormDTO);
 
-        if ((int)serviceResult.get("update") == 1) {
+        if ((int) serviceResult.get("MEMBER_DEC_IDX") >= 1) {
 
             MemberSessionVO memberSessionVO = new MemberSessionVO();
+            memberSessionVO.setMEMBER_DEC_IDX((int) serviceResult.get("MEMBER_DEC_IDX"));
             memberSessionVO.setMEMBER_ID(memberFormDTO.getMEMBER_ID());
             memberSessionVO.setMEMBER_NICKNAME(memberFormDTO.getMEMBER_NICKNAME());
             memberSessionVO.setMEMBER_PHONE(memberFormDTO.getMEMBER_PHONE());
             memberSessionVO.setMEMBER_BIRTHDAY(memberFormDTO.getMEMBER_BIRTHDAY());
-            memberSessionVO.setMEMBER_PROFILE_IMAGE((String)serviceResult.get("F_UID"));
-            memberSessionVO.setIS_ADMIN((int)serviceResult.get("IS_ADMIN"));
+            memberSessionVO.setMEMBER_PROFILE_IMAGE((String) serviceResult.get("F_UID"));
+            memberSessionVO.setIS_ADMIN((int) serviceResult.get("IS_ADMIN"));
 
-            model.addAttribute("User",memberSessionVO);
+            model.addAttribute("User", memberSessionVO);
             return "redirect:/eiki/home";
 
         }

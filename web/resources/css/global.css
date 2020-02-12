@@ -87,6 +87,10 @@ html, body {
     color: palegreen !important;
 }
 
+.--Color-Heart {
+    color: #FF5252 !important;
+}
+
 .--Color-Error {
     color: hsl(0, 100%, 66%) !important;
 }

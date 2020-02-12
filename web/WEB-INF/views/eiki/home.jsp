@@ -33,21 +33,6 @@
     </div>
 
     <div class="Card-Box">
-<%--        <a class="--No-Link-Style" href="">--%>
-<%--            <div class="Store-Card">--%>
-<%--                <div class="Store-Card-Body">--%>
-<%--                    <div class="Store-Type">--%>
-<%--                        <i class="fas fa-utensils fa-1x"></i>--%>
-<%--                    </div>--%>
-<%--                    <img src="<c:url value="/resources/images/bongus.jpeg" />" alt="">--%>
-<%--                </div>--%>
-<%--                <div class="Store-Card-Title">--%>
-<%--                    <span class="Store-Name-Text">봉구스 밥버거</span>--%>
-<%--                </div>--%>
-<%--                <div class="Store-Card-Bottom">--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--        </a>--%>
         <c:forEach items="${StoreList}" var="StoreItem">
             <a class="--No-Link-Style" href=<c:url value="/eiki/store/${StoreItem['STORE_DEC_IDX']}" />>
                 <div class="Store-Card">
@@ -66,12 +51,20 @@
                             </c:choose>
 
                         </div>
-                        <img src="<c:url value="/resources/storeImages/${StoreItem['STORE_IMAGE']}" />" alt="">
+                        <img src="<c:url value="/resources/storeImages/${StoreItem['STORE_THUMBNAIL']}" />" alt="">
                     </div>
                     <div class="Store-Card-Title">
                         <span class="Store-Name-Text">${StoreItem['STORE_NAME']}</span>
                     </div>
                     <div class="Store-Card-Bottom">
+                        <div class="Card-Statistic-Group">
+                            <i class="fas fa-comment-dots"></i>
+                            <span class="Card-Statistic-Value">${StoreItem['STORE_COMMENT_COUNT']}</span>
+                        </div>
+                        <div class="Card-Statistic-Group">
+                            <i class="fas fa-heart --Color-Heart"></i>
+                            <span class="Card-Statistic-Value">${StoreItem['AVG_PREFERENCE']}</span>
+                        </div>
                     </div>
                 </div>
             </a>

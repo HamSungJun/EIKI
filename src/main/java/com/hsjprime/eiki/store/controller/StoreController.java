@@ -1,22 +1,49 @@
 package com.hsjprime.eiki.store.controller;
 
+import com.hsjprime.eiki.member.vo.MemberSessionVO;
+import com.hsjprime.eiki.store.service.StoreService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequestMapping("/eiki/store")
 @SessionAttributes("User")
 @Controller
 public class StoreController {
 
-    @RequestMapping(value = "/{storeId}", method = RequestMethod.GET)
-    public String toStoreInfo(@PathVariable String storeId, Model model){
-        System.out.print(storeId);
+    @Autowired
+    StoreService storeService;
+
+    @RequestMapping(value = "/{storeIdx}", method = RequestMethod.GET)
+    public String toStoreInfo(@PathVariable String storeIdx, HttpSession session, Model model) {
+
+        MemberSessionVO memberSessionVO = (MemberSessionVO)session.getAttribute("User");
         model.addAttribute("User");
+        model.addAttribute("StoreInfo", storeService.getStoreInfo(Integer.parseInt(storeIdx), memberSessionVO.getMEMBER_DEC_IDX()));
+        model.addAttribute("StoreMenus", storeService.getStoreMenus(Integer.parseInt(storeIdx)));
+//        model.addAttribute("StoreImages", storeService.getStoreImages(storeIdx));
+//        model.addAttribute("StoreComments",storeService.getStoreComments(storeIdx));
         return "/eiki/store";
+
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/preference", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Map<String, Object> postPreference(@RequestBody Map<String, Object> jsonPref){
+
+        Map<String, Object> result = new HashMap<>();
+
+        if(storeService.setPreference(jsonPref)){
+            result.put("success", 1);
+        }
+
+        return result;
     }
 
 }

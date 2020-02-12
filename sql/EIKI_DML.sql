@@ -1,17 +1,97 @@
 -- /eiki/home 스토어 목록 리스트 쿼리
 SELECT *
 FROM (
-         SELECT ES.STORE_DEC_IDX               AS STORE_IDX,
-                ES.STORE_NAME                  AS STORE_NAME,
-                ES.STORE_TYPE                  AS STORE_TYPE,
-                ES.IS_DELIVERY                 AS IS_DELIVERY,
-                ESI.STORE_IMAGE                AS STORE_THUMBNAIL,
-                AVG(IFNULL(ESP.PREFERENCE, 0)) AS AVG_PREFERENCE
+         SELECT ES.STORE_DEC_IDX                         AS STORE_DEC_IDX,
+                ES.STORE_NAME                            AS STORE_NAME,
+                ES.STORE_TYPE                            AS STORE_TYPE,
+                ES.IS_DELIVERY                           AS IS_DELIVERY,
+                ES.STORE_COMMENT_COUNT                   AS STORE_COMMENT_COUNT,
+                ESI.STORE_IMAGE                          AS STORE_THUMBNAIL,
+                ROUND(AVG(IFNULL(ESP.PREFERENCE, 0)), 1) AS AVG_PREFERENCE
          FROM EIKI_STORE AS ES
                   INNER JOIN EIKI_STORE_IMAGE AS ESI ON ES.STORE_DEC_IDX = ESI.STORE_DEC_IDX
                   LEFT OUTER JOIN EIKI_STORE_PREFERENCE AS ESP ON ES.STORE_DEC_IDX = ESP.STORE_DEC_IDX
          WHERE ESI.STORE_IMAGE_TYPE = "THUMBNAIL"
-           AND ES.STORE_NAME LIKE "%%"
+           AND ES.STORE_NAME LIKE ?
          GROUP BY ES.STORE_DEC_IDX,
                   ESI.STORE_IMAGE
      ) AS T;
+
+-- /eiki/store/{storeIdx} 스토어 정보 쿼리
+SELECT ES.STORE_DEC_IDX                                              AS STORE_DEC_IDX,
+       ES.STORE_NAME                                                 AS STORE_NAME,
+       ES.STORE_CALL                                                 AS STORE_CALL,
+       ES.STORE_LATITUDE                                             AS STORE_LATITUDE,
+       ES.STORE_LONGITUDE                                            AS STORE_LONGITUDE,
+       ES.STORE_TYPE                                                 AS STORE_TYPE,
+       ES.STORE_DESCRIPTION                                          AS STORE_DESCRIPTION,
+       ES.STORE_COMMENT_COUNT                                        AS STORE_COUNT,
+       ES.STORE_PREFERENCE_COUNT                                     AS STORE_PREFERENCE_COUNT,
+       ES.IS_DELIVERY                                                AS IS_DELIVERY,
+       GET_PREF_RATIO(ESP_AGG.PREF_ONE, ES.STORE_PREFERENCE_COUNT)   AS PREF_ONE_RATIO,
+       GET_PREF_RATIO(ESP_AGG.PREF_TWO, ES.STORE_PREFERENCE_COUNT)   AS PREF_TWO_RATIO,
+       GET_PREF_RATIO(ESP_AGG.PREF_THREE, ES.STORE_PREFERENCE_COUNT) AS PREF_THREE_RATIO,
+       GET_PREF_RATIO(ESP_AGG.PREF_FOUR, ES.STORE_PREFERENCE_COUNT)  AS PREF_FOUR_RATIO,
+       GET_PREF_RATIO(ESP_AGG.PREF_FIVE, ES.STORE_PREFERENCE_COUNT)  AS PREF_FIVE_RATIO,
+       ESP_MEMBER_SELECTED.SELECTED_PREFERENCE                       AS PREF_SELECTED
+FROM EIKI_STORE AS ES
+         LEFT OUTER JOIN (
+    (SELECT ESP.STORE_DEC_IDX                                       AS STORE_DEC_IDX,
+            IFNULL(SUM(CASE WHEN ESP.PREFERENCE = 1 THEN 1 END), 0) AS PREF_ONE,
+            IFNULL(SUM(CASE WHEN ESP.PREFERENCE = 2 THEN 1 END), 0) AS PREF_TWO,
+            IFNULL(SUM(CASE WHEN ESP.PREFERENCE = 3 THEN 1 END), 0) AS PREF_THREE,
+            IFNULL(SUM(CASE WHEN ESP.PREFERENCE = 4 THEN 1 END), 0) AS PREF_FOUR,
+            IFNULL(SUM(CASE WHEN ESP.PREFERENCE = 5 THEN 1 END), 0) AS PREF_FIVE
+     FROM EIKI_STORE_PREFERENCE AS ESP
+     WHERE ESP.STORE_DEC_IDX = :STORE_DEC_IDX
+     GROUP BY ESP.STORE_DEC_IDX)
+    UNION
+    (SELECT 1 AS STORE_DEC_IDX,
+            0 AS PREF_ONE,
+            0 AS PREF_TWO,
+            0 AS PREF_THREE,
+            0 AS PREF_FOUR,
+            0 AS PREF_FIVE)
+    LIMIT 1
+) AS ESP_AGG ON ES.STORE_DEC_IDX = ESP_AGG.STORE_DEC_IDX
+         LEFT OUTER JOIN (
+    SELECT STORE_DEC_IDX, PREFERENCE AS SELECTED_PREFERENCE
+    FROM EIKI_STORE_PREFERENCE
+    WHERE MEMBER_DEC_IDX = :MEMBER_DEC_IDX
+) AS ESP_MEMBER_SELECTED ON ES.STORE_DEC_IDX = ESP_MEMBER_SELECTED.STORE_DEC_IDX
+WHERE ES.STORE_DEC_IDX = :STORE_DEC_IDX;
+
+-- /eiki/store/{storeIdx} 스토어 메뉴 리스트 쿼리
+SELECT MENU_NAME,
+       MENU_PRICE
+FROM EIKI_STORE_MENU AS ESM
+WHERE ESM.STORE_DEC_IDX = :STORE_DEC_IDX;
+
+-- /eiki/store/preference 선호도 선택 유무 쿼리
+SELECT (
+           CASE WHEN COUNT(*) >= 1 THEN TRUE ELSE FALSE END
+           ) AS IS_PREFERENCE_EXIST
+FROM EIKI_STORE_PREFERENCE AS ESP
+WHERE ESP.STORE_DEC_IDX = :STORE_DEC_IDX
+  AND ESP.MEMBER_DEC_IDX = :MEMBER_DEC_IDX;
+
+-- /eiki/store/preference 선호도 선택값 업데이트 쿼리
+UPDATE
+    EIKI_STORE_PREFERENCE
+SET PREFERENCE = :PREFERENCE
+WHERE STORE_DEC_IDX = :STORE_DEC_IDX
+  AND MEMBER_DEC_IDX = :MEMBER_DEC_IDX;
+
+-- /eiki/store/preference 선호도 선택 삽입 쿼리
+INSERT INTO EIKI_STORE_PREFERENCE(STORE_DEC_IDX, MEMBER_DEC_IDX, PREFERENCE)
+VALUES (:STORE_DEC_IDX, :MEMBER_DEC_IDX, :PREFERENCE);
+
+-- /eiki/store/preference 선호도 선택 삽입에 따른 전체 선호도 삽입수 증가 쿼리
+UPDATE
+    EIKI_STORE AS ES
+SET ES.STORE_PREFERENCE_COUNT = ES.STORE_PREFERENCE_COUNT + 1
+WHERE ES.STORE_DEC_IDX = :STORE_DEC_IDX;
+
+
+
+

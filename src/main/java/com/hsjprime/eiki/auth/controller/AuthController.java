@@ -29,6 +29,7 @@ public class AuthController {
         Map<String, String> userData = authService.findUser(loginInput.get("MEMBER_ID"),loginInput.get("MEMBER_PW"));
         if(userData.get("MEMBER_ID") != null){
             MemberSessionVO memberSessionVO = new MemberSessionVO();
+            memberSessionVO.setMEMBER_DEC_IDX(Integer.parseInt(userData.get("MEMBER_DEC_IDX")));
             memberSessionVO.setMEMBER_ID(userData.get("MEMBER_ID"));
             memberSessionVO.setMEMBER_NICKNAME(userData.get("MEMBER_NICKNAME"));
             memberSessionVO.setMEMBER_PHONE(userData.get("MEMBER_PHONE"));
