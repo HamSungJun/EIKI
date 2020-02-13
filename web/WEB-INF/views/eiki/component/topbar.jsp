@@ -10,7 +10,7 @@
     <div class="Topbar-Column">
         <div class="Topbar-Search-Box">
             <div class="Search-Input-Box">
-                <input id="SEARCH-INPUT" placeholder="식당, 카페, PC방 ..." type="text">
+                <input id="SEARCH-INPUT" placeholder="스토어 검색..." type="text">
             </div>
             <div class="Search-Icon-Box">
                 <i class="fas fa-search"></i>

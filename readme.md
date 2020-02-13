@@ -23,9 +23,13 @@
 |:--------:|:--------:|
 |![EIKI_JOIN](./devImages/EIKI_JOIN.png)|![EIKI_JOIN2](./devImages/EIKI_JOIN2.png)|
 
-| INFO | REVIEW |
+| INFO | INFO2 |
 |:--------:|:--------:|
-|![EIKI_STORE_INFO](./devImages/EIKI_STORE_INFO.png)|![EIKI_REVIEW](./devImages/EIKI_STORE_REVIEW.png)|
+|![EIKI_STORE_INFO](./devImages/EIKI_STORE_INFO.png)|![EIKI_INFO2](./devImages/EIKI_STORE_INFO2.png)|
+
+| REVIEW | HOME |
+|:--------:|:--------:|
+|![EIKI_STORE_REVIEW](./devImages/EIKI_STORE_REVIEW.png)|![EIKI_HOME](./devImages/EIKI_STORE_HOME.png)|
 
 | POST | POST2 |
 |:--------:|:--------:|
@@ -141,4 +145,4 @@
 
     - Comment 인터페이스 기능 개발
 
-    - 예외 처리 및 오류 핸들링
+    - 예외 처리 및 오류 핸들

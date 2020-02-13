@@ -80,6 +80,33 @@ public class StoreDAO {
         return namedJdbcTemplate.queryForList(SQL, new MapSqlParameterSource("STORE_DEC_IDX", storeIdx));
     }
 
+    public List<Map<String, Object>> selectStoreComments(int storeIdx) {
+
+        String SQL = "SELECT EM.MEMBER_NICKNAME      AS MEMBER_NICKNAME,\n" +
+                "       EM.MEMBER_PROFILE_IMAGE AS MEMBER_PROFILE_IMAGE,\n" +
+                "       ESC.MEMBER_DEC_IDX      AS MEMBER_DEC_IDX,\n" +
+                "       ESC.COMMENT_CONTENT     AS COMMENT_CONTENT,\n" +
+                "       ESC.COMMENT_PREFERENCE  AS COMMENT_PREFERENCE,\n" +
+                "       ESC.UPDATED_AT          AS UPDATED_AT\n" +
+                "FROM EIKI_STORE_COMMENT AS ESC\n" +
+                "         LEFT OUTER JOIN EIKI_MEMBER AS EM ON ESC.MEMBER_DEC_IDX = EM.MEMBER_DEC_IDX\n" +
+                "WHERE ESC.STORE_DEC_IDX = :STORE_DEC_IDX\n" +
+                "ORDER BY ESC.UPDATED_AT DESC;";
+
+        return namedJdbcTemplate.queryForList(SQL, new MapSqlParameterSource("STORE_DEC_IDX", storeIdx));
+
+    }
+
+    public List<Map<String, Object>> selectStoreImages(int storeIdx) {
+
+        String SQL = "SELECT STORE_IMAGE\n" +
+                "FROM EIKI_STORE_IMAGE\n" +
+                "WHERE STORE_DEC_IDX = :STORE_DEC_IDX;";
+
+        return namedJdbcTemplate.queryForList(SQL, new MapSqlParameterSource("STORE_DEC_IDX", storeIdx));
+
+    }
+
     public boolean isPreferenceExist(int storeIdx, int memberIdx) {
 
         String SQL = "SELECT (\n" +
@@ -139,6 +166,34 @@ public class StoreDAO {
         paramMap.addValue("STORE_DEC_IDX", storeIdx);
 
         return (namedJdbcTemplate.update(INCREASE_SQL, paramMap)) == 1;
+
+    }
+
+    public boolean insertComment(int storeIdx, int memberIdx, String comment) {
+
+        String SQL = "INSERT INTO EIKI_STORE_COMMENT(STORE_DEC_IDX, MEMBER_DEC_IDX, COMMENT_CONTENT, COMMENT_PREFERENCE, UPDATED_AT)\n" +
+                "VALUES (:STORE_DEC_IDX, :MEMBER_DEC_IDX, :COMMENT_CONTENT, 0, NOW());";
+
+        MapSqlParameterSource paramMap = new MapSqlParameterSource();
+        paramMap.addValue("STORE_DEC_IDX", storeIdx);
+        paramMap.addValue("MEMBER_DEC_IDX", memberIdx);
+        paramMap.addValue("COMMENT_CONTENT", comment);
+
+        return (namedJdbcTemplate.update(SQL, paramMap)) == 1;
+
+    }
+
+    public boolean increaseCommentCount(int storeIdx) {
+
+        String SQL = "UPDATE\n" +
+                "    EIKI_STORE AS ES\n" +
+                "SET ES.STORE_COMMENT_COUNT = ES.STORE_COMMENT_COUNT + 1\n" +
+                "WHERE ES.STORE_DEC_IDX = :STORE_DEC_IDX;";
+
+        MapSqlParameterSource paramMap = new MapSqlParameterSource();
+        paramMap.addValue("STORE_DEC_IDX", storeIdx);
+
+        return (namedJdbcTemplate.update(SQL, paramMap)) == 1;
 
     }
 

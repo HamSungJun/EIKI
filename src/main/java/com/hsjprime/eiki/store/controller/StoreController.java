@@ -27,8 +27,8 @@ public class StoreController {
         model.addAttribute("User");
         model.addAttribute("StoreInfo", storeService.getStoreInfo(Integer.parseInt(storeIdx), memberSessionVO.getMEMBER_DEC_IDX()));
         model.addAttribute("StoreMenus", storeService.getStoreMenus(Integer.parseInt(storeIdx)));
-//        model.addAttribute("StoreImages", storeService.getStoreImages(storeIdx));
-//        model.addAttribute("StoreComments",storeService.getStoreComments(storeIdx));
+        model.addAttribute("StoreImages", storeService.getStoreImages(Integer.parseInt(storeIdx)));
+        model.addAttribute("StoreComments",storeService.getStoreComments(Integer.parseInt(storeIdx)));
         return "/eiki/store";
 
     }
@@ -44,6 +44,20 @@ public class StoreController {
         }
 
         return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/comment", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Map<String, Object> postComment(@RequestBody Map<String, Object> jsonComment){
+
+        Map<String, Object> result = new HashMap<>();
+
+        if(storeService.setComment(jsonComment)){
+            result.put("success", 1);
+        }
+
+        return result;
+
     }
 
 }

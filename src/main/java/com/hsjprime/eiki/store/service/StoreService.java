@@ -24,10 +24,18 @@ public class StoreService {
         return storeDAO.selectStoreMenus(storeIdx);
 
     }
-//
-//    public List<Map<String, Object>> getStoreComments(int storeIdx) {
-//
-//    }
+
+    public List<Map<String, Object>> getStoreComments(int storeIdx) {
+
+        return storeDAO.selectStoreComments(storeIdx);
+
+    }
+
+    public List<Map<String, Object>> getStoreImages(int storeIdx) {
+
+        return storeDAO.selectStoreImages(storeIdx);
+
+    }
 
     public boolean isPreferenceExist(int storeIdx, int memberIdx) {
 
@@ -45,9 +53,25 @@ public class StoreService {
         if (isPreferenceExist(storeIdx, memberIdx)) {
             result = storeDAO.updatePreference(storeIdx, memberIdx, prefValue);
         } else {
-            if(storeDAO.insertPreference(storeIdx, memberIdx, prefValue)){
+            if (storeDAO.insertPreference(storeIdx, memberIdx, prefValue)) {
                 result = storeDAO.increasePreferenceCount(storeIdx);
-            };
+            }
+            ;
+        }
+
+        return result;
+
+    }
+
+    public boolean setComment(Map<String, Object> jsonComment) {
+
+        int storeIdx = (int) jsonComment.get("STORE_DEC_IDX");
+        int memberIdx = (int) jsonComment.get("MEMBER_DEC_IDX");
+        String comment = (String) jsonComment.get("COMMENT_CONTENT");
+        boolean result = false;
+
+        if (storeDAO.insertComment(storeIdx, memberIdx, comment)) {
+            result = storeDAO.increaseCommentCount(storeIdx);
         }
 
         return result;
