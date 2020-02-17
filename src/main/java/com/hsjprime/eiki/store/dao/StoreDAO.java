@@ -82,12 +82,14 @@ public class StoreDAO {
 
     public List<Map<String, Object>> selectStoreComments(int storeIdx) {
 
-        String SQL = "SELECT EM.MEMBER_NICKNAME      AS MEMBER_NICKNAME,\n" +
-                "       EM.MEMBER_PROFILE_IMAGE AS MEMBER_PROFILE_IMAGE,\n" +
-                "       ESC.MEMBER_DEC_IDX      AS MEMBER_DEC_IDX,\n" +
-                "       ESC.COMMENT_CONTENT     AS COMMENT_CONTENT,\n" +
-                "       ESC.COMMENT_PREFERENCE  AS COMMENT_PREFERENCE,\n" +
-                "       ESC.UPDATED_AT          AS UPDATED_AT\n" +
+        String SQL = "SELECT IFNULL(EM.MEMBER_NICKNAME, \"탈퇴한학우\")            AS MEMBER_NICKNAME,\n" +
+                "       IFNULL(EM.MEMBER_PROFILE_IMAGE, \"default.png\") AS MEMBER_PROFILE_IMAGE,\n" +
+                "       ESC.STORE_DEC_IDX                             AS STORE_DEC_IDX,\n" +
+                "       ESC.MEMBER_DEC_IDX                             AS MEMBER_DEC_IDX,\n" +
+                "       ESC.COMMENT_DEC_IDX                            AS COMMENT_DEC_IDX,\n" +
+                "       ESC.COMMENT_CONTENT                            AS COMMENT_CONTENT,\n" +
+                "       ESC.COMMENT_PREFERENCE                         AS COMMENT_PREFERENCE,\n" +
+                "       ESC.UPDATED_AT                                 AS UPDATED_AT\n" +
                 "FROM EIKI_STORE_COMMENT AS ESC\n" +
                 "         LEFT OUTER JOIN EIKI_MEMBER AS EM ON ESC.MEMBER_DEC_IDX = EM.MEMBER_DEC_IDX\n" +
                 "WHERE ESC.STORE_DEC_IDX = :STORE_DEC_IDX\n" +
@@ -194,6 +196,73 @@ public class StoreDAO {
         paramMap.addValue("STORE_DEC_IDX", storeIdx);
 
         return (namedJdbcTemplate.update(SQL, paramMap)) == 1;
+
+    }
+
+    public boolean isCommentPreferenceHistoryExist(int storeIdx, int memberIdx, int commentIdx) {
+
+        String SQL = "SELECT COUNT(*)\n" +
+                "FROM EIKI_COMMENT_PREFERENCE_HISTORY AS ECPH\n" +
+                "WHERE ECPH.STORE_DEC_IDX = :STORE_DEC_IDX\n" +
+                "  AND ECPH.MEMBER_DEC_IDX = :MEMBER_DEC_IDX\n" +
+                "  AND ECPH.COMMENT_DEC_IDX = :COMMENT_DEC_IDX;";
+
+        MapSqlParameterSource paramMap = new MapSqlParameterSource();
+        paramMap.addValue("STORE_DEC_IDX", storeIdx);
+        paramMap.addValue("MEMBER_DEC_IDX", memberIdx);
+        paramMap.addValue("COMMENT_DEC_IDX", commentIdx);
+
+        return (namedJdbcTemplate.queryForObject(SQL, paramMap, Integer.class) == 1);
+
+    }
+
+    public boolean deleteCommentPreferenceHistory(int storeIdx, int memberIdx, int commentIdx) {
+
+        String SQL = "DELETE\n" +
+                "FROM EIKI_COMMENT_PREFERENCE_HISTORY AS ECPH\n" +
+                "WHERE ECPH.STORE_DEC_IDX = :STORE_DEC_IDX\n" +
+                "  AND ECPH.MEMBER_DEC_IDX = :MEMBER_DEC_IDX\n" +
+                "  AND ECPH.COMMENT_DEC_IDX = :COMMENT_DEC_IDX;";
+
+        MapSqlParameterSource paramMap = new MapSqlParameterSource();
+        paramMap.addValue("STORE_DEC_IDX", storeIdx);
+        paramMap.addValue("MEMBER_DEC_IDX", memberIdx);
+        paramMap.addValue("COMMENT_DEC_IDX", commentIdx);
+
+        return (namedJdbcTemplate.update(SQL, paramMap) == 1);
+
+    }
+
+    public boolean insertCommentPreferenceHistory(int storeIdx, int memberIdx, int commentIdx) {
+
+        String SQL = "INSERT INTO EIKI_COMMENT_PREFERENCE_HISTORY(STORE_DEC_IDX, MEMBER_DEC_IDX, COMMENT_DEC_IDX)\n" +
+                "VALUES (:STORE_DEC_IDX, :MEMBER_DEC_IDX, :COMMENT_DEC_IDX);";
+
+        MapSqlParameterSource paramMap = new MapSqlParameterSource();
+        paramMap.addValue("STORE_DEC_IDX", storeIdx);
+        paramMap.addValue("MEMBER_DEC_IDX", memberIdx);
+        paramMap.addValue("COMMENT_DEC_IDX", commentIdx);
+
+        return (namedJdbcTemplate.update(SQL, paramMap) == 1);
+
+    }
+
+    public boolean updateCommentPreference(int storeIdx, int memberIdx, int commentIdx, int diff){
+
+        String SQL = "UPDATE\n" +
+                "    EIKI_STORE_COMMENT AS ESC\n" +
+                "SET ESC.COMMENT_PREFERENCE = ESC.COMMENT_PREFERENCE + (:DIFF)\n" +
+                "WHERE ESC.STORE_DEC_IDX = :STORE_DEC_IDX\n" +
+                "  AND ESC.MEMBER_DEC_IDX = :MEMBER_DEC_IDX\n" +
+                "  AND ESC.COMMENT_DEC_IDX = :COMMENT_DEC_IDX;";
+
+        MapSqlParameterSource paramMap = new MapSqlParameterSource();
+        paramMap.addValue("STORE_DEC_IDX", storeIdx);
+        paramMap.addValue("MEMBER_DEC_IDX", memberIdx);
+        paramMap.addValue("COMMENT_DEC_IDX", commentIdx);
+        paramMap.addValue("DIFF", diff);
+
+        return (namedJdbcTemplate.update(SQL, paramMap) == 1);
 
     }
 

@@ -78,4 +78,33 @@ public class StoreService {
 
     }
 
+    public boolean setCommentPreference(Map<String, Object> jsonCommentPreference) {
+
+        int storeIdx = (int) jsonCommentPreference.get("STORE_DEC_IDX");
+        int memberIdx = (int) jsonCommentPreference.get("MEMBER_DEC_IDX");
+        int commentIdx = (int) jsonCommentPreference.get("COMMENT_DEC_IDX");
+        boolean result = false;
+
+        if (isCommentPreferenceHistoryExist(storeIdx, memberIdx, commentIdx)) {
+            if (storeDAO.deleteCommentPreferenceHistory(storeIdx, memberIdx, commentIdx)) {
+                result = storeDAO.updateCommentPreference(storeIdx, memberIdx, commentIdx, -1);
+                System.out.println("삭제했어");
+            }
+        } else {
+            if (storeDAO.insertCommentPreferenceHistory(storeIdx, memberIdx, commentIdx)) {
+                result = storeDAO.updateCommentPreference(storeIdx, memberIdx, commentIdx, 1);
+                System.out.println("생성했어");
+            }
+        }
+
+        return result;
+
+    }
+
+    public boolean isCommentPreferenceHistoryExist(int storeIdx, int memberIdx, int commentIdx) {
+
+        return storeDAO.isCommentPreferenceHistoryExist(storeIdx, memberIdx, commentIdx);
+
+    }
+
 }

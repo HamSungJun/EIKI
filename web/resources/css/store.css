@@ -91,12 +91,12 @@
 .Thumbnail-Image-Box img,
 .Other-Image-Box img {
     width: 100%;
-    object-fit: cover;
+    object-fit: contain;
     box-shadow: 0 2px 2px #ccc;
     cursor: pointer;
 }
 
-.Thumbnail-Image-Box img{
+.Thumbnail-Image-Box img {
     height: 100%;
 }
 
@@ -109,6 +109,8 @@
     max-height: 674px;
     overflow-y: scroll;
     text-align: center;
+    padding-right: 20px;
+    border-right: 1px solid #ccc;
 }
 
 .Other-Image-Row::-webkit-scrollbar {
@@ -117,7 +119,7 @@
 
 .Other-Image-Box {
     width: 100%;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
     border-radius: 4px;
     overflow: hidden;
 }
@@ -291,17 +293,26 @@
 }
 
 .Review-Pref {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    font-weight: 300;
-    font-size: 14px;
+    text-align: left;
+    padding-top: 1px;
+}
+
+.Heart-Pref-Wrapper {
+    cursor: pointer;
+    display: inline-grid;
+    grid-template-columns: 20px 15px;
+}
+
+.Wrapper-Item{
+    text-align: center;
+}
+
+.Wrapper-Item:nth-child(1){
+    padding-top: 2px;
 }
 
 .Heart-Icon {
     color: #FF5252;
-    margin-right: 3px;
-    margin-top: 1px;
 }
 
 .Review-Nickname {
@@ -329,15 +340,16 @@
 }
 
 .Review-Interface {
-    padding: 10px 0 10px 20px;
+    padding-left: 20px;
+    margin: 10px 0;
     display: grid;
     height: auto;
     max-height: 100px;
     grid-template-columns: 1fr auto;
     column-gap: 20px;
-    -webkit-transition: max-height .4s linear;
-    -moz-transition: max-height .4s linear;
-    transition: max-height .4s linear;
+    -webkit-transition: all .4s linear;
+    -moz-transition: all .4s linear;
+    transition: all .4s linear;
     overflow: hidden;
 }
 

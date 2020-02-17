@@ -18,6 +18,7 @@
     <script>
 
         let isCommentFetching = false;
+        let isCommentPreferenceFetching = false;
 
         window.onload = () => {
             new Viewer(document.getElementById("images"), {
@@ -74,9 +75,9 @@
             let $PrefPost = document.getElementById("PREF-POST");
             let $PrefPostBox = document.querySelector(".Pref-Post-Box");
 
-            toggleBoxHeight($CommentWrite, $CommentInterface);
-            toggleBoxHeight($MenuShow, $MenuList);
-            toggleBoxHeight($PrefPost, $PrefPostBox);
+            toggleBoxHeight($PrefPost, $PrefPostBox, "선호도 선택", "선호도 접기");
+            toggleBoxHeight($MenuShow, $MenuList, "메뉴 보기", "메뉴 접기");
+            toggleBoxHeight($CommentWrite, $CommentInterface, "후기 남기기", "후기 접기");
 
             let $PostPrefInputs = document.querySelectorAll(".Pref-Radio-Item label input");
             for (let index = 0; index < $PostPrefInputs.length; index++) {
@@ -88,11 +89,18 @@
 
         };
 
-        const toggleBoxHeight = ($Controller, $Box) => {
+        const toggleBoxHeight = ($Controller, $Box, beforeText, afterText) => {
 
             $Controller.addEventListener("click", () => {
                 $Box.classList.toggle("--Interface-Fold");
-            })
+                if ($Box.classList.contains("--Interface-Fold")) {
+                    $Controller.textContent = beforeText;
+                } else {
+                    $Controller.textContent = afterText;
+                }
+            });
+
+            $Controller.textContent = beforeText;
 
         };
 
@@ -139,6 +147,8 @@
                         if ((await response.json()).success === 1) {
                             window.location.reload();
                         }
+                    }).catch(error => {
+                        console.log(error);
                     })
 
                 }
@@ -147,7 +157,124 @@
                 return alert("최소 한글자의 코멘트는 입력해야 합니다.");
             }
 
-        }
+        };
+
+        const postCommentPreference = (storeIdx, memberIdx, commentIdx) => {
+
+            if (!isCommentPreferenceFetching) {
+                console.log(storeIdx, memberIdx, commentIdx);
+                fetch("/eiki/store/comment/preference", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json; charset=utf-8"
+                    },
+                    body: JSON.stringify({
+                        STORE_DEC_IDX: parseInt(storeIdx),
+                        MEMBER_DEC_IDX: parseInt(memberIdx),
+                        COMMENT_DEC_IDX: parseInt(commentIdx)
+                    })
+                }).then(async response => {
+                    const toJson = await response.json();
+                    if (toJson.success === 1) {
+                        refreshCommentPreferences(toJson.refreshedComments || []);
+                    }
+                }).catch(error => {
+                    console.log(error);
+                })
+
+            }
+
+            return;
+
+        };
+
+        const refreshCommentPreferences = (refreshedComments) => {
+
+            if (refreshedComments.length > 0) {
+                let $ReviewListBox = document.querySelector(".Review-List-Box");
+                $ReviewListBox.innerHTML = "";
+
+                refreshedComments.forEach(comment => {
+
+                    let $ReviewRow = document.createElement("div");
+                    $ReviewRow.classList.add("Review-Row");
+
+                    let $ReviewMemberImage = document.createElement("div");
+                    $ReviewMemberImage.classList.add("Review-Member-Image");
+
+                    let $MemberImage = document.createElement("img");
+                    $MemberImage.setAttribute("src", "/resources/userImages/" + comment["MEMBER_PROFILE_IMAGE"]);
+
+                    let $ReviewBody = document.createElement("div");
+
+                    let $ReviewHeader = document.createElement("div");
+                    $ReviewHeader.classList.add("Review-Header");
+
+                    let $ReviewNickname = document.createElement("div");
+                    $ReviewNickname.classList.add("--D-Flex-Center");
+
+                    let $Nickname = document.createElement("span");
+                    $Nickname.classList.add("Review-Nickname");
+                    $Nickname.textContent = comment["MEMBER_NICKNAME"];
+
+                    let $ReviewPref = document.createElement("div");
+                    $ReviewPref.classList.add("Review-Pref");
+
+                    let $HeartPrefWrapper = document.createElement("span");
+                    $HeartPrefWrapper.classList.add("Heart-Pref-Wrapper");
+                    $HeartPrefWrapper.addEventListener("click", () => {
+                        postCommentPreference(
+                            comment["STORE_DEC_IDX"],
+                            comment["MEMBER_DEC_IDX"],
+                            comment["COMMENT_DEC_IDX"]
+                        )
+                    });
+
+                    let $WrapperItem_1 = document.createElement("span");
+                    let $WrapperItem_2 = document.createElement("span");
+                    $WrapperItem_1.classList.add("Wrapper-Item");
+                    $WrapperItem_2.classList.add("Wrapper-Item");
+
+                    let $HeartIcon = document.createElement("i");
+                    $HeartIcon.classList.add("fas", "fa-heart", "Heart-Icon");
+
+                    let $CommentPreference = document.createElement("span");
+                    $CommentPreference.classList.add("Comment-Preference");
+                    $CommentPreference.textContent = comment["COMMENT_PREFERENCE"];
+
+                    let $ReviewContent = document.createElement("div");
+                    $ReviewContent.classList.add("Review-Content");
+
+                    let $ReviewContentText = document.createElement("p");
+                    $ReviewContentText.classList.add("Review-Content-Text");
+                    $ReviewContentText.textContent = comment["COMMENT_CONTENT"];
+
+                    $ReviewMemberImage.appendChild($MemberImage);
+                    $ReviewRow.appendChild($ReviewMemberImage);
+
+                    $ReviewNickname.appendChild($Nickname);
+                    $ReviewHeader.appendChild($ReviewNickname);
+
+                    $WrapperItem_1.appendChild($HeartIcon);
+                    $WrapperItem_2.appendChild($CommentPreference);
+                    $HeartPrefWrapper.appendChild($WrapperItem_1);
+                    $HeartPrefWrapper.appendChild($WrapperItem_2);
+                    $ReviewPref.appendChild($HeartPrefWrapper);
+                    $ReviewHeader.appendChild($ReviewPref);
+
+                    $ReviewContent.appendChild($ReviewContentText);
+
+                    $ReviewBody.appendChild($ReviewHeader);
+                    $ReviewBody.appendChild($ReviewContent);
+                    $ReviewRow.appendChild($ReviewBody);
+
+                    $ReviewListBox.appendChild($ReviewRow);
+
+                });
+
+            }
+
+        };
 
     </script>
 
@@ -378,7 +505,7 @@
                 <span id="MENU-SHOW" class="Review-Write-Text">메뉴 보기</span>
             </div>
         </div>
-        <div class="Menu-List">
+        <div class="Menu-List --Interface-Fold">
             <c:forEach items="${StoreMenus}" var="StoreMenu">
                 <div class="Menu-List-Item">
                     <div>
@@ -401,33 +528,43 @@
             </div>
         </div>
 
-        <div class="Review-Interface">
+        <div class="Review-Interface --Interface-Fold">
             <input id="COMMENT-INPUT" placeholder="이용 후기..." type="text">
             <button id="COMMENT-POST" class="Review-Send-Button">작성 완료</button>
         </div>
-        <c:forEach items="${StoreComments}" var="StoreComment">
-            <div class="Review-Row">
-                <div class="Review-Member-Image">
-                    <img src="<c:url value="/resources/userImages/${StoreComment['MEMBER_PROFILE_IMAGE']}" />" alt="">
-                </div>
-                <div>
-                    <div class="Review-Header">
-                        <div class="--D-Flex-Center">
+        <div class="Review-List-Box">
+            <c:forEach items="${StoreComments}" var="StoreComment">
+                <div class="Review-Row">
+                    <div class="Review-Member-Image">
+                        <img src="<c:url value="/resources/userImages/${StoreComment['MEMBER_PROFILE_IMAGE']}" />"
+                             alt="">
+                    </div>
+                    <div>
+                        <div class="Review-Header">
+                            <div class="--D-Flex-Center">
                                 <span class="Review-Nickname">
                                         ${StoreComment['MEMBER_NICKNAME']}
                                 </span>
+                            </div>
+                            <div class="Review-Pref">
+                                <span class="Heart-Pref-Wrapper" onclick="
+                                        postCommentPreference(
+                                    <c:out value="${StoreComment['STORE_DEC_IDX']}"/>,
+                                    <c:out value="${StoreComment['MEMBER_DEC_IDX']}"/>,
+                                    <c:out value="${StoreComment['COMMENT_DEC_IDX']}"/>)
+                                        ">
+                                    <span class="Wrapper-Item"><i class="fas fa-heart Heart-Icon"></i></span>
+                                    <span class="Wrapper-Item Comment-Preference">${StoreComment['COMMENT_PREFERENCE']}</span>
+                                </span>
+                            </div>
                         </div>
-                        <div class="Review-Pref">
-                            <i class="fas fa-heart Heart-Icon"></i>
-                                ${StoreComment['COMMENT_PREFERENCE']}
+                        <div class="Review-Content">
+                            <p class="Review-Content-Text">${StoreComment['COMMENT_CONTENT']}</p>
                         </div>
-                    </div>
-                    <div class="Review-Content">
-                        <p class="Review-Content-Text">${StoreComment['COMMENT_CONTENT']}</p>
                     </div>
                 </div>
-            </div>
-        </c:forEach>
+            </c:forEach>
+        </div>
     </div>
 
 </div>
