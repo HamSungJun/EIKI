@@ -19,6 +19,7 @@
 
         let isCommentFetching = false;
         let isCommentPreferenceFetching = false;
+        let isCommentDeleteFetching = false;
 
         window.onload = () => {
             new Viewer(document.getElementById("images"), {
@@ -159,10 +160,38 @@
 
         };
 
+        const deleteStoreComment = (storeIdx, memberIdx, commentIdx) => {
+
+            if (!isCommentDeleteFetching) {
+
+                fetch("/eiki/store/comment", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json; charset=utf-8"
+                    },
+                    body: JSON.stringify({
+                        STORE_DEC_IDX: parseInt(storeIdx),
+                        MEMBER_DEC_IDX: parseInt(memberIdx),
+                        COMMENT_DEC_IDX: parseInt(commentIdx)
+                    })
+                }).then(async response => {
+                    const toJson = await response.json();
+                    if (toJson.success === 1) {
+                        refreshCommentPreferences(toJson.refreshedComments || []);
+                    }
+                }).catch(error => {
+                    console.log(error);
+                })
+
+            }
+
+            return;
+
+        };
+
         const postCommentPreference = (storeIdx, memberIdx, commentIdx) => {
 
             if (!isCommentPreferenceFetching) {
-                console.log(storeIdx, memberIdx, commentIdx);
                 fetch("/eiki/store/comment/preference", {
                     method: "POST",
                     headers: {
@@ -190,10 +219,10 @@
 
         const refreshCommentPreferences = (refreshedComments) => {
 
-            if (refreshedComments.length > 0) {
-                let $ReviewListBox = document.querySelector(".Review-List-Box");
-                $ReviewListBox.innerHTML = "";
+            let $ReviewListBox = document.querySelector(".Review-List-Box");
+            $ReviewListBox.innerHTML = "";
 
+            if (refreshedComments.length > 0) {
                 refreshedComments.forEach(comment => {
 
                     let $ReviewRow = document.createElement("div");
@@ -259,7 +288,28 @@
                     $WrapperItem_2.appendChild($CommentPreference);
                     $HeartPrefWrapper.appendChild($WrapperItem_1);
                     $HeartPrefWrapper.appendChild($WrapperItem_2);
+
                     $ReviewPref.appendChild($HeartPrefWrapper);
+
+                    if (<c:out value="${User['MEMBER_DEC_IDX']}" /> ===
+                    comment["MEMBER_DEC_IDX"]
+                )
+                    {
+                        let $DeleteCommentBox = document.createElement("span");
+                        $DeleteCommentBox.classList.add("Delete-Comment-Box");
+                        $DeleteCommentBox.addEventListener("click", () => {
+                            deleteStoreComment(
+                                comment["STORE_DEC_IDX"],
+                                comment["MEMBER_DEC_IDX"],
+                                comment["COMMENT_DEC_IDX"]
+                            )
+                        });
+                        let $DeleteIcon = document.createElement("i");
+                        $DeleteIcon.classList.add("far", "fa-trash-alt");
+                        $DeleteCommentBox.appendChild($DeleteIcon);
+                        $ReviewPref.appendChild($DeleteCommentBox);
+                    }
+
                     $ReviewHeader.appendChild($ReviewPref);
 
                     $ReviewContent.appendChild($ReviewContentText);
@@ -282,6 +332,7 @@
 <body>
 
 <c:import url="component/topbar.jsp" charEncoding="UTF-8">
+    <c:param name="MEMBER_DEC_IDX" value="${User.MEMBER_DEC_IDX}"/>
     <c:param name="MEMBER_ID" value="${User.MEMBER_ID}"/>
     <c:param name="MEMBER_NICKNAME" value="${User.MEMBER_NICKNAME}"/>
     <c:param name="MEMBER_PROFILE_IMAGE" value="${User.MEMBER_PROFILE_IMAGE}"/>
@@ -556,6 +607,15 @@
                                     <span class="Wrapper-Item"><i class="fas fa-heart Heart-Icon"></i></span>
                                     <span class="Wrapper-Item Comment-Preference">${StoreComment['COMMENT_PREFERENCE']}</span>
                                 </span>
+                                <c:if test="${User['MEMBER_DEC_IDX'] == StoreComment['MEMBER_DEC_IDX']}">
+                                    <span class="Delete-Comment-Box" onclick="deleteStoreComment(
+                                        <c:out value="${StoreComment['STORE_DEC_IDX']}"/>,
+                                        <c:out value="${User['MEMBER_DEC_IDX']}"/>,
+                                        <c:out value="${StoreComment['COMMENT_DEC_IDX']}"/>
+                                            )">
+                                        <i class="far fa-trash-alt"></i>
+                                    </span>
+                                </c:if>
                             </div>
                         </div>
                         <div class="Review-Content">

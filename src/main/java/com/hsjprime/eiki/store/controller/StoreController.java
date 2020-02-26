@@ -61,14 +61,29 @@ public class StoreController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/comment", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Map<String, Object> deleteComment(@RequestBody Map<String, Object> jsonComment) {
+
+        Map<String, Object> result = new HashMap<>();
+
+        if(storeService.deleteComment(jsonComment)){
+            result.put("success", 1);
+            result.put("refreshedComments", storeService.getStoreComments((int) jsonComment.get("STORE_DEC_IDX")));
+        }
+
+        return result;
+
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/comment/preference", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Map<String, Object> postCommentPreference(@RequestBody Map<String, Object> jsonCommentPreference) {
 
         Map<String, Object> result = new HashMap<>();
 
-        if(storeService.setCommentPreference(jsonCommentPreference)){
+        if (storeService.setCommentPreference(jsonCommentPreference)) {
             result.put("success", 1);
-            result.put("refreshedComments", storeService.getStoreComments((int)jsonCommentPreference.get("STORE_DEC_IDX")));
+            result.put("refreshedComments", storeService.getStoreComments((int) jsonCommentPreference.get("STORE_DEC_IDX")));
         }
 
         return result;

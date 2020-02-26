@@ -23,7 +23,7 @@
         </div>
         <span>
             <a class="Topbar-Link Topbar-MyPage"
-               href="<c:url value="/member/mypage?memberId=${param.MEMBER_ID}" />">${param.MEMBER_NICKNAME}</a>님
+               href="<c:url value="/member/manage" />">${param.MEMBER_NICKNAME}</a>님
         </span>
     </div>
     <div class="Topbar-Column">

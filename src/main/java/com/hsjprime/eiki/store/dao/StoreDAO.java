@@ -185,15 +185,43 @@ public class StoreDAO {
 
     }
 
-    public boolean increaseCommentCount(int storeIdx) {
+    public boolean isCommentedUser(int memberIdx, int commentIdx){
+
+        String SQL = "SELECT (CASE WHEN ESC.MEMBER_DEC_IDX = :MEMBER_DEC_IDX THEN TRUE ELSE FALSE END) AS IS_COMMENTED_USER\n" +
+                "FROM EIKI_STORE_COMMENT AS ESC\n" +
+                "WHERE COMMENT_DEC_IDX = :COMMENT_DEC_IDX;";
+
+        MapSqlParameterSource paramMap = new MapSqlParameterSource();
+        paramMap.addValue("MEMBER_DEC_IDX", memberIdx);
+        paramMap.addValue("COMMENT_DEC_IDX", commentIdx);
+
+        return namedJdbcTemplate.queryForObject(SQL, paramMap, boolean.class);
+
+    }
+
+    public boolean deleteComment(int commentIdx){
+
+        String SQL = "DELETE\n" +
+                "FROM EIKI_STORE_COMMENT AS ESC\n" +
+                "WHERE ESC.COMMENT_DEC_IDX = :COMMENT_DEC_IDX;";
+
+        MapSqlParameterSource paramMap = new MapSqlParameterSource();
+        paramMap.addValue("COMMENT_DEC_IDX", commentIdx);
+
+        return (namedJdbcTemplate.update(SQL, paramMap)) == 1;
+
+    }
+
+    public boolean updateCommentCount(int storeIdx, int diff) {
 
         String SQL = "UPDATE\n" +
                 "    EIKI_STORE AS ES\n" +
-                "SET ES.STORE_COMMENT_COUNT = ES.STORE_COMMENT_COUNT + 1\n" +
+                "SET ES.STORE_COMMENT_COUNT = ES.STORE_COMMENT_COUNT + (:DIFF)\n" +
                 "WHERE ES.STORE_DEC_IDX = :STORE_DEC_IDX;";
 
         MapSqlParameterSource paramMap = new MapSqlParameterSource();
         paramMap.addValue("STORE_DEC_IDX", storeIdx);
+        paramMap.addValue("DIFF", diff);
 
         return (namedJdbcTemplate.update(SQL, paramMap)) == 1;
 

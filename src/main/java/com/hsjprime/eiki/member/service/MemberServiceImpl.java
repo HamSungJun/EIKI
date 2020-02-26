@@ -2,6 +2,8 @@ package com.hsjprime.eiki.member.service;
 
 import com.hsjprime.eiki.member.dao.MemberDAOImpl;
 import com.hsjprime.eiki.member.dto.MemberFormDTO;
+import com.hsjprime.eiki.member.dto.PageVO;
+import com.hsjprime.eiki.member.vo.MemberSessionVO;
 import com.hsjprime.eiki.util.method.UtilMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -54,22 +57,60 @@ public class MemberServiceImpl implements MemberService {
         }
 
         int isAdmin = isAdmin(memberFormDTO.getMEMBER_ID());
-        serviceResult.put("MEMBER_DEC_IDX", memberDAO.insertMember(memberFormDTO, (String)serviceResult.get("F_UID"), isAdmin));
+        serviceResult.put("MEMBER_DEC_IDX", memberDAO.insertMember(memberFormDTO, (String) serviceResult.get("F_UID"), isAdmin));
         serviceResult.put("IS_ADMIN", isAdmin);
         return serviceResult;
 
     }
 
     @Override
-    public int isAdmin(String MEMBER_ID){
+    public boolean updateMember(Map<String, Object> paramMap, MemberSessionVO memberSessionVO) {
+
+        if (paramMap.containsKey("MEMBER_PROFILE_IMAGE")) {
+            MultipartFile uploadedImage = (MultipartFile) paramMap.get("MEMBER_PROFILE_IMAGE");
+            String updateUUID = UtilMethod.createUUID();
+            String imgExtension = uploadedImage.getContentType().split("/")[1];
+            File beforeProfileImage = new File(PROFILE_IMAGE_UPLOAD_PATH + memberSessionVO.getMEMBER_PROFILE_IMAGE());
+            try {
+                uploadedImage.transferTo(new File(PROFILE_IMAGE_UPLOAD_PATH + updateUUID + "." + imgExtension));
+                paramMap.put("MEMBER_PROFILE_IMAGE", updateUUID + "." + imgExtension);
+                if (beforeProfileImage.exists()) {
+                    beforeProfileImage.delete();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return memberDAO.updateMember(paramMap);
+
+    }
+
+    @Override
+    public int isAdmin(String MEMBER_ID) {
 
         int isAdmin = 0;
         for (int i = 0; i < ADMIN_IDS.length; i++) {
-            if(ADMIN_IDS[i].equals(MEMBER_ID)){
+            if (ADMIN_IDS[i].equals(MEMBER_ID)) {
                 isAdmin = 1;
             }
         }
         return isAdmin;
+
+    }
+
+    @Override
+    public int getCommentCount(int memberIdx) {
+
+        return memberDAO.selectCommentCount(memberIdx);
+
+    }
+
+    @Override
+    public List<Map<String, Object>> getCommentList(PageVO pageVO, int memberIdx) {
+
+        return memberDAO.selectCommentList(pageVO, memberIdx);
 
     }
 

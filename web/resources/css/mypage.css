@@ -1,0 +1,197 @@
+.--Panel-Showing {
+    display: block;
+}
+
+.My-Page-Box {
+    box-sizing: border-box;
+    padding: 20px 40px;
+    background-color: white;
+    min-height: calc(100vh - 70px);
+}
+
+.My-Page-Panel-Header {
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: 1px solid #ccc;
+}
+
+.Panel-Item {
+    height: 45px;
+    border-left: 6px solid #7C4DFF;
+    background-color: #eee;
+    overflow: hidden;
+    border-radius: 2px;
+}
+
+.Panel-Item {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #272c34;
+    text-decoration: none;
+}
+
+.My-Page-Panel-Header div:not(:nth-child(1)) {
+    margin-left: 8px;
+}
+
+.--Panel-Selected {
+    background-color: white;
+    box-shadow: 0px 2px 2px #ccc;
+}
+
+.User-Info-Box {
+    margin-top: 20px;
+    border-top: 1px solid #bdbdbd;
+}
+
+.User-Info-Row {
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    height: 65px;
+    border-bottom: 1px solid #bdbdbd;
+}
+
+.User-Info-Row div:nth-child(1) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eee;
+}
+
+.User-Info-Row div:nth-child(2) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 20px;
+}
+
+.User-Info-Row div:nth-child(2) input {
+    height: 38px;
+    text-align: center;
+}
+
+.Function-Btn {
+    height: 38px;
+    outline: none;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.Guide-Message {
+    margin-left: 8px;
+    font-size: 13px;
+    color: gray;
+}
+
+.Profile-Preview {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    object-fit: fill;
+}
+
+.Bottom-Button-Row {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.Post-Btn {
+    outline: none;
+    border: 1px solid #272c34;
+    cursor: pointer;
+    border-radius: 2px;
+    height: 38px;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    margin-left: 6px;
+}
+
+.Post-Btn:hover {
+    background-color: #272c34;
+    color: white;
+}
+
+.Comment-Header-Row {
+    margin-top: 20px;
+    border-top: 1px solid #272c34;
+    height: 45px;
+    display: grid;
+    grid-template-columns: 66px 1fr 80px 171px;
+    column-gap: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.Comment-Header-Item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.Comment-Content-Row {
+    height: 45px;
+    display: grid;
+    grid-template-columns: 66px 1fr 80px 171px;
+    column-gap: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.Comment-Content-Item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.Comment-Link {
+    color: #272c34;
+    text-decoration: none;
+}
+
+.Comment-Link:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.Comment-Buttons {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.Comment-Page-Row {
+    text-align: center;
+}
+
+.Page-Link {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #7c4dff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #7c4dff;
+    border-radius: 2px;
+    text-decoration: none;
+}
+
+.--Page-Link-Selected {
+    background-color: #7C4DFF !important;
+    color: white !important;
+}
+
+.Page-Mover {
+    font-size: 16px;
+    text-decoration: none;
+    color: #7c4dff;
+}

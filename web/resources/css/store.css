@@ -301,6 +301,7 @@
     cursor: pointer;
     display: inline-grid;
     grid-template-columns: 20px 15px;
+    margin-right: 5px;
 }
 
 .Wrapper-Item{
@@ -313,6 +314,10 @@
 
 .Heart-Icon {
     color: #FF5252;
+}
+
+.Delete-Comment-Box{
+    cursor: pointer;
 }
 
 .Review-Nickname {

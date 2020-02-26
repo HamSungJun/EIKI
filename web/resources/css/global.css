@@ -109,7 +109,7 @@ html, body {
 }
 
 .--Justify-Flex-Start {
-    justify-content: flex-start;
+    justify-content: flex-start !important;
 }
 
 .--Visibility-Hidden {
@@ -144,6 +144,14 @@ html, body {
 
 .--ml-8 {
     margin-left: 8px;
+}
+
+.--Float-Left {
+    float: left;
+}
+
+.--Float-Right {
+    float: right;
 }
 
 .--Join-Form-Guide-Message {
@@ -233,7 +241,7 @@ html, body {
 
 @keyframes GaugeRise {
     0% {
-        width : 0;
+        width: 0;
     }
     100% {
         width: 100%;

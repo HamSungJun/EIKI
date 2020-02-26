@@ -56,7 +56,6 @@ public class StoreService {
             if (storeDAO.insertPreference(storeIdx, memberIdx, prefValue)) {
                 result = storeDAO.increasePreferenceCount(storeIdx);
             }
-            ;
         }
 
         return result;
@@ -71,7 +70,23 @@ public class StoreService {
         boolean result = false;
 
         if (storeDAO.insertComment(storeIdx, memberIdx, comment)) {
-            result = storeDAO.increaseCommentCount(storeIdx);
+            result = storeDAO.updateCommentCount(storeIdx, 1);
+        }
+
+        return result;
+
+    }
+
+    public boolean deleteComment(Map<String, Object> jsonComment) {
+
+        int storeIdx = (int) jsonComment.get("STORE_DEC_IDX");
+        int memberIdx = (int) jsonComment.get("MEMBER_DEC_IDX");
+        int commentIdx = (int) jsonComment.get("COMMENT_DEC_IDX");
+        boolean result = false;
+        if(storeDAO.isCommentedUser(memberIdx, commentIdx)){
+            if(storeDAO.deleteComment(commentIdx)){
+                result = storeDAO.updateCommentCount(storeIdx, -1);
+            }
         }
 
         return result;
@@ -88,12 +103,10 @@ public class StoreService {
         if (isCommentPreferenceHistoryExist(storeIdx, memberIdx, commentIdx)) {
             if (storeDAO.deleteCommentPreferenceHistory(storeIdx, memberIdx, commentIdx)) {
                 result = storeDAO.updateCommentPreference(storeIdx, memberIdx, commentIdx, -1);
-                System.out.println("삭제했어");
             }
         } else {
             if (storeDAO.insertCommentPreferenceHistory(storeIdx, memberIdx, commentIdx)) {
                 result = storeDAO.updateCommentPreference(storeIdx, memberIdx, commentIdx, 1);
-                System.out.println("생성했어");
             }
         }
 

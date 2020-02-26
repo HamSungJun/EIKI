@@ -18,6 +18,7 @@
 <body>
 
 <c:import url="component/topbar.jsp" charEncoding="UTF-8">
+    <c:param name="MEMBER_DEC_IDX" value="${User.MEMBER_DEC_IDX}"/>
     <c:param name="MEMBER_ID" value="${User.MEMBER_ID}"/>
     <c:param name="MEMBER_NICKNAME" value="${User.MEMBER_NICKNAME}"/>
     <c:param name="MEMBER_PROFILE_IMAGE" value="${User.MEMBER_PROFILE_IMAGE}"/>
@@ -27,9 +28,9 @@
 <div class="Store-List-Box">
 
     <div class="Sort-Box">
-        <button id="ORDER-PREF" class="Sort-Btn">선호도</button>
-        <button id="ORDER-COMMENT" class="Sort-Btn">댓글</button>
-        <button id="ORDER-NAME" class="Sort-Btn">이름</button>
+        <button id="ORDER-PREF" class="Sort-Btn">선호도순</button>
+        <button id="ORDER-COMMENT" class="Sort-Btn">댓글순</button>
+        <button id="ORDER-NAME" class="Sort-Btn">이름순</button>
     </div>
 
     <div class="Card-Box">
@@ -70,10 +71,6 @@
             </a>
         </c:forEach>
     </div>
-
-</div>
-
-<div>
 
 </div>
 </body>

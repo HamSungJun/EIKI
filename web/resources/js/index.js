@@ -4,6 +4,10 @@ window.onload = () => {
 
 const initInputEvents = () => {
 
+    if(document.cookie){
+        document.getElementById("MEMBER_ID").value = document.cookie.split("=")[1];
+    }
+
     let $FormInputs = document.querySelectorAll(".Index-Wrapper__Form__Input-Section__Grid-Row__Input-Column input");
 
     for (let index = 0; index < $FormInputs.length; index++) {
@@ -70,12 +74,12 @@ const initInputEvents = () => {
                 },
                 body : JSON.stringify({
                     "MEMBER_ID" : document.getElementById("MEMBER_ID").value,
-                    "MEMBER_PW" : document.getElementById("MEMBER_PW").value
+                    "MEMBER_PW" : document.getElementById("MEMBER_PW").value,
+                    "REMEMBER" : $RememberInner.classList.contains("--Background-Dark") ? "1" : "0"
                 })
-            }).then(async response => {
-                const loginResult = await response.json();
-                console.log(loginResult);
-                if(loginResult.success === 1 && loginResult.isMemberExist === true){
+            }).then(response => {
+                console.log(response);
+                if(response.status === 200){
                     window.location.href = "/eiki/home";
                 } else {
                     alert("가입되지 않은 계정이거나 잘못된 비밀번호 입니다.");

@@ -35,6 +35,10 @@
 |:--------:|:--------:|
 |![EIKI_POST](./devImages/EIKI_POST.png)|![EIKI_POST2](./devImages/EIKI_POST2.png)|
 
+| MEMBER_MANAGE | COMMENT_MANAGE |
+|:--------:|:--------:|
+|![EIKI_MEMBER_MANAGE](./devImages/EIKI_MEMBER_MANAGE.png)|![EIKI_POST2](./devImages/EIKI_COMMENT_MANAGE.png)|
+
 ## Dev History
 
 ### 2020.01.29
@@ -168,3 +172,87 @@
     - 자신의 댓글이면 삭제 할 수 있도록 만들기
     
     - js파일과 jsp스크립트 분리를 위해 데이터 값을 DOM data-property에 삽입할 생각...
+    
+### 2020.02.27
+
+- 개발 내용 [중간배포](http://ec2-13-124-248-90.ap-northeast-2.compute.amazonaws.com/)
+    
+    - 배포 해보느라고 애좀 먹었다 ...
+    
+    - 마이페이지 개발 (회원정보 수정, 스토어 코멘트 관리)
+    
+    - 회원정보 수정
+    
+        - 회원 정보 업데이트 기능
+    
+    - 스토어 코멘트 관리
+    
+        - 작성한 코멘트를 최근 작성한 순으로 조회 + 페이지 네이션
+        
+    - AWS EC2
+    
+        - Docker 설치
+        
+        - 작업하던 데이터베이스 컨테이너 허브에 Push , EC2에서 Pull
+        
+        - OpenJDK 1.8 설치
+        
+        - Tomcat 설치
+        
+        ```shell script
+        
+          # AWS EC2에 도커 소프트웨어 설치
+          sudo apt update;
+          sudo apt remove docker docker-engine docker.io containerd runc;
+          sudo apt-get install \
+              apt-transport-https \
+              ca-certificates \
+              curl \
+              gnupg-agent \
+              software-properties-common;
+          
+          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -;
+          sudo apt-key fingerprint 0EBFCD88;
+          
+          sudo add-apt-repository \
+             "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+             $(lsb_release -cs) \
+             stable";
+          
+          sudo apt-get update;
+          sudo apt-get install docker-ce docker-ce-cli containerd.io;
+          
+          sudo docker run hello-world;
+          
+          # 작업하던 로컬 환경에서 컨테이너를 커밋 후 이미지로 도커 허브에 푸시
+          docker commit <WORKING_CONTAINER> <IMAGE_NAME>
+          docker login
+          username : hsjprime
+          password : ***
+          
+          docker tag mysql8 <USERNAME>/<IMAGE_NAME>
+          docker push <USERNAME>/<IMAGE_NAME>
+          
+          # AWS EC2 에서 해당 이미지를 내려 받기
+          docker pull <USERNAME>/<IMAGE_NAME>
+          docker run --name <CONTAINER_NAME> --net=host -p 3306:3306 -e MYSQL_ROOT_PASSWORD <PASSWORD> -d <IMAGE_NAME>
+          
+          # WAS 설치를 위한 자바 8 버전 설치
+          sudo apt-get install openjdk-8-jre openjdk-8-jdk;
+          
+          # WAS 8.5 버전 설
+          sudo wget http://apache.mirror.cdnetworks.com/tomcat/tomcat-8/v8.5.51/bin/apache-tomcat-8.5.51.tar.gz;
+          sudo tar -zvxf apache-tomcat-8.5.51.tar.gz
+          
+          # AWS EC2 포트 포워딩 80 -> 8080
+          iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080치
+                
+        ```
+        
+- 개발 예정
+
+    - 스토어 코멘트 관리 페이지 선택 삭제 기능
+    
+    - 이미지 업로드 경로 손보기
+    
+    - Responsive CSS 작성
