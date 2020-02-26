@@ -175,7 +175,7 @@
     
 ### 2020.02.27
 
-- 개발 내용 [중간배포](http://ec2-13-124-248-90.ap-northeast-2.compute.amazonaws.com/)
+- 개발 내용 [(중간배포)](http://ec2-13-124-248-90.ap-northeast-2.compute.amazonaws.com/)
     
     - 배포 해보느라고 애좀 먹었다 ...
     
@@ -199,7 +199,7 @@
         
         - Tomcat 설치
         
-        ```shell script
+        ```bash
         
           # AWS EC2에 도커 소프트웨어 설치
           sudo apt update;
@@ -240,12 +240,12 @@
           # WAS 설치를 위한 자바 8 버전 설치
           sudo apt-get install openjdk-8-jre openjdk-8-jdk;
           
-          # WAS 8.5 버전 설
+          # WAS 8.5 버전 설치
           sudo wget http://apache.mirror.cdnetworks.com/tomcat/tomcat-8/v8.5.51/bin/apache-tomcat-8.5.51.tar.gz;
           sudo tar -zvxf apache-tomcat-8.5.51.tar.gz
           
           # AWS EC2 포트 포워딩 80 -> 8080
-          iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080치
+          iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080
                 
         ```
         
