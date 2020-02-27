@@ -17,7 +17,6 @@ public class HomeService {
     public List<Map<String, Object>> getStoreList(String queryString) {
 
         Map<String, String> queryMap = UtilMethod.queryToMap(queryString);
-        System.out.println(String.format("%s %s",queryMap.get("search"), queryMap.get("order")));
         return homeDAO.selectStoreByQuery(queryMap.get("search"), queryMap.get("order"));
 
     }

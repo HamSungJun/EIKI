@@ -4,6 +4,7 @@ import com.hsjprime.eiki.member.dao.MemberDAOImpl;
 import com.hsjprime.eiki.member.dto.MemberFormDTO;
 import com.hsjprime.eiki.member.dto.PageVO;
 import com.hsjprime.eiki.member.vo.MemberSessionVO;
+import com.hsjprime.eiki.store.dao.StoreDAO;
 import com.hsjprime.eiki.util.method.UtilMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +25,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     MemberDAOImpl memberDAO;
+
+    @Autowired
+    StoreDAO storeDAO;
 
     @Override
     public boolean isUniqNickName(String MEMBER_NICKNAME) {
@@ -111,6 +116,40 @@ public class MemberServiceImpl implements MemberService {
     public List<Map<String, Object>> getCommentList(PageVO pageVO, int memberIdx) {
 
         return memberDAO.selectCommentList(pageVO, memberIdx);
+
+    }
+
+    @Override
+    public boolean deleteComment(List<Map<String, Integer>> deleteIds) {
+
+        if (memberDAO.deleteComment(deleteIds)) {
+            Map<Integer, Integer> storeCountDiffMap = new HashMap<>();
+
+            for (int i = 0; i < deleteIds.size(); i++) {
+
+                int nextStoreIdx = deleteIds.get(i).get("storeIdx");
+                storeCountDiffMap.computeIfPresent(nextStoreIdx, (k, v) -> v += 1);
+                storeCountDiffMap.putIfAbsent(nextStoreIdx, 1);
+
+            }
+
+            Iterator<Integer> storeIter = storeCountDiffMap.keySet().iterator();
+            while (storeIter.hasNext()) {
+
+                int nextStoreKey = storeIter.next();
+                try {
+                    storeDAO.updateCommentCount(nextStoreKey, (storeCountDiffMap.get(nextStoreKey) * -1));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            return true;
+
+        }
+
+        return false;
 
     }
 

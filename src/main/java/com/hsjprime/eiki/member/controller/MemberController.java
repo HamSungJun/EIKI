@@ -5,7 +5,9 @@ import com.hsjprime.eiki.member.dto.PageVO;
 import com.hsjprime.eiki.member.service.MemberServiceImpl;
 import com.hsjprime.eiki.member.vo.MemberSessionVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping(value = {"/member", "/eiki/member"})
@@ -134,6 +138,20 @@ public class MemberController {
         model.addAttribute("CommentList", memberService.getCommentList(pageVO, memberSessionVO.getMEMBER_DEC_IDX()));
 
         return "/eiki/comment_manage";
+
+    }
+
+
+    @RequestMapping(value = "/comment/manage", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity deleteComment (@RequestBody List<Map<String, Integer>> deleteIds) {
+
+        if(memberService.deleteComment(deleteIds)){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } else {
+            System.out.println("뭔가 문제가 있어");
+        }
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
     }
 

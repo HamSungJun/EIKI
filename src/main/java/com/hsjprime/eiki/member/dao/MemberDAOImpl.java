@@ -17,9 +17,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -134,6 +132,25 @@ public class MemberDAOImpl implements MemberDAO {
         paramMap.addValue("MEMBER_DEC_IDX", memberIdx);
 
         return namedJdbcTemplate.queryForObject(SQL, paramMap, Integer.class);
+
+    }
+
+    @Override
+    public boolean deleteComment(List<Map<String, Integer>> deleteIds){
+
+        String SQL = "DELETE\n" +
+                "FROM EIKI_STORE_COMMENT AS ESC\n" +
+                "WHERE ESC.COMMENT_DEC_IDX IN (:DELETE_IDS);";
+
+        Set<String> deleteIdSet = new HashSet<>();
+        for (int i = 0; i < deleteIds.size(); i++) {
+            deleteIdSet.add(""+deleteIds.get(i).get("commentIdx"));
+        }
+
+        MapSqlParameterSource paramMap = new MapSqlParameterSource();
+        paramMap.addValue("DELETE_IDS", deleteIdSet);
+
+        return (namedJdbcTemplate.update(SQL, paramMap))== deleteIdSet.size();
 
     }
 

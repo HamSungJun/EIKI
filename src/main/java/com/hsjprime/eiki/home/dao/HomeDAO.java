@@ -34,9 +34,25 @@ public class HomeDAO {
                 "           AND ES.STORE_NAME LIKE ? \n" +
                 "         GROUP BY ES.STORE_DEC_IDX,\n" +
                 "                  ESI.STORE_IMAGE\n" +
+                "         ORDER BY " + setOrder(order) +"\n"+
                 "     ) AS T;";
 
-        return jdbcTemplate.queryForList(SQL, new Object[]{"%" + search + "%"});
+        return jdbcTemplate.queryForList(SQL, "%" + search + "%");
+
+    }
+
+    public String setOrder(String order){
+
+        switch (order){
+            case "pref" :
+                return "AVG_PREFERENCE DESC";
+            case "comment" :
+                return "STORE_COMMENT_COUNT DESC";
+            case "name" :
+                return "STORE_NAME ASC";
+        }
+
+        return "AVG_PREFERENCE DESC";
 
     }
 

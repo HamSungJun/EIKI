@@ -38,9 +38,7 @@ public final class UtilMethod {
                 String value = "";
                 try {
                     value = UriUtils.decode(keyValueToken.nextToken(), "UTF-8");
-                    System.out.println(String.format("%s %s", key, value));
                 } catch (UnsupportedEncodingException | NoSuchElementException e) {
-                    e.printStackTrace();
                     value = "";
                 } finally {
                     queryMap.put(key, value);

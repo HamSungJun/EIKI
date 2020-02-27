@@ -16,4 +16,5 @@ public interface MemberService {
     int isAdmin(String MEMBER_ID);
     List<Map<String, Object>> getCommentList(PageVO pageVO, int memberIdx);
     int getCommentCount(int memberIdx);
+    boolean deleteComment(List<Map<String, Integer>> deleteIds);
 }

@@ -13,4 +13,5 @@ public interface MemberDAO{
     boolean updateMember(Map<String, Object> paramMap);
     List<Map<String, Object>> selectCommentList(PageVO pageVO, int memberIdx);
     int selectCommentCount(int memberIdx);
+    boolean deleteComment(List<Map<String, Integer>> deleteIds);
 }

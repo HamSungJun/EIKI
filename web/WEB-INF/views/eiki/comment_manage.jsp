@@ -16,6 +16,8 @@
     <script>
 
         let isMemberCommentFetching = false;
+        let isCommentDeleting = false;
+        let isCheckedAll = false;
 
         window.onload = () => {
 
@@ -26,7 +28,72 @@
 
         const initCommentManageEvents = () => {
 
+            let $SelectAll = document.getElementById("SELECT-ALL");
+            $SelectAll.addEventListener("click", selectAllCheckBox);
+
+            let $SelectDelete = document.getElementById("SELECT-DELETE");
+            $SelectDelete.addEventListener("click", selectDelete);
         };
+
+        const selectAllCheckBox = () => {
+
+            let $CheckBoxes = document.querySelectorAll(".Comment-Checkbox");
+
+            for (let index = 0; index < $CheckBoxes.length; index++) {
+
+                let $Checkbox = $CheckBoxes.item(index);
+                $Checkbox.checked = !isCheckedAll;
+
+            }
+
+            isCheckedAll = !isCheckedAll;
+
+        };
+
+        const selectDelete = () => {
+
+            let $CommentContentRows = document.querySelectorAll(".Comment-Content-Row");
+
+            if ($CommentContentRows && $CommentContentRows.length > 0) {
+
+                if (confirm("선택한 댓글들을 정말로 삭제할까요?")) {
+
+                    let _deleteIds = [];
+
+                    for (let index = 0; index < $CommentContentRows.length; index++) {
+
+                        let $CommentContentRow = $CommentContentRows.item(index);
+                        if ($CommentContentRow.querySelector(".Comment-Checkbox").checked) {
+                            _deleteIds.push({
+                                commentIdx: parseInt($CommentContentRow.getAttribute("data-comment-idx")),
+                                storeIdx: parseInt($CommentContentRow.getAttribute("data-store-idx"))
+                            });
+                        }
+
+                    }
+
+                    if (_deleteIds.length > 0 && !isCommentDeleting) {
+
+                        fetch("/eiki/member/comment/manage", {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json; charset=utf-8"
+                            },
+                            body: JSON.stringify(_deleteIds)
+                        }).then(response => {
+                            if (response.status === 200) window.location.reload();
+                        });
+
+                    }
+
+                }
+
+            } else {
+                return alert("댓글이 존재하지 않습니다.");
+            }
+
+        }
+
 
     </script>
 </head>
@@ -51,15 +118,16 @@
         </div>
         <div class="Comment-Content-Box">
             <c:forEach items="${CommentList}" var="CommentItem">
-                <div class="Comment-Content-Row">
+                <div data-comment-idx="${CommentItem['COMMENT_DEC_IDX']}" data-store-idx="${CommentItem['STORE_DEC_IDX']}" class="Comment-Content-Row">
                     <div class="Comment-Content-Item">
-                        <input type="checkbox">
+                        <input class="Comment-Checkbox" type="checkbox">
                     </div>
                     <div class="Comment-Content-Item --Justify-Flex-Start">
-                        <a class="Comment-Link" href="<c:url value="/eiki/store/${CommentItem['STORE_DEC_IDX']}" />">${CommentItem['COMMENT_CONTENT']}</a>
+                        <a class="Comment-Link"
+                           href="<c:url value="/eiki/store/${CommentItem['STORE_DEC_IDX']}" />">${CommentItem['COMMENT_CONTENT']}</a>
                     </div>
                     <div class="Comment-Content-Item">
-                       <span>${CommentItem['COMMENT_PREFERENCE']}</span>
+                        <span>${CommentItem['COMMENT_PREFERENCE']}</span>
                     </div>
                     <div class="Comment-Content-Item">
                         <span>${CommentItem['UPDATED_AT']}</span>
@@ -76,13 +144,16 @@
         <div class="Comment-Page-Row">
             <div>
                 <c:if test="${PageVO.prev}">
-                    <a class="Page-Mover" href="<c:url value="/eiki/member/comment/manage/${PageVO.currentPageIdx - 1}" />">이전</a>
+                    <a class="Page-Mover"
+                       href="<c:url value="/eiki/member/comment/manage/${PageVO.currentPageIdx - 1}" />">이전</a>
                 </c:if>
                 <c:forEach begin="${PageVO.startPageIdx}" end="${PageVO.endPageIdx}" var="pageIdx">
-                    <a class="Page-Link ${PageVO.currentPageIdx == pageIdx ? "--Page-Link-Selected" : ""}" href="<c:url value="/eiki/member/comment/manage/${pageIdx}"/>">${pageIdx}</a>
+                    <a class="Page-Link ${PageVO.currentPageIdx == pageIdx ? "--Page-Link-Selected" : ""}"
+                       href="<c:url value="/eiki/member/comment/manage/${pageIdx}"/>">${pageIdx}</a>
                 </c:forEach>
                 <c:if test="${PageVO.next}">
-                    <a class="Page-Mover" href="<c:url value="/eiki/member/comment/manage/${PageVO.currentPageIdx + 1}" />">다음</a>
+                    <a class="Page-Mover"
+                       href="<c:url value="/eiki/member/comment/manage/${PageVO.currentPageIdx + 1}" />">다음</a>
                 </c:if>
             </div>
         </div>
