@@ -1,5 +1,4 @@
 
-
 .Index-Wrapper {
     background-color: hsl(256, 100%, 65%);
     height: 100vh;
@@ -133,4 +132,53 @@
     border-radius: 2px;
     transition: all 0.3s ease;
     margin-top: 27px;
+}
+
+@media screen and (max-width: 399px) {
+
+    .Index-Wrapper {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .Index-Wrapper__Form {
+        margin-top: 0;
+    }
+
+    .Index-Wrapper__Form__Header-Section {
+        margin: 0 0 20px 0;
+    }
+
+    .Index-Wrapper__Form__Header-Section__Text {
+        margin: 0;
+    }
+
+    .Index-Wrapper__Form__Input-Section__Grid-Row {
+        height: 45px;
+    }
+
+    .Index-Wrapper__Form__Input-Section__Grid-Row__Icon-Column {
+        font-size: 13px;
+    }
+
+    .Index-Wrapper__Form__Input-Section__Grid-Row__Input-Column input {
+        font-size: 13px;
+        letter-spacing: 1px;
+    }
+
+    .Remember-Text {
+        font-size: 13px;
+    }
+
+    .Nav-Link {
+        font-size: 13px;
+    }
+
+    .Index-Wrapper__Form__Input-Section__Submit-Btn {
+        height: 40px;
+        margin-top: 15px;
+    }
+
 }

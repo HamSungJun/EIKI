@@ -64,6 +64,7 @@
 .Join-Form-Content input {
     height: 38px;
     text-align: center;
+    border: 1px solid #ccc;
 }
 
 .Function-Btn {
@@ -71,6 +72,7 @@
     outline: none;
     border-radius: 2px;
     cursor: pointer;
+    background-color: white;
 }
 
 .Join-Footer {
@@ -85,6 +87,7 @@
     border-radius: 2px;
     height: 38px;
     transition: all 0.3s ease;
+    background-color: white;
 }
 
 .Join-Footer-Btn:hover {
@@ -120,7 +123,145 @@
 
 .--Auth-Closed {
     border-bottom: none;
-    height: 0;
+    height: 0 !important;
 }
 
+@media screen and (max-width: 999px) {
 
+    .Join-Wrapper {
+        height: 100vh;
+        padding: 10px;
+    }
+
+    .Join-Box {
+        width: 100%;
+        margin-top: 0;
+    }
+
+}
+
+@media screen and (max-width: 785px) {
+
+    .--Alpha {
+        font-size: 11px;
+    }
+
+    .Join-Header-Text {
+        font-size: 24px;
+    }
+
+    .Join-Header-Paragraph {
+        font-size: 11px;
+        margin-left: 1px;
+    }
+
+    .Profile-Image-Circle {
+        width: 45px;
+        height: 45px;
+    }
+
+    .Join-Form-Row {
+        grid-template-columns: 110px 1fr;
+        height: auto;
+    }
+
+    .Join-Form-Field, .Join-Form-Content {
+        padding: 5px;
+    }
+
+    .Join-Form-Field {
+        font-size: 12px;
+    }
+
+    .Join-Form-Content {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .Join-Form-Content input {
+        height: 30px;
+        font-size: 10px;
+        width: 110px;
+    }
+
+    .--Join-Form-Guide-Message {
+        font-size: 9px;
+        margin: 0;
+    }
+
+    #FILE_NAME {
+        padding-left: 2px;
+        margin: 0;
+        font-size: 11px;
+    }
+
+    .Function-Btn {
+        height: 30px;
+        font-size: 13px;
+        padding-bottom: 0;
+    }
+
+    .Join-Footer-Btn {
+        height: 30px;
+        font-size: 13px;
+        padding-bottom: 0;
+    }
+
+    .Join-Footer div:nth-child(1) {
+        font-size: 12px;
+    }
+
+}
+
+@media screen and (max-width: 528px) {
+
+    .Join-Wrapper {
+        height: auto;
+    }
+
+    .Join-Form-Row:nth-child(1) {
+        margin-top: 3px;
+    }
+
+    .Join-Form-Row {
+        grid-template-columns: 1fr;
+        row-gap: 3px;
+        margin-bottom: 3px;
+    }
+
+    .Join-Form-Field {
+        height: 25px;
+        background-color: white;
+        justify-content: flex-start;
+    }
+
+    .Join-Form-Field > label > span {
+        background-color: #eee;
+        padding: 2px 4px;
+        border-radius: 4px;
+    }
+
+    .Join-Form-Content {
+        height: auto;
+        padding-top: 0;
+    }
+
+}
+
+@media screen and (max-width: 399px) {
+
+    .Profile-Image-Circle {
+        width: 35px;
+        height: 35px;
+        right: 15px;
+        top: 15px;
+    }
+
+    #AUTH-MAIL {
+        width: 110px;
+        margin-left: 0;
+        margin-top: 3px;
+    }
+
+
+}

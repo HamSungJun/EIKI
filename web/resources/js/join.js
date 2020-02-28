@@ -158,6 +158,7 @@ const handleOnFileInput = (event, $FileName, $ProfileImageView) => {
         if (fileIn.size > 2000000) {
             event.target.value = "";
             $FileName.textContent = "";
+            $FileName.classList.add("--Display-None");
             $ProfileImageView.src = "/resources/images/default-user.png";
             $FileMessage.textContent = "2MB 이하 이미지 파일만 업로드 가능합니다.";
             return false;
@@ -167,6 +168,7 @@ const handleOnFileInput = (event, $FileName, $ProfileImageView) => {
             let UInt8View = new Uint8Array(event.target.result);
             $ProfileImageView.src = URL.createObjectURL(new Blob([UInt8View]));
             $FileName.textContent = fileIn.name;
+            $FileName.classList.remove("--Display-None");
             $FileMessage.textContent = "입력 조건 통과.";
         };
 
