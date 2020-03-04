@@ -280,11 +280,11 @@ html, body {
     background-color: #fafafa;
     border-radius: 4px;
     width: 100%;
-    display: grid;
     grid-template-columns: auto 45px;
-    padding-left: 10px;
+    padding: 0 10px;
     border: 1px solid #ccc;
     overflow: hidden;
+    position: relative;
 }
 
 .Search-Input-Box input {
@@ -303,6 +303,12 @@ html, body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    position: absolute;
+    width: 45px;
+    height: 44px;
+    top: 0px;
+    right: 0px;
+    background-color: #fafafa;
 }
 
 .Topbar-User-Box {
@@ -388,4 +394,122 @@ html, body {
 .--Nav-Icon {
     margin-left: 10px;
     font-size: 20px;
+}
+
+.--Show-At-Mobile {
+    display: none;
+}
+
+@media screen and (max-width: 800px) {
+
+    .Topbar {
+        height: 50px;
+        column-gap: 10px;
+        grid-template-columns: auto 1fr auto auto;
+        padding: 0 10px;
+    }
+
+    .Topbar-Logo-Box {
+        padding: 0 0;
+    }
+
+    .Topbar-Logo-Text {
+        -webkit-text-stroke: 1px hsl(217, 14%, 18%);
+        color: #7c4dff;
+        font-size: 30px;
+        margin: 0 0 2px 0;
+    }
+
+    .Topbar-Search-Box {
+        height: 35px;
+    }
+
+    .Search-Input-Box input {
+        font-weight: 400;
+        font-size: 15px;
+        padding-bottom: 3px;
+    }
+
+    .Search-Icon-Box {
+        font-size: 15px;
+    }
+
+    .Topbar-Nav-Tool {
+        padding-right: 0;
+        font-size: 14px;
+    }
+
+    .Topbar-User-Box {
+        padding: 0 10px;
+    }
+
+    .Topbar-User-Box span {
+        font-size: 14px;
+    }
+
+    .User-Image-Box {
+        width: 30px;
+        height: 30px;
+    }
+
+    .Nav-Box {
+        top: 49px;
+    }
+
+    .Search-Icon-Box {
+        width: 35px;
+        height: 34px;
+    }
+
+}
+
+@media screen and (max-width: 450px) {
+
+    .User-Image-Box {
+        display: none;
+    }
+
+    .Topbar {
+        grid-template-columns: 1fr;
+        column-gap: 0;
+        padding: 5px 10px;
+        row-gap: 5px;
+        height: auto;
+    }
+
+    .Topbar-Column:nth-child(3) {
+        display: none;
+    }
+
+    .Topbar-Logo-Text {
+        margin: 0;
+    }
+
+    .Topbar-Nav-Tool {
+        position: absolute;
+        font-size: 14px;
+        top: 9px;
+        right: 10px;
+    }
+
+    .Nav-Box{
+        top: 89px;
+    }
+
+    .Nav-Row{
+        height: 40px;
+        padding-left: 30px;
+        font-size: 14px;
+    }
+
+    .--Show-At-Mobile{
+        display: block;
+    }
+
+}
+
+@media screen and (max-width: 400px) {
+
+
+
 }

@@ -117,3 +117,78 @@
     margin-bottom: 2px;
 }
 
+@media screen and (max-width: 1200px) {
+
+    .Card-Box{
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+@media screen and (max-width: 1000px) {
+
+    .Card-Box{
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media screen and (max-width: 800px) {
+
+    .Store-List-Box{
+        min-height: calc(100vh - 50px);
+        padding: 10px;
+    }
+
+    .Sort-Box {
+        padding-left: 0;
+        margin-bottom: 10px;
+        justify-content: center;
+    }
+
+    .Card-Box{
+        padding: 0 20px;
+        row-gap: 10px;
+    }
+
+    .Sort-Btn {
+        height: 35px;
+        padding: 5px 10px;
+        font-weight: 300;
+        font-size: 14px;
+        margin-right: 10px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+
+    .Card-Box{
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .Card-Statistic-Value{
+        font-size: 12px;
+    }
+
+    .Store-Name-Text {
+        font-size: 15px;
+        font-weight: 400;
+    }
+
+}
+
+@media screen and (max-width: 450px) {
+
+    .Store-List-Box{
+        min-height: calc(100vh - 90px);
+    }
+
+}
+
+@media screen and (max-width: 400px) {
+
+    .Card-Box{
+        padding: 0;
+    }
+
+}

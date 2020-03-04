@@ -35,6 +35,9 @@
                 <a href="<c:url value="/eiki/admin" />"><span class="Nav-Text">Admin</span></a>
             </div>
         </c:if>
+        <div class="Nav-Row --Show-At-Mobile">
+            <a href="<c:url value="/eiki/member/manage" />"><span class="Nav-Text">My Page</span></a>
+        </div>
         <div class="Nav-Row">
             <a href=""><span class="Nav-Text">Community</span></a>
         </div>
