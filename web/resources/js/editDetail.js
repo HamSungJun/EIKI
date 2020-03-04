@@ -3,29 +3,64 @@ let isFetching = false;
 window.onload = () => {
 
     initTopBarAdminEvents();
-    initPostEvents();
+    initStoreEditDetailEvents();
 
 };
 
-const initPostEvents = () => {
+const initStoreEditDetailEvents = () => {
 
     let $AddThumbnail = document.getElementById("FILE-THUMBNAIL");
+    let $ImageThumbnail = document.getElementById("IMAGE-THUMBNAIL");
     let $ThumbnailInput = document.getElementById("THUMBNAIL-INPUT");
     $AddThumbnail.addEventListener("click", () => {
+        if ($ImageThumbnail.querySelector(".--From-Server")) {
+            return alert("이미 서버에 썸네일 이미지가 존재합니다. 변경을 위해서는 삭제해 주세요.");
+        }
         $ThumbnailInput.click();
     });
 
     $ThumbnailInput.addEventListener("input", handleOnFileInput);
 
-
     let $AddFile = document.getElementById("FILE-ADD");
     $AddFile.addEventListener("click", handleAddFile);
 
     let $PostBtn = document.getElementById("POST-BTN");
-    $PostBtn.addEventListener("click", requestStorePost);
+    $PostBtn.addEventListener("click", requestStoreUpdate);
 
     let $MenuAdd = document.getElementById("MENU-ADD");
     $MenuAdd.addEventListener("click", handleAddMenu);
+
+    let $MenuHistory = document.querySelectorAll(".Menu-Item");
+
+    if ($MenuHistory.length > 0) {
+        console.log($MenuHistory);
+        for (let index = 0; index < $MenuHistory.length; index++) {
+
+            let $MenuRemove = $MenuHistory.item(index).querySelector(".Menu-Remove");
+            $MenuRemove.addEventListener("click", () => {
+                $MenuHistory.item(index).remove();
+            })
+
+        }
+
+    }
+
+    let $RemoveCircles = document.querySelectorAll(".File-Remove-Circle");
+    for (let index = 0; index < $RemoveCircles.length; index++) {
+
+        let $RemoveCircle = $RemoveCircles.item(index);
+
+        $RemoveCircle.addEventListener("click", (event) => {
+
+            let $PreviewItem = event.target.closest(".Preview-Item");
+            let _fileName = $PreviewItem.querySelector("img").src;
+            _fileName = _fileName.substring(_fileName.lastIndexOf("/") + 1);
+            requestServerImageRemove($PreviewItem, _fileName);
+
+        });
+
+    }
+
 };
 
 const handleAddMenu = () => {
@@ -147,7 +182,12 @@ const handleOnFileInput = (event) => {
 
 const refreshPreview = ($FileInputs, $ImagePreviewList) => {
 
-    $ImagePreviewList.innerHTML = "";
+    let $BeforeImages = $ImagePreviewList.querySelectorAll(".Preview-Item");
+    for (let index = 0; index < $BeforeImages.length; index++) {
+        if (!$BeforeImages.item(index).classList.contains("--From-Server")) {
+            $BeforeImages.item(index).remove();
+        }
+    }
 
     let files = [];
     for (let index = 0; index < $FileInputs.length; index++) {
@@ -203,7 +243,7 @@ const validateAll = () => {
         return alert("올바른 연락처 양식이 아닙니다.");
     }
 
-    if (!document.getElementById("THUMBNAIL-INPUT").files[0]) {
+    if (!document.getElementById("THUMBNAIL-INPUT").files[0] && !document.querySelector("#IMAGE-THUMBNAIL .--From-Server")) {
         return alert("썸네일 대표 이미지를 등록해 주세요.");
     }
 
@@ -251,8 +291,8 @@ const validateAll = () => {
         STORE_CALL: document.getElementById("STORE_CALL").value,
         STORE_TYPE: document.querySelector("input[name='STORE_TYPE']:checked").value,
         IS_DELIVERY: document.querySelector("input[name='IS_DELIVERY']:checked").value === "O",
-        STORE_THUMBNAIL: document.getElementById("THUMBNAIL-INPUT").files[0],
-        STORE_IMAGES: files,
+        STORE_THUMBNAIL: document.querySelector("#IMAGE-THUMBNAIL .--From-Server") ? null : document.getElementById("THUMBNAIL-INPUT").files[0],
+        STORE_IMAGES: files.length > 0 ? files : null,
         STORE_MENUS: JSON.stringify(menus),
         STORE_LATITUDE: parseFloat(document.getElementById("STORE_LATITUDE").value),
         STORE_LONGITUDE: parseFloat(document.getElementById("STORE_LONGITUDE").value),
@@ -261,7 +301,7 @@ const validateAll = () => {
 
 };
 
-const requestStorePost = () => {
+const requestStoreUpdate = () => {
 
     let reqBody = validateAll();
 
@@ -269,24 +309,28 @@ const requestStorePost = () => {
         console.log(reqBody);
         let formData = new FormData();
         for (let key in reqBody) {
-            if (!["STORE_IMAGES"].includes(key)) {
+            if (!["STORE_IMAGES", "STORE_THUMBNAIL"].includes(key)) {
                 formData.append(key, reqBody[key]);
             } else {
-                for (let index = 0; index < reqBody[key].length; index++) {
-                    formData.append(key, reqBody[key][index]);
+                if (reqBody[key] !== null && reqBody[key].length > 0) {
+                    for (let index = 0; index < reqBody[key].length; index++) {
+                        formData.append(key, reqBody[key][index]);
+                    }
                 }
             }
 
         }
 
+        const pathName = window.location.pathname;
+
         if (!isFetching) {
-            fetch("/eiki/admin/store/post", {
+            fetch("/eiki/admin/store/update/" + parseInt(pathName.substring(pathName.lastIndexOf("/") + 1)), {
                 method: "POST",
                 body: formData
             }).then(async response => {
-                if ((await response.json()).success === 1) {
-                    alert("스토어가 성공적으로 등록되었습니다.");
-                    window.location.href = "/eiki/home";
+                if (response.status === 200) {
+                    alert("스토어가 성공적으로 업데이트 되었습니다.");
+                    window.location.href = "/eiki/admin/store/edit";
                 }
             }).catch(error => {
                 console.log(error);
@@ -295,5 +339,23 @@ const requestStorePost = () => {
 
     }
 
+};
+
+const requestServerImageRemove = ($PreviewItem, _fileName) => {
+
+    if (confirm("해당 이미지를 서버상에서 지우시겠습니까?")) {
+
+        fetch("/eiki/admin/store/image/delete/" + encodeURIComponent(_fileName), {
+            method: "DELETE",
+        }).then(async response => {
+            if (response.status === 200) {
+                alert("해당 이미지가 서버상에서 삭제되었습니다.");
+                return $PreviewItem.remove();
+            }
+        }).catch(error => {
+            console.log(error);
+        })
+
+    }
 
 };

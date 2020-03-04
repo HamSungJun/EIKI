@@ -21,7 +21,13 @@
             <a href="<c:url value="/eiki/home" />"><span class="Nav-Text">Home</span></a>
         </div>
         <div class="Nav-Row">
-            <a href="<c:url value="/eiki/admin/post" />"><span class="Nav-Text">Post</span></a>
+            <a href="<c:url value="/eiki/admin/store/post" />"><span class="Nav-Text">Store Post</span></a>
+        </div>
+        <div class="Nav-Row">
+            <a href="<c:url value="/eiki/admin/store/edit?storeName=" />"><span class="Nav-Text">Store Edit</span></a>
+        </div>
+        <div class="Nav-Row">
+            <a href="<c:url value="/eiki/admin/member/manage" />"><span class="Nav-Text">Member Edit</span></a>
         </div>
         <div class="Nav-Row">
             <a href="<c:url value="/auth/logout" />"><span class="Nav-Text">Logout</span></a>

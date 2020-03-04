@@ -28,7 +28,7 @@ public class AdminService {
 
         List<Map<String, Object>> menuMap = UtilMethod.jsonToMap(storePostDTO.getSTORE_MENUS());
         for (int i = 0; i < menuMap.size(); i++) {
-            adminDAO.insertStoreMenu(storeIdx, (String)menuMap.get(i).get("MENU_NAME"), (int)menuMap.get(i).get("MENU_PRICE"));
+            adminDAO.insertStoreMenu(storeIdx, (String) menuMap.get(i).get("MENU_NAME"), (int) menuMap.get(i).get("MENU_PRICE"));
         }
 
         File uploadDirectory = new File(STORE_IMAGE_UPLOAD_PATH);
@@ -44,7 +44,7 @@ public class AdminService {
 
         List<MultipartFile> imageIn = new ArrayList<>();
         imageIn.add(storePostDTO.getSTORE_THUMBNAIL());
-        if(storePostDTO.getSTORE_IMAGES() != null){
+        if (storePostDTO.getSTORE_IMAGES() != null) {
             imageIn.addAll(storePostDTO.getSTORE_IMAGES());
         }
 
@@ -67,6 +67,87 @@ public class AdminService {
         }
 
         return 1;
+
+    }
+
+    public List<Map<String, Object>> getStoreInfo(String storeName) {
+
+        return adminDAO.selectStoreInfo(storeName);
+
+    }
+
+    public boolean deleteStore(int storeIdx) {
+
+        return adminDAO.deleteStore(storeIdx);
+
+    }
+
+    public boolean deleteStoreImage(String fileName) {
+
+        File storeImage = new File(STORE_IMAGE_UPLOAD_PATH + fileName);
+
+        if (storeImage.delete()) {
+            return adminDAO.deleteStoreImage(fileName);
+        }
+
+        return false;
+
+    }
+
+    public boolean updateStore(StorePostDTO storePostDTO, int storeIdx) {
+
+        if (!adminDAO.updateStore(storePostDTO, storeIdx)) return false;
+
+        if (storePostDTO.getSTORE_THUMBNAIL() != null) {
+
+            MultipartFile thumbnail = storePostDTO.getSTORE_THUMBNAIL();
+            StringBuilder sBuf = new StringBuilder();
+            sBuf.append(STORE_IMAGE_UPLOAD_PATH);
+            sBuf.append(UtilMethod.createUUID());
+            sBuf.append(".");
+            sBuf.append(thumbnail.getContentType().split("/")[1]);
+
+            try {
+                thumbnail.transferTo(new File(sBuf.toString()));
+                adminDAO.insertFile(storeIdx, sBuf.delete(0, STORE_IMAGE_UPLOAD_PATH.length()).toString(), true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        if (storePostDTO.getSTORE_IMAGES() != null && storePostDTO.getSTORE_IMAGES().size() > 0) {
+
+            List<MultipartFile> imageIn = storePostDTO.getSTORE_IMAGES();
+
+            for (int i = 0; i < imageIn.size(); i++) {
+
+                StringBuilder sBuf = new StringBuilder();
+                MultipartFile nextFile = imageIn.get(i);
+                sBuf.append(STORE_IMAGE_UPLOAD_PATH);
+                sBuf.append(UtilMethod.createUUID());
+                sBuf.append(".");
+                sBuf.append(nextFile.getContentType().split("/")[1]);
+
+                try {
+                    nextFile.transferTo(new File(sBuf.toString()));
+                    adminDAO.insertFile(storeIdx, sBuf.delete(0, STORE_IMAGE_UPLOAD_PATH.length()).toString(), false);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+
+        if (adminDAO.deleteStoreMenuAll(storeIdx)) {
+            List<Map<String, Object>> menuMap = UtilMethod.jsonToMap(storePostDTO.getSTORE_MENUS());
+            for (int i = 0; i < menuMap.size(); i++) {
+                adminDAO.insertStoreMenu(storeIdx, (String) menuMap.get(i).get("MENU_NAME"), (int) menuMap.get(i).get("MENU_PRICE"));
+            }
+        }
+
+        return true;
 
     }
 

@@ -70,6 +70,25 @@ public class StoreDAO {
 
     }
 
+    public Map<String, Object> selectStorePostHistory(int storeIdx) {
+
+        String SQL = "SELECT ES.STORE_NAME        AS STORE_NAME,\n" +
+                "       ES.STORE_CALL        AS STORE_CALL,\n" +
+                "       ES.STORE_TYPE        AS STORE_TYPE,\n" +
+                "       ES.IS_DELIVERY       AS IS_DELIVERY,\n" +
+                "       ES.STORE_LATITUDE    AS STORE_LATITUDE,\n" +
+                "       ES.STORE_LONGITUDE   AS STORE_LONGITUDE,\n" +
+                "       ES.STORE_DESCRIPTION AS STORE_DESCRIPTION\n" +
+                "FROM EIKI_STORE AS ES\n" +
+                "WHERE ES.STORE_DEC_IDX = :STORE_DEC_IDX;";
+
+        MapSqlParameterSource paramMap = new MapSqlParameterSource();
+        paramMap.addValue("STORE_DEC_IDX", storeIdx);
+
+        return namedJdbcTemplate.queryForMap(SQL, paramMap);
+
+    }
+
     public List<Map<String, Object>> selectStoreMenus(int storeIdx) {
 
         String SQL = "SELECT MENU_NAME,\n" +
@@ -185,7 +204,7 @@ public class StoreDAO {
 
     }
 
-    public boolean isCommentedUser(int memberIdx, int commentIdx){
+    public boolean isCommentedUser(int memberIdx, int commentIdx) {
 
         String SQL = "SELECT (CASE WHEN ESC.MEMBER_DEC_IDX = :MEMBER_DEC_IDX THEN TRUE ELSE FALSE END) AS IS_COMMENTED_USER\n" +
                 "FROM EIKI_STORE_COMMENT AS ESC\n" +
@@ -199,7 +218,7 @@ public class StoreDAO {
 
     }
 
-    public boolean deleteComment(int commentIdx){
+    public boolean deleteComment(int commentIdx) {
 
         String SQL = "DELETE\n" +
                 "FROM EIKI_STORE_COMMENT AS ESC\n" +
@@ -275,7 +294,7 @@ public class StoreDAO {
 
     }
 
-    public boolean updateCommentPreference(int storeIdx, int memberIdx, int commentIdx, int diff){
+    public boolean updateCommentPreference(int storeIdx, int memberIdx, int commentIdx, int diff) {
 
         String SQL = "UPDATE\n" +
                 "    EIKI_STORE_COMMENT AS ESC\n" +

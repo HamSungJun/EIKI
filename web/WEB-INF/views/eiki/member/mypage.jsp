@@ -297,7 +297,7 @@
     </script>
 </head>
 <body>
-<c:import url="component/topbar.jsp" charEncoding="UTF-8">
+<c:import url="../common/topbar.jsp" charEncoding="UTF-8">
     <c:param name="MEMBER_DEC_IDX" value="${User.MEMBER_DEC_IDX}"/>
     <c:param name="MEMBER_ID" value="${User.MEMBER_ID}"/>
     <c:param name="MEMBER_NICKNAME" value="${User.MEMBER_NICKNAME}"/>
@@ -305,7 +305,7 @@
     <c:param name="IS_ADMIN" value="${User.IS_ADMIN}"/>
 </c:import>
 <div class="My-Page-Box">
-    <c:import url="component/mypage_nav.jsp" charEncoding="UTF-8">
+    <c:import url="../common/mypage_nav.jsp" charEncoding="UTF-8">
         <c:param name="NAV_SELECTED" value="MEMBER-MANAGE"/>
     </c:import>
     <div class="User-Info-Box --Panel-Showing">

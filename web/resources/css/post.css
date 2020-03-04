@@ -177,10 +177,24 @@
     height: 100%;
 }
 
-.Menu-Remove{
+.Menu-Remove {
     color: rgb(72, 79, 86);
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+}
+
+.--From-Server {
+    position: relative;
+}
+
+.File-Remove-Circle {
+    right: 4px;
+    position: absolute;
+    font-size: 9px;
+    background: hsl(210, 16%, 93%);
+    padding: 3px 4px;
+    border-radius: 50%;
     cursor: pointer;
 }

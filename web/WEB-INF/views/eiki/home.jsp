@@ -17,7 +17,7 @@
 </head>
 <body>
 
-<c:import url="component/topbar.jsp" charEncoding="UTF-8">
+<c:import url="common/topbar.jsp" charEncoding="UTF-8">
     <c:param name="MEMBER_DEC_IDX" value="${User.MEMBER_DEC_IDX}"/>
     <c:param name="MEMBER_ID" value="${User.MEMBER_ID}"/>
     <c:param name="MEMBER_NICKNAME" value="${User.MEMBER_NICKNAME}"/>
@@ -50,7 +50,6 @@
                                     <i class="fas fa-coffee fa-1x"></i>
                                 </c:when>
                             </c:choose>
-
                         </div>
                         <img src="<c:url value="/resources/storeImages/${StoreItem['STORE_THUMBNAIL']}" />" alt="">
                     </div>

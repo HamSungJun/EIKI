@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +65,7 @@ public class MemberController {
     public String toMypage(Model model) {
 
         model.addAttribute("User");
-        return "/eiki/mypage";
+        return "eiki/member/mypage";
 
     }
 
@@ -137,7 +136,7 @@ public class MemberController {
         model.addAttribute("PageVO", pageVO);
         model.addAttribute("CommentList", memberService.getCommentList(pageVO, memberSessionVO.getMEMBER_DEC_IDX()));
 
-        return "/eiki/comment_manage";
+        return "eiki/member/comment_manage";
 
     }
 

@@ -24,6 +24,6 @@
     </script>
 </head>
 <body>
-    <c:import url="component/topbar_admin.jsp" charEncoding="UTF-8" />
+    <c:import url="../common/topbar_admin.jsp" charEncoding="UTF-8" />
 </body>
 </html>

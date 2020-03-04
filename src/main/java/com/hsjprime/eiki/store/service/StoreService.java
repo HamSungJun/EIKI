@@ -19,6 +19,12 @@ public class StoreService {
 
     }
 
+    public Map<String, Object> getStorePostHistory(int storeIdx) {
+
+        return storeDAO.selectStorePostHistory(storeIdx);
+
+    }
+
     public List<Map<String, Object>> getStoreMenus(int storeIdx) {
 
         return storeDAO.selectStoreMenus(storeIdx);

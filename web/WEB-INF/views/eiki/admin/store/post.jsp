@@ -16,7 +16,7 @@
     <script src="<c:url value="/resources/js/post.js" />"></script>
 </head>
 <body>
-<c:import url="component/topbar_admin.jsp" charEncoding="UTF-8"/>
+<c:import url="../../common/topbar_admin.jsp" charEncoding="UTF-8"/>
 
 <div class="Store-Post-Box">
 

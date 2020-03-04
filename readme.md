@@ -39,6 +39,13 @@
 |:--------:|:--------:|
 |![EIKI_MEMBER_MANAGE](./devImages/EIKI_MEMBER_MANAGE.png)|![EIKI_POST2](./devImages/EIKI_COMMENT_MANAGE.png)|
 
+| STORE_SEARCH | STORE_EDIT |
+|:--------:|:--------:|
+|![EIKI_STORE_SEARCH](./devImages/EIKI_STORE_SEARCH.png)|![EIKI_STORE_EDIT](./devImages/EIKI_STORE_EDIT.png)|
+
+| STORE_EDIT2 | STORE_EDIT2 |
+|:--------:|:--------:|
+|![EIKI_STORE_EDIT2](./devImages/EIKI_STORE_EDIT2.png)|![EIKI_STORE_EDIT2](./devImages/EIKI_STORE_EDIT2.png)|
 ## Dev History
 
 ### 2020.01.29
@@ -255,4 +262,18 @@
     
     - 이미지 업로드 경로 손보기
     
+    - Responsive CSS 작성
+    
+### 2020.03.04
+
+- 개발 내용
+
+    - 스토어 수정, 삭제, 검색 기능 구현
+    
+    - 유저 마이페이지 기능 구현 (회원정보 수정, 코멘트 관리)
+    
+    - Responsive CSS 작성 ([index.css](https://github.com/HamSungJun/EIKI/blob/master/web/resources/css/index.css), [join.css](https://github.com/HamSungJun/EIKI/blob/master/web/resources/css/join.css))
+    
+- 개발 예정
+
     - Responsive CSS 작성
