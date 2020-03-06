@@ -18,6 +18,8 @@ import java.util.Map;
 public class AdminService {
 
     private final static String STORE_IMAGE_UPLOAD_PATH = "/Users/hsjprime/Desktop/EIKI/web/resources/storeImages/";
+//    private final static String STORE_IMAGE_UPLOAD_PATH = "/home/ubuntu/server/apache-tomcat-8.5.51/webapps/EIKI/resources/storeImages/";
+
 
     @Autowired
     AdminDAO adminDAO;

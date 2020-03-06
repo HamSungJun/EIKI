@@ -189,9 +189,10 @@
 
         };
 
-        const postCommentPreference = (storeIdx, memberIdx, commentIdx) => {
+        const postCommentPreference = (storeIdx, memberIdx, commentIdx, clickMemberIdx) => {
 
             if (!isCommentPreferenceFetching) {
+                // alert("코멘트 선호도 입력");
                 fetch("/eiki/store/comment/preference", {
                     method: "POST",
                     headers: {
@@ -200,7 +201,8 @@
                     body: JSON.stringify({
                         STORE_DEC_IDX: parseInt(storeIdx),
                         MEMBER_DEC_IDX: parseInt(memberIdx),
-                        COMMENT_DEC_IDX: parseInt(commentIdx)
+                        COMMENT_DEC_IDX: parseInt(commentIdx),
+                        CLICK_MEMBER_DEC_IDX: parseInt(clickMemberIdx)
                     })
                 }).then(async response => {
                     const toJson = await response.json();
@@ -255,7 +257,8 @@
                         postCommentPreference(
                             comment["STORE_DEC_IDX"],
                             comment["MEMBER_DEC_IDX"],
-                            comment["COMMENT_DEC_IDX"]
+                            comment["COMMENT_DEC_IDX"],
+                            <c:out value="${User['MEMBER_DEC_IDX']}"/>
                         )
                     });
 
@@ -351,29 +354,18 @@
                     <span class="Title-Text">${StoreInfo['STORE_NAME']}</span>
                 </div>
                 <div class="--D-Flex-Center">
-                    <div class="Badge">
-                        <div class="Badge-Icon">
-                            <i class="fas fa-motorcycle Icon-Delivery"></i>
+                    <c:if test="${StoreInfo['IS_DELIVERY'] == false}">
+                        <div class="Badge">
+                            <div class="Badge-Icon">
+                                <i class="fas fa-motorcycle Icon-Delivery"></i>
+                            </div>
                         </div>
-                        <div class="Badge-Value">
-                            <c:choose>
-                                <c:when test="${StoreInfo['IS_DELIVERY'] == true}">
-                                    <span>O</span>
-                                </c:when>
-                                <c:when test="${StoreInfo['IS_DELIVERY'] == false}">
-                                    <span>X</span>
-                                </c:when>
-                            </c:choose>
-                        </div>
-                    </div>
+                    </c:if>
                 </div>
                 <div class="--D-Flex-Center">
                     <div class="Badge">
                         <div class="Badge-Icon">
-                            <i class="fas fa-phone Icon-Phone"></i>
-                        </div>
-                        <div class="Badge-Value">
-                            <span>${StoreInfo['STORE_CALL']}</span>
+                            <a href="tel:${StoreInfo['STORE_CALL']}">&#9742;</a>
                         </div>
                     </div>
                 </div>
@@ -602,7 +594,9 @@
                                         postCommentPreference(
                                     <c:out value="${StoreComment['STORE_DEC_IDX']}"/>,
                                     <c:out value="${StoreComment['MEMBER_DEC_IDX']}"/>,
-                                    <c:out value="${StoreComment['COMMENT_DEC_IDX']}"/>)
+                                    <c:out value="${StoreComment['COMMENT_DEC_IDX']}"/>,
+                                    <c:out value="${User['MEMBER_DEC_IDX']}"/>
+                                        )
                                         ">
                                     <span class="Wrapper-Item"><i class="fas fa-heart Heart-Icon"></i></span>
                                     <span class="Wrapper-Item Comment-Preference">${StoreComment['COMMENT_PREFERENCE']}</span>

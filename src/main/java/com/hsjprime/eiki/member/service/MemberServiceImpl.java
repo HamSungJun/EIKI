@@ -21,6 +21,7 @@ import java.util.Map;
 public class MemberServiceImpl implements MemberService {
 
     private static final String PROFILE_IMAGE_UPLOAD_PATH = "/Users/hsjprime/Desktop/EIKI/web/resources/userImages/";
+//    private static final String PROFILE_IMAGE_UPLOAD_PATH = "/home/ubuntu/server/apache-tomcat-8.5.51/webapps/EIKI/resources/userImages/";
     private static final String[] ADMIN_IDS = {"god1857@hmail.hanyang.ac.kr"};
 
     @Autowired

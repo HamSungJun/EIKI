@@ -38,20 +38,16 @@
 }
 
 .Badge {
-    display: grid;
-    grid-template-columns: auto auto;
-    column-gap: 10px;
-    padding: 5px 10px;
+    padding: 5px 7px;
     border-radius: 14px;
     height: 28px;
     background-color: hsl(264, 45%, 94%);
     color: #272c34;
 }
 
-.Badge-Icon {
-    border-right: 2px solid #272c34;
-    padding-right: 7px;
-    margin-top: 1px;
+.Badge-Icon a{
+    color: #272C34;
+    text-decoration: none;
 }
 
 .Icon-Phone {
@@ -74,7 +70,7 @@
 .Body-Image-Box {
     display: grid;
     column-gap: 20px;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 1fr 4fr;
     max-height: 674px;
     overflow-y: auto;
 }
@@ -91,13 +87,13 @@
 .Thumbnail-Image-Box img,
 .Other-Image-Box img {
     width: 100%;
-    object-fit: contain;
+    object-fit: fill;
     box-shadow: 0 2px 2px #ccc;
     cursor: pointer;
 }
 
 .Thumbnail-Image-Box img {
-    height: 100%;
+    /*height: 100%;*/
 }
 
 .Other-Image-Box img {
@@ -263,6 +259,14 @@
 .Menu-List-Item div {
     display: flex;
     align-items: center;
+}
+
+.Menu-List-Item div:nth-child(1) {
+    justify-content: flex-start;
+    padding-left: 10px;
+}
+
+.Menu-List-Item div:nth-child(2) {
     justify-content: center;
 }
 
@@ -293,22 +297,23 @@
 }
 
 .Review-Pref {
-    text-align: left;
-    padding-top: 1px;
+    display: grid;
+    grid-template-columns: auto 1fr;
 }
 
 .Heart-Pref-Wrapper {
     cursor: pointer;
-    display: inline-grid;
+    display: grid;
     grid-template-columns: 20px 15px;
     margin-right: 5px;
+    min-width: 35px;
 }
 
-.Wrapper-Item{
+.Wrapper-Item {
     text-align: center;
 }
 
-.Wrapper-Item:nth-child(1){
+.Wrapper-Item:nth-child(1) {
     padding-top: 2px;
 }
 
@@ -316,8 +321,9 @@
     color: #FF5252;
 }
 
-.Delete-Comment-Box{
+.Delete-Comment-Box {
     cursor: pointer;
+    padding-top: 1px;
 }
 
 .Review-Nickname {
@@ -379,4 +385,165 @@
 
 .Review-Interface button:hover {
     font-weight: 500;
+}
+
+@media screen and (max-width: 1600px) {
+
+    .Menu-List {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+}
+
+@media screen and (max-width: 1400px) {
+
+    .Menu-List {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+}
+
+@media screen and (max-width: 1256px) {
+
+    .Menu-List {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .Info-Box {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media screen and (max-width: 1000px) {
+
+    .Menu-List {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media screen and (max-width: 799px) {
+
+    .Store-Box {
+        padding: 10px;
+    }
+
+    .Info-Box-Title-Row {
+        margin-bottom: 10px;
+        column-gap: 10px;
+    }
+
+    .Body-Image-Box {
+        column-gap: 10px;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        row-gap: 10px;
+        max-height: none;
+        height: auto;
+    }
+
+    .Thumbnail-Image-Box {
+        grid-row-start: 1;
+        grid-row-end: 2;
+        border-radius: 4px;
+    }
+
+    .Thumbnail-Image-Box img {
+        object-fit: fill;
+        height: auto;
+    }
+
+    .Other-Image-Row {
+        padding-right: 0;
+        white-space: nowrap;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        display: block;
+        border-right: none;
+        height: auto;
+    }
+
+    .Other-Image-Box {
+        width: 25%;
+        display: inline-block;
+        margin-bottom: 0;
+        margin-right: 8px;
+    }
+
+    .Other-Image-Box:last-child {
+        margin-right: 0;
+    }
+
+    .Body-Content-Box {
+        padding: 10px 0;
+    }
+
+    .Content-Body {
+        padding: 10px;
+    }
+
+    .Content-Body-Text {
+        font-size: 12px;
+    }
+
+    .Info-Box-Title-Row {
+        grid-template-columns: 35px 1fr auto auto;
+        column-gap: 10px;
+        height: 35px;
+    }
+
+    .Title-Icon-Box {
+        font-size: 15px;
+    }
+
+    .Title-Text {
+        font-size: 15px;
+        margin-bottom: 0;
+    }
+
+    .Category-Title {
+        font-size: 15px;
+    }
+
+    .Review-Write-Text {
+        font-size: 14px;
+    }
+
+    .Menu-Name-Text{
+        font-size: 14px;
+    }
+
+    .Menu-Price-Text{
+        font-size: 13px;
+    }
+
+    .Review-Interface input,
+    .Review-Interface button{
+        font-size: 14px;
+    }
+
+    .Icon-Delivery{
+        font-size: 14px;
+        margin-top: 2px;
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+
+    .Menu-List {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+}
+
+@media screen and (max-width: 400px) {
+
+    .Menu-List {
+        grid-template-columns: 1fr;
+        height: auto;
+        max-height: none;
+    }
+
 }

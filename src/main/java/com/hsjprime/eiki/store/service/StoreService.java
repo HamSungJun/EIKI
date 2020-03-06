@@ -102,17 +102,19 @@ public class StoreService {
     public boolean setCommentPreference(Map<String, Object> jsonCommentPreference) {
 
         int storeIdx = (int) jsonCommentPreference.get("STORE_DEC_IDX");
-        int memberIdx = (int) jsonCommentPreference.get("MEMBER_DEC_IDX");
+        int commentedMemberIdx = (int) jsonCommentPreference.get("MEMBER_DEC_IDX");
+        int clickedMemberIdx = (int) jsonCommentPreference.get("CLICK_MEMBER_DEC_IDX");
         int commentIdx = (int) jsonCommentPreference.get("COMMENT_DEC_IDX");
+
         boolean result = false;
 
-        if (isCommentPreferenceHistoryExist(storeIdx, memberIdx, commentIdx)) {
-            if (storeDAO.deleteCommentPreferenceHistory(storeIdx, memberIdx, commentIdx)) {
-                result = storeDAO.updateCommentPreference(storeIdx, memberIdx, commentIdx, -1);
+        if (isCommentPreferenceHistoryExist(storeIdx, clickedMemberIdx, commentIdx)) {
+            if (storeDAO.deleteCommentPreferenceHistory(storeIdx, clickedMemberIdx, commentIdx)) {
+                result = storeDAO.updateCommentPreference(storeIdx, commentedMemberIdx, commentIdx, -1);
             }
         } else {
-            if (storeDAO.insertCommentPreferenceHistory(storeIdx, memberIdx, commentIdx)) {
-                result = storeDAO.updateCommentPreference(storeIdx, memberIdx, commentIdx, 1);
+            if (storeDAO.insertCommentPreferenceHistory(storeIdx, clickedMemberIdx, commentIdx)) {
+                result = storeDAO.updateCommentPreference(storeIdx, commentedMemberIdx, commentIdx, 1);
             }
         }
 
