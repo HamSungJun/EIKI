@@ -297,3 +297,57 @@
     - 스토어 메뉴, 마이페이지 댓글 텍스트 오버플로우 발생시 ... 처리
     
     - 윈도우OS 브라우저 뷰 스타일 조정
+    
+### 2020.03.06
+
+- 개발 내용
+
+    - 스토어 상세 페이지 반응형 레이아웃 구현 ([store.css](https://github.com/HamSungJun/EIKI/blob/master/web/resources/css/store.css))
+    
+    - 댓글 좋아요 카운트 다른 유저가 클릭했을 때 숫자가 감소되던 버그 수정
+    
+    - 응답 메시지에서 statusCode를 읽던 버그 수정
+    
+- 개발 예정
+
+    - Responsive CSS 작성
+    
+    - 스토어 평점 아이콘 하트 -> 별 전환 예정
+    
+    - 스토어 메뉴, 마이페이지 댓글 텍스트 오버플로우 발생시 ... 처리
+    
+    - 윈도우OS 브라우저 뷰 스타일 조정
+    
+### 2020.03.09
+
+- 개발 내용
+
+    - 반응형 레이아웃 구현
+    
+        - [스토어 상세 페이지](https://github.com/HamSungJun/EIKI/blob/master/web/resources/css/store.css)
+        
+        - [스토어 생성 페이지](https://github.com/HamSungJun/EIKI/blob/master/web/resources/css/post.css)
+        
+        - [스토어 관리 페이지](https://github.com/HamSungJun/EIKI/blob/master/web/resources/css/edit.css)
+        
+        - [마이 페이지](https://github.com/HamSungJun/EIKI/blob/master/web/resources/css/mypage.css)
+        
+        - [Topbar 컴포넌트](https://github.com/HamSungJun/EIKI/blob/master/web/resources/css/global.css)
+        
+    - 스토어 상세 페이지 후기 리스트 입력 시각 추가.
+    
+    - 스토어 상세 페이지 후기 리스트 렌더링 순서 변경(최근순 -> 오래된순)
+    
+    - 스토어 메뉴, 마이페이지 댓글 텍스트 오버플로우 발생시 ... 처리
+    
+    - 스토어 평점 아이콘 하트 -> 별 전환 예정
+    
+- 개발 예정
+
+    - Responsive CSS 작성
+   
+    - 어드민 멤버 관리 페이지 작성
+    
+        - 멤버 어드민 권한 부여 및 회수 기능
+        
+        - 악의적인 유저 가입 방지 기능

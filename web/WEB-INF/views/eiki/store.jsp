@@ -35,7 +35,7 @@
                     zoomOut: 2,
                     oneToOne: 2,
                     reset: 2,
-                    prev: 2,
+                    prev: 1,
                     play: {
                         show: 0,
                         size: 'large',
@@ -578,6 +578,9 @@
         <div class="Review-List-Box">
             <c:forEach items="${StoreComments}" var="StoreComment">
                 <div class="Review-Row">
+                    <span class="--Date-Style">
+                            ${StoreComment["UPDATED_AT"]}
+                    </span>
                     <div class="Review-Member-Image">
                         <img src="<c:url value="/resources/userImages/${StoreComment['MEMBER_PROFILE_IMAGE']}" />"
                              alt="">

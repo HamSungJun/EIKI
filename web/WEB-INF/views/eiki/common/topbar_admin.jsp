@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<div class="Topbar">
+<div class="Topbar --Admin-Top-Bar">
     <div class="Topbar-Column Topbar-Logo-Box">
         <h1 class="Topbar-Logo-Text">
             ADMIN
@@ -16,7 +16,7 @@
     <div class="Topbar-Column">
         <span class="Topbar-Nav-Tool --Color-Violet"><i class="fas fa-bars fa-2x"></i></span>
     </div>
-    <div class="Nav-Box --Nav-Fold">
+    <div class="Nav-Box --Admin-Nav-Box --Nav-Fold">
         <div class="Nav-Row">
             <a href="<c:url value="/eiki/home" />"><span class="Nav-Text">Home</span></a>
         </div>

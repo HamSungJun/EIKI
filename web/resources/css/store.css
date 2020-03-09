@@ -45,7 +45,7 @@
     color: #272c34;
 }
 
-.Badge-Icon a{
+.Badge-Icon a {
     color: #272C34;
     text-decoration: none;
 }
@@ -82,6 +82,7 @@
 .Thumbnail-Image-Box {
     text-align: center;
     overflow: hidden;
+    max-height: 674px;
 }
 
 .Thumbnail-Image-Box img,
@@ -287,6 +288,7 @@
     grid-template-columns: 45px 1fr;
     column-gap: 20px;
     margin-bottom: 5px;
+    position: relative;
 }
 
 .Review-Header {
@@ -298,14 +300,14 @@
 
 .Review-Pref {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto auto 1fr;
+    column-gap: 10px;
 }
 
 .Heart-Pref-Wrapper {
     cursor: pointer;
     display: grid;
     grid-template-columns: 20px 15px;
-    margin-right: 5px;
     min-width: 35px;
 }
 
@@ -348,6 +350,7 @@
     margin: 0;
     font-weight: 300;
     font-size: 14px;
+    word-break: break-word;
 }
 
 .Review-Interface {
@@ -385,6 +388,17 @@
 
 .Review-Interface button:hover {
     font-weight: 500;
+}
+
+.--Date-Style {
+    font-size: 12px;
+    display: flex;
+    font-style: italic;
+    align-items: flex-end;
+    color: #bdbdbd;
+    position: absolute;
+    bottom: -5px;
+    right: 0;
 }
 
 @media screen and (max-width: 1600px) {
@@ -510,20 +524,20 @@
         font-size: 14px;
     }
 
-    .Menu-Name-Text{
+    .Menu-Name-Text {
         font-size: 14px;
     }
 
-    .Menu-Price-Text{
+    .Menu-Price-Text {
         font-size: 13px;
     }
 
     .Review-Interface input,
-    .Review-Interface button{
+    .Review-Interface button {
         font-size: 14px;
     }
 
-    .Icon-Delivery{
+    .Icon-Delivery {
         font-size: 14px;
         margin-top: 2px;
     }
@@ -534,6 +548,14 @@
 
     .Menu-List {
         grid-template-columns: repeat(1, 1fr);
+    }
+
+}
+
+@media screen and (max-width: 450px) {
+
+    .Review-Row {
+        padding: 10px 0;
     }
 
 }

@@ -492,24 +492,31 @@ html, body {
         right: 10px;
     }
 
-    .Nav-Box{
+    .Nav-Box {
         top: 89px;
     }
 
-    .Nav-Row{
+    .--Admin-Top-Bar {
+        row-gap: 0;
+    }
+
+    .--Admin-Nav-Box {
+        top: 44px;
+    }
+
+    .Nav-Row {
         height: 40px;
         padding-left: 30px;
         font-size: 14px;
     }
 
-    .--Show-At-Mobile{
+    .--Show-At-Mobile {
         display: block;
     }
 
 }
 
 @media screen and (max-width: 400px) {
-
 
 
 }

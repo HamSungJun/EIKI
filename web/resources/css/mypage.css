@@ -74,6 +74,9 @@
 .User-Info-Row div:nth-child(2) input {
     height: 38px;
     text-align: center;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 345px;
 }
 
 .Function-Btn {
@@ -81,6 +84,8 @@
     outline: none;
     border-radius: 2px;
     cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: white;
 }
 
 .Guide-Message {
@@ -111,6 +116,7 @@
     transition: all 0.3s ease;
     font-size: 16px;
     margin-left: 6px;
+    background-color: white;
 }
 
 .Post-Btn:hover {
@@ -118,8 +124,11 @@
     color: white;
 }
 
-.Comment-Header-Row {
+.Comment-List-Box {
     margin-top: 20px;
+}
+
+.Comment-Header-Row {
     border-top: 1px solid #272c34;
     height: 45px;
     display: grid;
@@ -147,6 +156,7 @@
 
 .Comment-Content-Item {
     display: flex;
+    overflow: hidden;
     align-items: center;
     justify-content: center;
     padding: 0 20px;
@@ -157,6 +167,9 @@
 .Comment-Link {
     color: #272c34;
     text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .Comment-Link:hover {
@@ -171,6 +184,7 @@
 
 .Comment-Page-Row {
     text-align: center;
+    margin-top: 10px;
 }
 
 .Page-Link {
@@ -194,4 +208,124 @@
     font-size: 16px;
     text-decoration: none;
     color: #7c4dff;
+}
+
+@media screen and (max-width: 800px) {
+
+    .My-Page-Box {
+        padding: 10px;
+        min-height: calc(100vh - 50px);
+    }
+
+    .My-Page-Panel-Header {
+        padding-bottom: 10px;
+        border-bottom: none;
+    }
+
+    .Panel-Item {
+        font-size: 14px;
+    }
+
+    .User-Info-Box {
+        margin-top: 0;
+    }
+
+    .User-Info-Row {
+        font-size: 14px;
+        height: 50px;
+        grid-template-columns: 100px 1fr;
+    }
+
+    .User-Info-Row div:nth-child(2) input {
+        height: 34px;
+        max-width: 208px;
+    }
+
+    .Comment-List-Box {
+        margin-top: 0;
+    }
+
+    .Comment-Header-Row,
+    .Comment-Content-Row {
+        column-gap: 10px;
+        grid-template-columns: 66px 1fr 80px 0;
+
+    }
+
+    .Comment-Header-Row .Comment-Header-Item:nth-child(4),
+    .Comment-Content-Row .Comment-Content-Item:nth-child(4) {
+        width: 0;
+        overflow: hidden;
+        padding: 0;
+    }
+
+    .Comment-Header-Row .Comment-Header-Item:nth-child(2) {
+        justify-content: flex-start;
+    }
+
+    .Comment-Header-Item,
+    .Comment-Content-Item {
+        padding: 0 10px;
+    }
+
+    .Page-Mover {
+        font-size: 14px;
+    }
+
+    .Page-Link {
+        width: auto;
+        height: auto;
+        padding: 6px;
+        font-size: 14px;
+    }
+
+}
+
+@media screen and (max-width: 450px) {
+
+    .My-Page-Box {
+        min-height: calc(100vh - 90px);
+    }
+
+    .User-Info-Row {
+        font-size: 11px;
+        height: 50px;
+    }
+
+    .User-Info-Row div:nth-child(2) {
+        padding: 0 10px;
+    }
+
+    .User-Info-Row div:nth-child(2) input {
+        max-width: 115px;
+    }
+
+    .Function-Btn {
+        padding: 3px;
+        height: 34px;
+    }
+
+    .Comment-Header-Row,
+    .Comment-Content-Row {
+        column-gap: 0px;
+        grid-template-columns: 66px 1fr 80px 0;
+
+    }
+
+    .Comment-Header-Item,
+    .Comment-Content-Item {
+        font-size: 12px;
+    }
+
+    .Page-Mover {
+        font-size: 12px;
+    }
+
+    .Page-Link {
+        width: auto;
+        height: auto;
+        padding: 3px;
+        font-size: 11px;
+    }
+
 }

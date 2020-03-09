@@ -198,3 +198,19 @@
     border-radius: 50%;
     cursor: pointer;
 }
+
+@media screen and (max-width: 800px) {
+
+    #MENU-LIST {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media screen and (max-width: 450px) {
+
+    .Menu-Item div input {
+        font-size: 12px;
+    }
+
+}
