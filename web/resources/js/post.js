@@ -284,7 +284,7 @@ const requestStorePost = () => {
                 method: "POST",
                 body: formData
             }).then(async response => {
-                if (response.status === 1) {
+                if (response.status === 200) {
                     alert("스토어가 성공적으로 등록되었습니다.");
                     window.location.href = "/eiki/home";
                 }

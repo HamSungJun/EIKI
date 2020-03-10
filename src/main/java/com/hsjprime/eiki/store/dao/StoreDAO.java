@@ -103,6 +103,7 @@ public class StoreDAO {
 
         String SQL = "SELECT IFNULL(EM.MEMBER_NICKNAME, \"탈퇴한학우\")            AS MEMBER_NICKNAME,\n" +
                 "       IFNULL(EM.MEMBER_PROFILE_IMAGE, \"default.png\") AS MEMBER_PROFILE_IMAGE,\n" +
+                "       ESC.STORE_DEC_IDX                              AS STORE_DEC_IDX,\n" +
                 "       ESC.MEMBER_DEC_IDX                             AS MEMBER_DEC_IDX,\n" +
                 "       ESC.COMMENT_DEC_IDX                            AS COMMENT_DEC_IDX,\n" +
                 "       ESC.COMMENT_CONTENT                            AS COMMENT_CONTENT,\n" +

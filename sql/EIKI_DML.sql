@@ -81,6 +81,7 @@ WHERE ESM.STORE_DEC_IDX = :STORE_DEC_IDX;
 -- /eiki/store/{storeIdx} 스토어 코멘트 리스트 쿼리
 SELECT IFNULL(EM.MEMBER_NICKNAME, "탈퇴한학우")            AS MEMBER_NICKNAME,
        IFNULL(EM.MEMBER_PROFILE_IMAGE, "default.png") AS MEMBER_PROFILE_IMAGE,
+       ESC.STORE_DEC_IDX                              AS STORE_DEC_IDX,
        ESC.MEMBER_DEC_IDX                             AS MEMBER_DEC_IDX,
        ESC.COMMENT_DEC_IDX                            AS COMMENT_DEC_IDX,
        ESC.COMMENT_CONTENT                            AS COMMENT_CONTENT,

@@ -282,6 +282,12 @@
                     $ReviewContentText.textContent = comment["COMMENT_CONTENT"];
 
                     $ReviewMemberImage.appendChild($MemberImage);
+
+                    let $ReviewDate = document.createElement("span");
+                    $ReviewDate.classList.add("--Date-Style");
+                    $ReviewDate.textContent = comment["UPDATED_AT"];
+
+                    $ReviewRow.appendChild($ReviewDate);
                     $ReviewRow.appendChild($ReviewMemberImage);
 
                     $ReviewNickname.appendChild($Nickname);
