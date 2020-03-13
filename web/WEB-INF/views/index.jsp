@@ -13,6 +13,8 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.eiki.store" />
     <meta property="og:image" content="https://github.com/HamSungJun/EIKI/blob/master/devImages/Mobile/EIKI_STORE_M.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <link rel="stylesheet" href="<c:url value="/resources/css/normalize.css" />">
     <link rel="stylesheet" href="<c:url value="/resources/css/global.css" />">
     <link rel="stylesheet" href="<c:url value="/resources/css/index.css" />">
@@ -32,7 +34,7 @@
                         <i class="fas fa-user-circle fa-2x"></i>
                     </div>
                     <div class="Index-Wrapper__Form__Input-Section__Grid-Row__Input-Column">
-                        <input id="MEMBER_ID" placeholder="Univ Email" type="text" name="MEMBER_ID">
+                        <input autocomplete="off" id="MEMBER_ID" placeholder="Univ Email" type="text" name="MEMBER_ID">
                     </div>
                 </div>
                 <div class="Index-Wrapper__Form__Input-Section__Grid-Row">
@@ -40,7 +42,7 @@
                         <i class="fas fa-key fa-2x"></i>
                     </div>
                     <div class="Index-Wrapper__Form__Input-Section__Grid-Row__Input-Column">
-                        <input id="MEMBER_PW" placeholder="Password" type="password" name="MEMBER_PW">
+                        <input autocomplete="off" id="MEMBER_PW" placeholder="Password" type="password" name="MEMBER_PW">
                     </div>
                 </div>
                 <div class="Index-Wrapper__Form__Func-Section__Grid-Row">
