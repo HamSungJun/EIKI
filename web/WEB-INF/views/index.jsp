@@ -8,6 +8,11 @@
     <meta name="keywords" content="음식,푸드,에리카,학생,위키,학교,학교앞">
     <meta name="author" content="HSJPRIME">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="EIKI" />
+    <meta property="og:description" content="에리카 학생들을 위한 학교앞 푸드 위키" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.eiki.store" />
+    <meta property="og:image" content="https://github.com/HamSungJun/EIKI/blob/master/devImages/Mobile/EIKI_STORE_M.png" />
     <link rel="stylesheet" href="<c:url value="/resources/css/normalize.css" />">
     <link rel="stylesheet" href="<c:url value="/resources/css/global.css" />">
     <link rel="stylesheet" href="<c:url value="/resources/css/index.css" />">
