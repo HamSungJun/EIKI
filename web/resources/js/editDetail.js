@@ -286,7 +286,7 @@ const validateAll = () => {
         }
     }
 
-    return {
+    const reqBody = {
         STORE_NAME: document.getElementById("STORE_NAME").value,
         STORE_CALL: document.getElementById("STORE_CALL").value,
         STORE_TYPE: document.querySelector("input[name='STORE_TYPE']:checked").value,
@@ -299,6 +299,10 @@ const validateAll = () => {
         STORE_DESCRIPTION: document.getElementById("STORE_DESCRIPTION").value
     };
 
+    // console.log(reqBody);
+
+    return reqBody
+
 };
 
 const requestStoreUpdate = () => {
@@ -309,7 +313,7 @@ const requestStoreUpdate = () => {
         console.log(reqBody);
         let formData = new FormData();
         for (let key in reqBody) {
-            if (!["STORE_IMAGES", "STORE_THUMBNAIL"].includes(key)) {
+            if (!["STORE_IMAGES"].includes(key)) {
                 formData.append(key, reqBody[key]);
             } else {
                 if (reqBody[key] !== null && reqBody[key].length > 0) {

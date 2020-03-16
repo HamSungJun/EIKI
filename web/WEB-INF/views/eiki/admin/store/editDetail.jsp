@@ -112,12 +112,14 @@
             </div>
         </div>
         <div id="IMAGE-THUMBNAIL" class="Image-Preview-List">
-            <div class="Preview-Item --From-Server">
-                <div class="File-Remove-Circle">
-                    <i class="fas fa-times"></i>
+            <c:if test="${StoreImages.size() >= 1}">
+                <div class="Preview-Item --From-Server">
+                    <div class="File-Remove-Circle">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <img src="<c:url value="/resources/storeImages/${StoreImages[0]['STORE_IMAGE']}" />" alt="">
                 </div>
-                <img src="<c:url value="/resources/storeImages/${StoreImages[0]['STORE_IMAGE']}" />" alt="">
-            </div>
+            </c:if>
         </div>
         <div class="Store-Post-Content">
             <div class="Post-File-Group">
@@ -140,14 +142,16 @@
             </div>
         </div>
         <div id="IMAGE-LIST" class="Image-Preview-List">
-            <c:forEach items="${StoreImages}" var="StoreImage" begin="1">
-                <div class="Preview-Item --From-Server">
-                    <div class="File-Remove-Circle">
-                        <i class="fas fa-times"></i>
+            <c:if test="${StoreImages.size() >= 2}">
+                <c:forEach items="${StoreImages}" var="StoreImage" begin="1">
+                    <div class="Preview-Item --From-Server">
+                        <div class="File-Remove-Circle">
+                            <i class="fas fa-times"></i>
+                        </div>
+                        <img src="<c:url value="/resources/storeImages/${StoreImage['STORE_IMAGE']}" />" alt="">
                     </div>
-                    <img src="<c:url value="/resources/storeImages/${StoreImage['STORE_IMAGE']}" />" alt="">
-                </div>
-            </c:forEach>
+                </c:forEach>
+            </c:if>
         </div>
         <div id="STORE-IMAGES" class="Store-Post-Content"></div>
     </div>

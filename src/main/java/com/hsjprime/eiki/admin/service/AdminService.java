@@ -17,8 +17,8 @@ import java.util.Map;
 @Service
 public class AdminService {
 
-    private final static String STORE_IMAGE_UPLOAD_PATH = "/Users/hsjprime/Desktop/EIKI/web/resources/storeImages/";
-//    private final static String STORE_IMAGE_UPLOAD_PATH = "/home/ubuntu/server/apache-tomcat-8.5.51/webapps/EIKI/resources/storeImages/";
+//    private final static String STORE_IMAGE_UPLOAD_PATH = "/Users/hsjprime/Desktop/EIKI/web/resources/storeImages/";
+    private final static String STORE_IMAGE_UPLOAD_PATH = "/home/ubuntu/server/apache-tomcat-8.5.51/webapps/EIKI/resources/storeImages/";
 
 
     @Autowired
@@ -147,6 +147,8 @@ public class AdminService {
             for (int i = 0; i < menuMap.size(); i++) {
                 adminDAO.insertStoreMenu(storeIdx, (String) menuMap.get(i).get("MENU_NAME"), (int) menuMap.get(i).get("MENU_PRICE"));
             }
+        } else {
+            return false;
         }
 
         return true;

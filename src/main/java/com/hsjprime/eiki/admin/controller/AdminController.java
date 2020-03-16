@@ -10,6 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 @RequestMapping(value = "/eiki/admin")
 @SessionAttributes("User")
@@ -61,9 +66,36 @@ public class AdminController {
 
     @ResponseBody
     @RequestMapping(value = "/store/update/{storeIdx}", method = RequestMethod.POST)
-    public ResponseEntity updateStore(StorePostDTO storePostDTO, @PathVariable("storeIdx") int storeIdx) {
-        adminService.updateStore(storePostDTO, storeIdx);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity updateStore(
+            @RequestParam(value = "STORE_NAME", required = true) String STORE_NAME,
+            @RequestParam(value = "STORE_CALL", required = true) String STORE_CALL,
+            @RequestParam(value = "STORE_TYPE", required = true) String STORE_TYPE,
+            @RequestParam(value = "IS_DELIVERY", required = true) boolean IS_DELIVERY,
+            @RequestParam(value = "STORE_THUMBNAIL", required = false) MultipartFile STORE_THUMBNAIL,
+            @RequestParam(value = "STORE_IMAGES", required = false) List<MultipartFile> STORE_IMAGES,
+            @RequestParam(value = "STORE_MENUS", required = true) String STORE_MENUS,
+            @RequestParam(value = "STORE_LATITUDE", required = true) float STORE_LATITUDE,
+            @RequestParam(value = "STORE_LONGITUDE", required = true) float STORE_LONGITUDE,
+            @RequestParam(value = "STORE_DESCRIPTION", required = true) String STORE_DESCRIPTION,
+            @PathVariable("storeIdx") int storeIdx) {
+
+        StorePostDTO storePostDTO = new StorePostDTO();
+        storePostDTO.setSTORE_NAME(STORE_NAME);
+        storePostDTO.setSTORE_CALL(STORE_CALL);
+        storePostDTO.setSTORE_TYPE(STORE_TYPE);
+        storePostDTO.setIS_DELIVERY(IS_DELIVERY);
+        storePostDTO.setSTORE_THUMBNAIL(STORE_THUMBNAIL);
+        storePostDTO.setSTORE_IMAGES(STORE_IMAGES);
+        storePostDTO.setSTORE_MENUS(STORE_MENUS);
+        storePostDTO.setSTORE_LATITUDE(STORE_LATITUDE);
+        storePostDTO.setSTORE_LONGITUDE(STORE_LONGITUDE);
+        storePostDTO.setSTORE_DESCRIPTION(STORE_DESCRIPTION);
+
+        if(adminService.updateStore(storePostDTO, storeIdx)){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        };
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
     }
 
     @RequestMapping(value = "/store/delete/{storeIdx}", method = RequestMethod.DELETE)
