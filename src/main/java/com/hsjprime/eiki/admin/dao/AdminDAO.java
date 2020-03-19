@@ -1,6 +1,9 @@
 package com.hsjprime.eiki.admin.dao;
 
+import com.hsjprime.eiki.admin.dao.mapper.MemberMapper;
+import com.hsjprime.eiki.admin.dto.Member;
 import com.hsjprime.eiki.admin.dto.StorePostDTO;
+import com.hsjprime.eiki.member.dto.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -161,6 +164,64 @@ public class AdminDAO {
         paramMap.addValue("STORE_IMAGE", fileName);
 
         return (namedJdbcTemplate.update(SQL, paramMap)) == 1;
+    }
+
+    public int selectMemberCount(){
+
+        String SQL = "SELECT COUNT(*) AS COUNT\n" +
+                "FROM EIKI_MEMBER;";
+
+        return jdbcTemplate.queryForObject(SQL, Integer.class);
+
+    }
+
+    public List<Member> selectMemberList(PageVO pageVO){
+
+        String SQL = "SELECT EM.MEMBER_DEC_IDX       AS MEMBER_DEC_IDX,\n" +
+                "       EM.MEMBER_ID            AS MEMBER_ID,\n" +
+                "       EM.MEMBER_NICKNAME      AS MEMBER_NICKNAME,\n" +
+                "       EM.MEMBER_PHONE         AS MEMBER_PHONE,\n" +
+                "       EM.MEMBER_PROFILE_IMAGE AS MEMBER_PROFILE_IMAGE,\n" +
+                "       EM.IS_ADMIN             AS IS_ADMIN\n" +
+                "FROM EIKI_MEMBER AS EM\n" +
+                "ORDER BY MEMBER_DEC_IDX ASC\n" +
+                "LIMIT :LIMIT_VALUE\n" +
+                "    OFFSET :OFFSET_BY_PAGE;";
+
+        MapSqlParameterSource paramMap = new MapSqlParameterSource();
+        paramMap.addValue("LIMIT_VALUE", pageVO.getItemPerPage());
+        paramMap.addValue("OFFSET_BY_PAGE", pageVO.getOffsetByPage());
+
+        return namedJdbcTemplate.query(SQL, paramMap, new MemberMapper());
+
+    }
+
+    public boolean updateMemberAuthority(int memberIdx){
+
+        String SQL = "UPDATE EIKI_MEMBER AS EM\n" +
+                "SET EM.IS_ADMIN = IF(EM.IS_ADMIN = 1, 0, 1)\n" +
+                "WHERE EM.MEMBER_DEC_IDX = :MEMBER_DEC_IDX;";
+
+        MapSqlParameterSource paramMap = new MapSqlParameterSource();
+        paramMap.addValue("MEMBER_DEC_IDX", memberIdx);
+
+        return (namedJdbcTemplate.update(SQL, paramMap)) == 1;
+
+    }
+
+    public List<Map<String, Object>> selectAccessHistory(int duration){
+
+        String SQL = "SELECT EAH.ACCESS_DATE  AS ACCESS_DATE,\n" +
+                "       EAH.ACCESS_COUNT AS ACCESS_COUNT\n" +
+                "FROM EIKI_ACCESS_HISTORY AS EAH\n" +
+                "WHERE EAH.ACCESS_DATE >= DATE_SUB(NOW(), INTERVAL :DURATION DAY)\n" +
+                "ORDER BY ACCESS_DATE ASC;";
+
+        MapSqlParameterSource paramMap = new MapSqlParameterSource();
+        paramMap.addValue("DURATION", duration);
+
+        return namedJdbcTemplate.queryForList(SQL, paramMap);
+
     }
 
 }

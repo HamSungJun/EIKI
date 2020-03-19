@@ -12,7 +12,7 @@
     <meta property="og:description" content="에리카 학생들을 위한 학교앞 푸드 위키" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.eiki.store" />
-    <meta property="og:image" content="https://github.com/HamSungJun/EIKI/blob/master/devImages/Mobile/EIKI_STORE_M.png" />
+    <meta property="og:image" content="<c:url value="/resources/images/sample.png" />" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <link rel="stylesheet" href="<c:url value="/resources/css/normalize.css" />">
@@ -28,13 +28,14 @@
             <h1 class="Index-Wrapper__Form__Header-Section__Text">EIKI</h1>
         </div>
         <div class="Index-Wrapper__Form__Input-Section">
-            <form action="<c:url value="/auth/login"/>" method="POST">
+            <form autocomplete="off" action="<c:url value="/auth/login"/>" method="POST">
                 <div class="Index-Wrapper__Form__Input-Section__Grid-Row">
                     <div class="Index-Wrapper__Form__Input-Section__Grid-Row__Icon-Column">
                         <i class="fas fa-user-circle fa-2x"></i>
                     </div>
                     <div class="Index-Wrapper__Form__Input-Section__Grid-Row__Input-Column">
-                        <input autocomplete="off" id="MEMBER_ID" placeholder="Univ Email" type="text" name="MEMBER_ID">
+                        <input type="text" class="--Display-None">
+                        <input autocomplete="new-password" id="MEMBER_ID" placeholder="Univ Email" type="text" name="MEMBER_ID">
                     </div>
                 </div>
                 <div class="Index-Wrapper__Form__Input-Section__Grid-Row">
@@ -42,7 +43,8 @@
                         <i class="fas fa-key fa-2x"></i>
                     </div>
                     <div class="Index-Wrapper__Form__Input-Section__Grid-Row__Input-Column">
-                        <input autocomplete="off" id="MEMBER_PW" placeholder="Password" type="password" name="MEMBER_PW">
+                        <input type="password" class="--Display-None">
+                        <input autocomplete="new-password" id="MEMBER_PW" placeholder="Password" type="password" name="MEMBER_PW">
                     </div>
                 </div>
                 <div class="Index-Wrapper__Form__Func-Section__Grid-Row">

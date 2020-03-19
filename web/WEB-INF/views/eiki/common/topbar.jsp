@@ -10,7 +10,8 @@
     <div class="Topbar-Column">
         <div class="Topbar-Search-Box">
             <div class="Search-Input-Box">
-                <input id="SEARCH-INPUT" placeholder="스토어 검색..." type="text">
+                <input type="text" class="--Display-None">
+                <input autocomplete="new-password" id="SEARCH-INPUT" placeholder="스토어 검색..." type="text">
             </div>
             <div class="Search-Icon-Box">
                 <i class="fas fa-search"></i>
@@ -22,7 +23,7 @@
             <img src="<c:url value="/resources/userImages/${param.MEMBER_PROFILE_IMAGE}" />" alt="">
         </div>
         <span>
-            <a class="Topbar-Link Topbar-MyPage"
+            <a class="Topbar-Link Topbar-MyPage --Overflow-Ellipsis"
                href="<c:url value="/eiki/member/manage" />">${param.MEMBER_NICKNAME}</a>님
         </span>
     </div>

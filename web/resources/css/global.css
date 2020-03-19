@@ -159,6 +159,12 @@ html, body {
     color: gray;
 }
 
+.--Overflow-Ellipsis{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .--No-Link-Style {
     text-decoration: none;
     color: #272c34;

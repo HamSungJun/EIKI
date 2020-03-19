@@ -1,7 +1,9 @@
 package com.hsjprime.eiki.admin.service;
 
+import com.hsjprime.eiki.admin.dto.Member;
 import com.hsjprime.eiki.admin.dto.StorePostDTO;
 import com.hsjprime.eiki.admin.dao.AdminDAO;
+import com.hsjprime.eiki.member.dto.PageVO;
 import com.hsjprime.eiki.util.method.UtilMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -152,6 +154,30 @@ public class AdminService {
         }
 
         return true;
+
+    }
+
+    public int getMemberCount(){
+
+        return adminDAO.selectMemberCount();
+
+    }
+
+    public List<Member> getMemberList(PageVO pageVO){
+
+        return adminDAO.selectMemberList(pageVO);
+
+    }
+
+    public boolean memberAuthorityUpdate(int memberIdx){
+
+        return adminDAO.updateMemberAuthority(memberIdx);
+
+    }
+
+    public List<Map<String, Object>> getAccessHistory(int duration){
+
+        return adminDAO.selectAccessHistory(duration);
 
     }
 

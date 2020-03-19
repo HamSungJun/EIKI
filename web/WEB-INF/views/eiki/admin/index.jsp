@@ -10,20 +10,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<c:url value="/resources/css/normalize.css" />">
     <link rel="stylesheet" href="<c:url value="/resources/css/global.css" />">
-    <link rel="stylesheet" href="<c:url value="/resources/css/home.css" />">
+    <link rel="stylesheet" href="<c:url value="/resources/css/adminHome.css" />">
+    <link rel="stylesheet" href="<c:url value="/resources/css/Chart.min.css" />">
     <script defer src="<c:url value="/resources/js/all.min.js" />"></script>
+    <script src="<c:url value="/resources/js/Chart.min.js" />"></script>
     <script src="<c:url value="/resources/js/common/topbar_admin.js" />"></script>
-    <script>
-
-        window.onload = () => {
-
-            initTopBarAdminEvents();
-
-        }
-
-    </script>
+    <script src="<c:url value="/resources/js/adminHome.js" />"></script>
 </head>
 <body>
-    <c:import url="../common/topbar_admin.jsp" charEncoding="UTF-8" />
+<c:import url="../common/topbar_admin.jsp" charEncoding="UTF-8"/>
+<div class="Admin-Home-Box">
+    <div>
+        <h3 class="Access-Header"># 서비스 접근</h3>
+    </div>
+    <div class="Access-Row">
+        <canvas style="height: 100%; width: 100%" id="ACCESS-CHART"></canvas>
+    </div>
+</div>
 </body>
 </html>

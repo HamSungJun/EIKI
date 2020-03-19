@@ -2,6 +2,7 @@ package com.hsjprime.eiki.admin.controller;
 
 import com.hsjprime.eiki.admin.dto.StorePostDTO;
 import com.hsjprime.eiki.admin.service.AdminService;
+import com.hsjprime.eiki.member.dto.PageVO;
 import com.hsjprime.eiki.member.vo.MemberSessionVO;
 import com.hsjprime.eiki.store.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -91,9 +91,10 @@ public class AdminController {
         storePostDTO.setSTORE_LONGITUDE(STORE_LONGITUDE);
         storePostDTO.setSTORE_DESCRIPTION(STORE_DESCRIPTION);
 
-        if(adminService.updateStore(storePostDTO, storeIdx)){
+        if (adminService.updateStore(storePostDTO, storeIdx)) {
             return ResponseEntity.status(HttpStatus.OK).build();
-        };
+        }
+        ;
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
     }
@@ -114,9 +115,42 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
-    @RequestMapping(value = "/member/manage", method = RequestMethod.GET)
-    public String toMemberManageIndexPage() {
+    @RequestMapping(value = "/member/manage/{pageIdx}", method = RequestMethod.GET)
+    public String toMemberManageIndexPage(Model model, @PathVariable("pageIdx") int pageIdx) {
+
+        PageVO pageVO = new PageVO(pageIdx, adminService.getMemberCount());
+
+        if (pageIdx < 1)
+            return "redirect:/eiki/admin/member/manage/1";
+        if (pageIdx > pageVO.getMaxPageIdx() && pageVO.getMaxPageIdx() >= 1)
+            return "redirect:/eiki/admin/member/manage/" + pageVO.getMaxPageIdx();
+
+        model.addAttribute("PageVO", pageVO);
+        model.addAttribute("MemberList", adminService.getMemberList(pageVO));
         return "/eiki/admin/member/index";
+
+    }
+
+    @RequestMapping(value = "/member/manage/auth/{memberIdx}", method = RequestMethod.PUT)
+    public ResponseEntity memberAuthorityUpdate(@PathVariable("memberIdx") int memberIdx){
+
+        if(adminService.memberAuthorityUpdate(memberIdx)){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+    }
+
+    @RequestMapping(value = "/access/history/{duration}", method = RequestMethod.GET)
+    public ResponseEntity getAccessHistory(@PathVariable("duration") int duration){
+
+        List<Map<String, Object>> accessHistory = adminService.getAccessHistory(duration);
+        if(accessHistory.size() >= 1){
+            return ResponseEntity.status(HttpStatus.OK).body(accessHistory);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
     }
 
 }

@@ -7,17 +7,17 @@ public class PageVO {
     private int currentPageIdx;
     private int startPageIdx;
     private int endPageIdx;
-    private int memberCommentCount;
+    private int totalObjectCount;
     private int maxPageIdx;
     private int offsetByPage;
     private boolean canPrev;
     private boolean canNext;
 
-    public PageVO(int currentPageIdx, int memberCommentCount) {
+    public PageVO(int currentPageIdx, int totalObjectCount) {
 
         this.currentPageIdx = currentPageIdx;
-        this.memberCommentCount = memberCommentCount;
-        this.maxPageIdx = (int) Math.ceil((double) memberCommentCount / this.itemPerPage);
+        this.totalObjectCount = totalObjectCount;
+        this.maxPageIdx = (int) Math.ceil((double) totalObjectCount / this.itemPerPage) == 0 ? 1 : (int) Math.ceil((double) totalObjectCount / this.itemPerPage);
         this.startPageIdx = (int) ((Math.ceil((double) currentPageIdx / this.pageRangeSize) - 1) * this.pageRangeSize + 1);
         this.endPageIdx = Math.min((this.startPageIdx + pageRangeSize - 1), this.maxPageIdx);
         this.offsetByPage = (this.currentPageIdx - 1) * this.itemPerPage;
@@ -42,8 +42,8 @@ public class PageVO {
         return maxPageIdx;
     }
 
-    public int getMemberCommentCount() {
-        return memberCommentCount;
+    public int getTotalObjectCount() {
+        return totalObjectCount;
     }
 
     public int getPageRangeSize() {

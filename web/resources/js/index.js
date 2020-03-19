@@ -1,11 +1,21 @@
 window.onload = () => {
+    pageAccess();
     initInputEvents();
+};
+
+const pageAccess = () => {
+    fetch("/access", {
+        method: "POST"
+    });
 };
 
 const initInputEvents = () => {
 
-    if(document.cookie){
-        document.getElementById("MEMBER_ID").value = document.cookie.split("=")[1];
+    if (document.cookie) {
+        document.getElementById("MEMBER_ID").value = document.cookie.split(";").map(el => el.split("=")).reduce((acc, curr) => {
+            acc[curr[0]] = curr[1];
+            return acc
+        }, {})["UnivEmail"];
     }
 
     let $FormInputs = document.querySelectorAll(".Index-Wrapper__Form__Input-Section__Grid-Row__Input-Column input");
@@ -67,19 +77,19 @@ const initInputEvents = () => {
     $SubmitButton.addEventListener("click", (event) => {
         event.preventDefault();
         if (event.target.classList.contains("--Submit-Active")) {
-            fetch("/auth/login",{
-                method : "POST",
-                headers : {
-                    "Content-type" : "application/json; charset=utf-8"
+            fetch("/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json; charset=utf-8"
                 },
-                body : JSON.stringify({
-                    "MEMBER_ID" : document.getElementById("MEMBER_ID").value,
-                    "MEMBER_PW" : document.getElementById("MEMBER_PW").value,
-                    "REMEMBER" : $RememberInner.classList.contains("--Background-Dark") ? "1" : "0"
+                body: JSON.stringify({
+                    "MEMBER_ID": document.getElementById("MEMBER_ID").value,
+                    "MEMBER_PW": document.getElementById("MEMBER_PW").value,
+                    "REMEMBER": $RememberInner.classList.contains("--Background-Dark") ? "1" : "0"
                 })
             }).then(response => {
                 console.log(response);
-                if(response.status === 200){
+                if (response.status === 200) {
                     window.location.href = "/eiki/home";
                 } else {
                     alert("가입되지 않은 계정이거나 잘못된 비밀번호 입니다.");

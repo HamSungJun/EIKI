@@ -1,0 +1,204 @@
+.Member-Edit-Box {
+    box-sizing: border-box;
+    padding: 20px 40px;
+    background-color: white;
+    min-height: calc(100vh - 70px);
+}
+
+.Member-Edit-Category {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    border-bottom: 1px solid #ccc;
+    font-size: 18px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.Member-Edit-Category div:nth-child(1) {
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.Member-Search-Box {
+    height: 40px;
+    background-color: #fafafa;
+    border-radius: 4px;
+    width: 100%;
+    padding-left: 10px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+
+.Member-Search-Box input {
+    border: none;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    font-size: 14px;
+    background-color: transparent;
+}
+
+.Member-List-Box {
+    padding-top: 20px;
+}
+
+.Member-Data-Row:nth-child(1) {
+    border-top: 1px solid #ccc;
+}
+
+.Member-Data-Row {
+    height: 50px;
+    display: grid;
+    grid-template-columns: 50px 1fr minmax(110px, auto) auto;
+    column-gap: 20px;
+    border-bottom: 1px solid #ccc;
+    padding: 0 10px;
+}
+
+.Member-Data-Item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Member-Image-Circle {
+    width: 35px;
+    height: 35px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.Member-Image-Circle img {
+    width: 100%;
+    height: 100%;
+}
+
+.Comment-Page-Row {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.Page-Link {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #7c4dff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #7c4dff;
+    border-radius: 2px;
+    text-decoration: none;
+}
+
+.--Page-Link-Selected {
+    background-color: #7C4DFF !important;
+    color: white !important;
+}
+
+.Page-Mover {
+    font-size: 16px;
+    text-decoration: none;
+    color: #7c4dff;
+}
+
+.Circular-Pill{
+    cursor: pointer;
+    color: hsl(0, 0%, 88%);
+    width: 60px;
+    height: 24px;
+    background-color: gray;
+    border-radius: 4px;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.--Admin-True{
+    color: white;
+    background-color: #7C4DFF;
+    box-shadow: 0 2px 2px #272C34;
+}
+
+@media screen and (max-width: 800px) {
+
+    .Member-Edit-Box {
+        box-sizing: border-box;
+        padding: 10px;
+        background-color: white;
+        min-height: calc(100vh - 50px);
+    }
+
+    .Member-Data-Row {
+        column-gap: 10px;
+        font-size: 14px;
+    }
+
+    .Member-Data-Item {
+        overflow: hidden;
+    }
+
+    .Member-Edit-Category {
+        font-size: 16px;
+        grid-template-columns: 1fr minmax(150px, auto);
+    }
+
+    .Member-Search-Box {
+        height: 35px;
+    }
+
+    .Member-Search-Box input {
+        font-size: 14px;
+    }
+
+    .Page-Mover {
+        font-size: 14px;
+    }
+
+    .Page-Link {
+        width: auto;
+        height: auto;
+        padding: 6px;
+        font-size: 14px;
+    }
+
+}
+
+@media screen and (max-width: 450px) {
+
+    .Member-Edit-Box {
+        min-height: calc(100vh - 45px);
+    }
+
+    .Member-Edit-Category {
+        grid-template-columns: 1fr;
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+
+    .Member-Edit-Category div:nth-child(1){
+        display: none;
+    }
+
+    .Member-Data-Row {
+        font-size: 12px;
+        grid-template-columns: 0 1fr minmax(110px, auto) auto;
+    }
+
+    .Member-List-Box {
+        padding-top: 0;
+    }
+
+    .Page-Mover {
+        font-size: 12px;
+    }
+
+    .Page-Link {
+        width: auto;
+        height: auto;
+        padding: 3px;
+        font-size: 11px;
+    }
+
+}

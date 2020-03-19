@@ -327,7 +327,7 @@
                 비밀번호
             </div>
             <div>
-                <input name="MEMBER_PW" id="MEMBER_PW" type="password">
+                <input autocomplete="new-password" name="MEMBER_PW" id="MEMBER_PW" type="password">
                 <span class="Guide-Message"></span>
             </div>
         </div>
@@ -336,7 +336,7 @@
                 비밀번호 확인
             </div>
             <div>
-                <input id="MEMBER_PW_CONFIRM" type="password">
+                <input autocomplete="new-password" id="MEMBER_PW_CONFIRM" type="password">
                 <span class="Guide-Message"></span>
             </div>
         </div>
